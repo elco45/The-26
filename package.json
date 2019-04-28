@@ -1,16 +1,16 @@
 {
   "name": "the-26",
   "version": "4.0.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "description": "The restaurant 26th system",
   "repository": {
     "type": "git",
-    "url": "git://github.com/The-26/The-26.git"
+    "url": "git@github.com:elco45/The-26.git"
   },
   "engines": {
     "npm": ">=5",
     "node": ">=8.15.1"
   },
-  "author": "Max Stoiber",
+  "author": "elco45",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
