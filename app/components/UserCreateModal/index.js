@@ -4,6 +4,8 @@ import Styled from 'styled-components';
 import Form from 'react-jsonschema-form';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import messages from './messages';
 
 const ModalRightContainer = Styled.div`
   padding: 24px;
@@ -14,75 +16,6 @@ const ModalRightTitle = Styled.p`
   font-size: 20px;
   color: #1F3078;
 `;
-
-const signUpSchema = {
-  type: 'object',
-  required: ['name', 'email', 'password'],
-  properties: {
-    name: {
-      type: 'string',
-      minLength: 2,
-      messages: {
-        required: 'Nombre no puede estar vacío',
-        minLength: 'Nombre debe tener por lo menos 2 caracteres!',
-      },
-    },
-    email: {
-      type: 'string',
-      pattern:
-        '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
-      messages: {
-        pattern: 'Correo inválido! Ej) test@academy.com',
-        required: 'Correo no puede estar vacío',
-      },
-    },
-    password: {
-      type: 'string',
-      minLength: 6,
-      messages: {
-        required: 'Contraseña no puede estar vacío',
-        minLength: 'Contraseña debe tener por lo menos 6 caracteres!',
-      },
-    },
-    pass2: {
-      type: 'string',
-      minLength: 6,
-      messages: {
-        minLength: 'Contraseña debe tener por lo menos 6 caracteres!',
-      },
-    },
-  },
-};
-
-const uiSignUpSchema = {
-  name: {
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Nombre completo',
-  },
-  email: {
-    'ui:widget': 'email',
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Correo Electrónico',
-  },
-  password: {
-    'ui:widget': 'password',
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Contraseña',
-  },
-  pass2: {
-    'ui:widget': 'password',
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Repita Contraseña',
-  },
-};
 
 class SignUpModal extends React.Component {
   constructor(props) {
@@ -96,6 +29,7 @@ class SignUpModal extends React.Component {
     this.validateSignUp = this.validateSignUp.bind(this);
     this.toggleLiveSignUp = this.toggleLiveSignUp.bind(this);
     this.toggleLiveSignIn = this.toggleLiveSignIn.bind(this);
+    this.transformErrors = this.transformErrors.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -108,15 +42,102 @@ class SignUpModal extends React.Component {
     }
   }
 
-  notifyVerificationSent = () =>
-    toast('Verification email sent.', {
+  signUpSchema = () => {
+    const { intl } = this.props;
+    return {
+      type: 'object',
+      required: ['name', 'email', 'password'],
+      properties: {
+        name: {
+          type: 'string',
+          minLength: 2,
+          messages: {
+            required: `${intl.formatMessage(
+              messages.model.fullName,
+            )} ${intl.formatMessage(messages.error.required)}`,
+            minLength: `${intl.formatMessage(messages.error.minRequired)} 2`,
+          },
+        },
+        email: {
+          type: 'string',
+          pattern:
+            '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+          messages: {
+            pattern: `${intl.formatMessage(
+              messages.model.email,
+            )} ${intl.formatMessage(
+              messages.error.invalid,
+            )} Ex) test@academy.com`,
+            required: `${intl.formatMessage(
+              messages.model.email,
+            )} ${intl.formatMessage(messages.error.required)}`,
+          },
+        },
+        password: {
+          type: 'string',
+          minLength: 6,
+          messages: {
+            required: `${intl.formatMessage(
+              messages.model.password,
+            )} ${intl.formatMessage(messages.error.required)}`,
+            minLength: 'Contraseña debe tener por lo menos 6 caracteres!',
+          },
+        },
+        pass2: {
+          type: 'string',
+          minLength: 6,
+          messages: {
+            minLength: 'Contraseña debe tener por lo menos 6 caracteres!',
+          },
+        },
+      },
+    };
+  };
+
+  uiSignUpSchema = () => {
+    const { intl } = this.props;
+    return {
+      name: {
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.fullName),
+      },
+      email: {
+        'ui:widget': 'email',
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.email),
+      },
+      password: {
+        'ui:widget': 'password',
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.password),
+      },
+      pass2: {
+        'ui:widget': 'password',
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.password),
+      },
+    };
+  };
+
+  notifyVerificationSent = () => {
+    const { intl } = this.props;
+    return toast(intl.formatMessage(messages.auth.verificationSent), {
       className: 'bg-success',
       bodyClassName: 'text-white',
       progressClassName: 'fancy-progress-bar',
     });
+  };
 
   validateSignUp(formData, errors) {
-    const { signUpError } = this.props;
+    const { signUpError, intl } = this.props;
     const { live } = this.state;
 
     if (formData.password !== formData.pass2) {
@@ -127,7 +148,7 @@ class SignUpModal extends React.Component {
       signUpError &&
       signUpError.code === 'auth/email-already-in-use'
     ) {
-      errors.email.addError('Este correo ya esta siendo utilizado');
+      errors.email.addError(intl.formatMessage(messages.auth.emailTaken));
     }
     return errors;
   }
@@ -135,14 +156,15 @@ class SignUpModal extends React.Component {
   transformErrors(errors) {
     return errors.map(error => {
       const errorProperty = error.property.replace('.', '');
-      const schemaProperty = signUpSchema.properties;
+      const { properties } = this.signUpSchema();
+
       if (
-        schemaProperty[errorProperty] &&
-        schemaProperty[errorProperty].messages[error.name]
+        properties[errorProperty] &&
+        properties[errorProperty].messages[error.name]
       ) {
         return {
           ...error,
-          message: schemaProperty[errorProperty].messages[error.name],
+          message: properties[errorProperty].messages[error.name],
         };
       }
       return error;
@@ -184,7 +206,9 @@ class SignUpModal extends React.Component {
                     X
                   </Button>
                 </Col>
-                <ModalRightTitle className="col-12">Academy</ModalRightTitle>
+                <ModalRightTitle className="col-12">
+                  <FormattedMessage {...messages.auth.addUser} />
+                </ModalRightTitle>
                 <Form
                   className="col-12  mt-2 mb-1"
                   formData={this.state.formData}
@@ -192,9 +216,9 @@ class SignUpModal extends React.Component {
                     this.setState({ formData, live: false })
                   }
                   onSubmit={this.submitSignUp}
-                  schema={signUpSchema}
+                  schema={this.signUpSchema()}
                   validate={this.validateSignUp}
-                  uiSchema={uiSignUpSchema}
+                  uiSchema={this.uiSignUpSchema()}
                   transformErrors={this.transformErrors}
                   showErrorList={false}
                   noHtml5Validate
@@ -204,7 +228,7 @@ class SignUpModal extends React.Component {
                     {loading ? (
                       <i key="spin" className="fa fa-spinner fa-spin" />
                     ) : (
-                      'Registrarse'
+                      <FormattedMessage {...messages.action.add} />
                     )}
                   </Button>
                 </Form>
@@ -225,6 +249,7 @@ SignUpModal.propTypes = {
   signUpError: PropTypes.object,
   signUpSuccess: PropTypes.bool,
   loading: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
-export default SignUpModal;
+export default injectIntl(SignUpModal);

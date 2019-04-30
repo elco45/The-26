@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Nav } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 import SignUpModal from '../UserCreateModal';
 import SignInModal from '../SignInModal';
 import PassResetModal from '../PassResetModal';
@@ -108,7 +110,7 @@ class Auth extends React.Component {
     return (
       <Nav.Item key="su">
         <Nav.Link onClick={this.toggleSignUp} to="#">
-          Crear Cuenta
+          <FormattedMessage {...messages.addUser} />
         </Nav.Link>
       </Nav.Item>
     );
@@ -118,7 +120,7 @@ class Auth extends React.Component {
     return (
       <Nav.Item key="si">
         <Nav.Link onClick={this.toggleSignIn} to="#">
-          Entrar
+          <FormattedMessage {...messages.login} />
         </Nav.Link>
       </Nav.Item>
     );

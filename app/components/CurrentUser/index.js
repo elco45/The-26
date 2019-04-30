@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import { Nav, Dropdown } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+import messages from './messages';
 
 import avatarProfileAlt from '../../images/icon-72x72.png';
 
@@ -33,7 +35,7 @@ class CurrentUser extends React.Component {
 
     return (
       <Nav.Item>
-        <Dropdown>
+        <Dropdown alignRight>
           <Dropdown.Toggle>
             <AvatarImage
               className="rounded-circle"
@@ -42,8 +44,12 @@ class CurrentUser extends React.Component {
             />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>Mi cuenta</Dropdown.Item>
-            <Dropdown.Item onClick={signOut}>Cerrar Sesión</Dropdown.Item>
+            <Dropdown.Item>
+              <FormattedMessage {...messages.profile} />
+            </Dropdown.Item>
+            <Dropdown.Item onClick={signOut}>
+              <FormattedMessage {...messages.logout} />
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Nav.Item>

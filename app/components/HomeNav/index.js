@@ -34,6 +34,8 @@ import {
 import reducer from '../../containers/App/reducer';
 import saga from '../../containers/App/saga';
 
+import LocaleToggle from '../../containers/LocaleToggle';
+
 class HomeNav extends React.Component {
   constructor(props) {
     super(props);
@@ -70,24 +72,20 @@ class HomeNav extends React.Component {
   renderUserNavItem() {
     const { user, loggedIn, syncing, signOut } = this.props;
     return (
-      <Nav key="uN">
-        {loggedIn && user ? (
-          <CurrentUser user={user} syncing={syncing} signOut={signOut} />
-        ) : (
-          <Navbar.Collapse>{this.renderAuth()}</Navbar.Collapse>
-        )}
-      </Nav>
-    );
-  }
-
-  renderMobileUserNavItem() {
-    const { user, loggedIn, signOut } = this.props;
-    return loggedIn && user ? (
-      <Nav.Item onClick={signOut}>
-        <Nav.Link href="#">Logout</Nav.Link>
-      </Nav.Item>
-    ) : (
-      this.renderAuth()
+      <Navbar.Collapse className="justify-content-end">
+        <Nav key="uN">
+          <Nav.Item>
+            <Nav.Link>
+              <LocaleToggle />
+            </Nav.Link>
+          </Nav.Item>
+          {loggedIn && user ? (
+            <CurrentUser user={user} syncing={syncing} signOut={signOut} />
+          ) : (
+            this.renderAuth()
+          )}
+        </Nav>
+      </Navbar.Collapse>
     );
   }
 
@@ -120,54 +118,21 @@ class HomeNav extends React.Component {
     );
   }
 
-  renderCollapseNavItems(navChange) {
-    return (
-      <Navbar.Collapse key="cN">
-        <Nav>
-          <Nav.Item active={this.checkActive('/cursos')}>
-            <Nav.Link
-              style={{ color: navChange ? '#392349' : '#fff' }}
-              href="/cursos"
-            >
-              Cursos
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item active={this.checkActive('/proyectos')}>
-            <Nav.Link
-              style={{ color: navChange ? '#392349' : '#fff' }}
-              href="/proyectos"
-            >
-              Proyectos
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </Navbar.Collapse>
-    );
-  }
-
-  renderNavItems(isMobile, navChange) {
-    return [
-      this.renderCollapseNavItems(navChange),
-      this.renderUserNavItem(navChange),
-    ];
+  renderNavItems() {
+    return this.renderUserNavItem();
   }
 
   render() {
-    const { location } = this.props;
-    const navChange = location.pathname !== '/';
-
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
         {/* <div className="container"> */}
         <Navbar.Brand // eslint-disable-line
           href="/"
-          style={{ color: navChange ? '#392349' : '#fff' }}
         >
-          Academy
+          The 26th
         </Navbar.Brand>
         <Navbar.Toggle className="ml-auto" aria-controls="collapse-nav" />
-        {this.renderNavItems(navChange)}
-        {/* {this.renderMobileCollapseNavItems(isMobile, navChange)} */}
+        {this.renderNavItems()}
       </Navbar>
     );
   }

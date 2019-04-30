@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Form from 'react-jsonschema-form';
 import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import messages from './messages';
 
 const ModalRightContainer = Styled.div`
   padding: 24px;
@@ -20,45 +22,6 @@ const ModalTextOpenSI = Styled.a`
   cursor: pointer;
 `;
 
-const signInSchema = {
-  type: 'object',
-  required: ['email', 'password'],
-  properties: {
-    email: {
-      type: 'string',
-      pattern:
-        '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
-      messages: {
-        pattern: 'Correo inválido! Ej) test@academy.com',
-        required: 'Correo no puede estar vacío',
-      },
-    },
-    password: {
-      type: 'string',
-      messages: {
-        required: 'Contraseña no puede estar vacío',
-      },
-    },
-  },
-};
-
-const uiSignInSchema = {
-  email: {
-    'ui:widget': 'email',
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Correo Electrónico',
-  },
-  password: {
-    'ui:widget': 'password',
-    'ui:options': {
-      label: false,
-    },
-    'ui:placeholder': 'Contraseña',
-  },
-};
-
 class SignInModal extends React.Component {
   constructor(props) {
     super(props);
@@ -72,20 +35,78 @@ class SignInModal extends React.Component {
     this.toggleLiveSignIn = this.toggleLiveSignIn.bind(this);
     this.toggleLivePass = this.toggleLivePass.bind(this);
     this.toggleLiveSignUp = this.toggleLiveSignUp.bind(this);
+    this.transformErrors = this.transformErrors.bind(this);
   }
 
+  signInSchema = () => {
+    const { intl } = this.props;
+    return {
+      type: 'object',
+      required: ['email', 'password'],
+      properties: {
+        email: {
+          type: 'string',
+          pattern:
+            '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+          messages: {
+            pattern: `${intl.formatMessage(
+              messages.model.email,
+            )} ${intl.formatMessage(
+              messages.error.invalid,
+            )} Ex) test@academy.com`,
+            required: `${intl.formatMessage(
+              messages.model.email,
+            )} ${intl.formatMessage(messages.error.required)}`,
+          },
+        },
+        password: {
+          type: 'string',
+          messages: {
+            required: `${intl.formatMessage(
+              messages.model.password,
+            )} ${intl.formatMessage(messages.error.required)}`,
+          },
+        },
+      },
+    };
+  };
+
+  uiSignInSchema = () => {
+    const { intl } = this.props;
+    return {
+      email: {
+        'ui:widget': 'email',
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.email),
+      },
+      password: {
+        'ui:widget': 'password',
+        'ui:options': {
+          label: false,
+        },
+        'ui:placeholder': intl.formatMessage(messages.model.password),
+      },
+    };
+  };
+
   validateSignIn(formData, errors) {
-    const { signInError } = this.props;
+    const { signInError, intl } = this.props;
     const { live } = this.state;
 
     if (live && signInError && signInError.code === 'auth/user-not-found') {
-      errors.password.addError('Correo o contraseña inválido.');
+      errors.password.addError(
+        intl.formatMessage(messages.auth.invalidEmailOrPass),
+      );
     }
     if (live && signInError && signInError.code === 'auth/wrong-password') {
-      errors.password.addError('Correo o contraseña inválido.');
+      errors.password.addError(
+        intl.formatMessage(messages.auth.invalidEmailOrPass),
+      );
     }
     if (live && signInError && signInError.code === 'auth/user-not-verified') {
-      errors.password.addError('Please verify your email.');
+      errors.password.addError(intl.formatMessage(messages.auth.verifyEmail));
     }
     return errors;
   }
@@ -93,14 +114,15 @@ class SignInModal extends React.Component {
   transformErrors(errors) {
     return errors.map(error => {
       const errorProperty = error.property.replace('.', '');
-      const schemaProperty = signInSchema.properties;
+      const { properties } = this.signInSchema();
+
       if (
-        schemaProperty[errorProperty] &&
-        schemaProperty[errorProperty].messages[error.name]
+        properties[errorProperty] &&
+        properties[errorProperty].messages[error.name]
       ) {
         return {
           ...error,
-          message: schemaProperty[errorProperty].messages[error.name],
+          message: properties[errorProperty].messages[error.name],
         };
       }
       return error;
@@ -155,7 +177,7 @@ class SignInModal extends React.Component {
                   </Button>
                 </Col>
                 <ModalRightTitle className="col-12">
-                  Iniciar Sesión
+                  <FormattedMessage {...messages.auth.login} />
                 </ModalRightTitle>
                 <Form
                   className="col-12  mt-2 mb-1"
@@ -164,9 +186,9 @@ class SignInModal extends React.Component {
                     this.setState({ formData, live: false })
                   }
                   onSubmit={this.submitSignIn}
-                  schema={signInSchema}
+                  schema={this.signInSchema()}
                   validate={this.validateSignIn}
-                  uiSchema={uiSignInSchema}
+                  uiSchema={this.uiSignInSchema()}
                   transformErrors={this.transformErrors}
                   showErrorList={false}
                   noHtml5Validate
@@ -176,7 +198,7 @@ class SignInModal extends React.Component {
                     {loading ? (
                       <i key="spin" className="fa fa-spinner fa-spin" />
                     ) : (
-                      'Entrar'
+                      <FormattedMessage {...messages.auth.enter} />
                     )}
                   </Button>
                 </Form>
@@ -184,7 +206,7 @@ class SignInModal extends React.Component {
                   <div className="float-left">
                     <ModalTextOpenSI onClick={this.toggleLivePass}>
                       {' '}
-                      Se me olvidó la contraseña...
+                      <FormattedMessage {...messages.auth.forgotPass} />
                     </ModalTextOpenSI>
                   </div>
                 </Col>
@@ -205,6 +227,7 @@ SignInModal.propTypes = {
   signIn: PropTypes.func,
   signInError: PropTypes.object,
   loading: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
-export default SignInModal;
+export default injectIntl(SignInModal);
