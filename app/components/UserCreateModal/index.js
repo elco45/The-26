@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Form from 'react-jsonschema-form';
-import { Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const ModalRightContainer = Styled.div`
@@ -12,10 +12,6 @@ const ModalRightContainer = Styled.div`
 const ModalRightTitle = Styled.p`
   font-weight: bold;
   font-size: 20px;
-  color: #1F3078;
-`;
-
-const ModalRightDescription = Styled.p`
   color: #1F3078;
 `;
 
@@ -33,13 +29,11 @@ const signUpSchema = {
     },
     email: {
       type: 'string',
-      minLength: 3,
       pattern:
         '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
       messages: {
         pattern: 'Correo inválido! Ej) test@academy.com',
         required: 'Correo no puede estar vacío',
-        minLength: 'Correo debe tener por lo menos 3 caracteres!',
       },
     },
     password: {
@@ -180,30 +174,17 @@ class SignUpModal extends React.Component {
     const { modalSignUp, loading } = this.props;
 
     return (
-      <Modal
-        size="lg"
-        show={modalSignUp}
-        onHide={this.toggleLiveSignUp}
-        className="roundedModal"
-      >
-        <div className="container">
-          <div className="row">
+      <Modal show={modalSignUp} onHide={this.toggleLiveSignUp}>
+        <Container>
+          <Row>
             <ModalRightContainer className="col-12 text-center">
-              <div className="row">
-                <div className="col-12 text-right">
-                  <button
-                    type="button"
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.toggleLiveSignUp}
-                  >
+              <Row>
+                <Col className="text-right">
+                  <Button variant="danger" onClick={this.toggleLiveSignUp}>
                     X
-                  </button>
-                </div>
+                  </Button>
+                </Col>
                 <ModalRightTitle className="col-12">Academy</ModalRightTitle>
-                <ModalRightDescription className="col-12">
-                  Aprende con los mejores profesionales y sé parte de la nueva
-                  generación de profesionales digitales
-                </ModalRightDescription>
                 <Form
                   className="col-12  mt-2 mb-1"
                   formData={this.state.formData}
@@ -227,10 +208,10 @@ class SignUpModal extends React.Component {
                     )}
                   </Button>
                 </Form>
-              </div>
+              </Row>
             </ModalRightContainer>
-          </div>
-        </div>
+          </Row>
+        </Container>
       </Modal>
     );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Form from 'react-jsonschema-form';
-import { Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 
 const ModalRightContainer = Styled.div`
   padding: 24px;
@@ -107,19 +107,15 @@ class PassResetModal extends React.Component {
         onHide={this.toggleLive}
         className="roundedModal"
       >
-        <div className="container">
-          <div className="row">
+        <Container>
+          <Row>
             <ModalRightContainer className="col-12 text-center">
-              <div className="row">
-                <div className="col-12 text-right">
-                  <button
-                    type="button"
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.toggleLive}
-                  >
+              <Row>
+                <Col className="text-right">
+                  <Button variant="danger" onClick={this.toggleLive}>
                     X
-                  </button>
-                </div>
+                  </Button>
+                </Col>
                 <ModalRightTitle className="col-12">
                   Restablecer Contraseña
                 </ModalRightTitle>
@@ -149,10 +145,10 @@ class PassResetModal extends React.Component {
                     Cerrar
                   </Button>
                 </Form>
-              </div>
+              </Row>
             </ModalRightContainer>
-          </div>
-        </div>
+          </Row>
+        </Container>
       </Modal>
     );
   }

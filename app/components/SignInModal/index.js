@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
 import Form from 'react-jsonschema-form';
-import { Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
 
 const ModalRightContainer = Styled.div`
   padding: 24px;
@@ -145,19 +145,15 @@ class SignInModal extends React.Component {
         className="roundedModal"
         onHide={this.toggleLiveSignIn}
       >
-        <div className="container">
-          <div className="row">
+        <Container>
+          <Row>
             <ModalRightContainer className="col-12 text-center">
-              <div className="row">
-                <div className="col-12 text-right">
-                  <button
-                    type="button"
-                    style={{ cursor: 'pointer' }}
-                    onClick={this.toggleLiveSignIn}
-                  >
+              <Row>
+                <Col className="text-right">
+                  <Button variant="danger" onClick={this.toggleLiveSignIn}>
                     X
-                  </button>
-                </div>
+                  </Button>
+                </Col>
                 <ModalRightTitle className="col-12">
                   Iniciar Sesión
                 </ModalRightTitle>
@@ -184,18 +180,18 @@ class SignInModal extends React.Component {
                     )}
                   </Button>
                 </Form>
-                <div className="col-12">
+                <Col>
                   <div className="float-left">
                     <ModalTextOpenSI onClick={this.toggleLivePass}>
                       {' '}
                       Se me olvidó la contraseña...
                     </ModalTextOpenSI>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </ModalRightContainer>
-          </div>
-        </div>
+          </Row>
+        </Container>
       </Modal>
     );
   }
