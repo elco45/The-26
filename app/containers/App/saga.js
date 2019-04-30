@@ -30,7 +30,7 @@ function* signUpSaga(action) {
     );
 
     const { uid } = response.user;
-    yield call(reduxSagaFirebase.database.update, `users/${uid}`, {
+    yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, {
       email,
       profile: {
         name,
