@@ -1,0 +1,39 @@
+{
+  "app.containers.HomePage.welcome": "Bienvenido!",
+
+  "app.containers.LocaleToggle.en": "en",
+  "app.containers.LocaleToggle.es": "es",
+  "app.containers.LocaleToggle.fr": "fr",
+
+  "app.auth.login": "Iniciar Sesión",
+  "app.auth.logout": "Cerrar Sesión",
+  "app.auth.enter": "Entrar",
+  "app.auth.forgotPass": "Se me olvidó la contraseña...",
+  "app.auth.users": "'Usuarios'",
+  "app.auth.clients": "Clientes",
+  "app.auth.profile": "Perfil",
+  "app.auth.editProfile": "Editar Perfil",
+  "app.auth.addUser": "Nuevo Usuario",
+  "app.auth.removeUser": "Eliminar Usuario",
+  "app.auth.verificationSent": "Se ha enviado un correo de verificación.",
+  "app.auth.messageSent": "Se ha enviado un mensaje al correo.",
+  "app.auth.invalidEmailOrPass": "Correo o contraseña inválido.",
+  "app.auth.verifyEmail": "Por favor verifique su correo.",
+  "app.auth.emailTaken": "Este correo ya está en uso.",
+
+  "app.action.add": "Agregar",
+  "app.action.update": "Actualizar",
+  "app.action.edit": "Editar",
+  "app.action.remove": "Remover",
+  "app.action.delete": "Borrar",
+  "app.action.eliminate": "Eliminar",
+
+  "app.model.name": "Nombre",
+  "app.model.fullName": "Nombre Completo",
+  "app.model.email": "Correo Electrónico",
+  "app.model.password": "Contraseña",
+
+  "app.error.required": "es un campo requerido.",
+  "app.error.invalid": "es inválido.",
+  "app.error.minRequired": "Mínimo de caracteres requerido:"
+}

@@ -1,10 +1,17 @@
-/*
- * AppConstants
- * Each action has a corresponding type, which the reducer knows and picks up on.
- * To avoid weird typos between the reducer and the actions, we save them as
- * constants here. We prefix them with 'yourproject/YourComponent' so we avoid
- * reducers accidentally picking up actions they shouldn't.
- *
- * Follow this format:
- * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
- */
+export const DEFAULT_LOCALE = 'en';
+
+export const LOGIN_REQUEST = 'App/LOGIN_REQUEST';
+export const LOGIN_PROVIDER_REQUEST = 'App/LOGIN_PROVIDER_REQUEST';
+export const LOGIN_SUCCESS = 'App/LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'App/LOGIN_FAILURE';
+export const LOGOUT_REQUEST = 'App/LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'App/LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'App/LOGOUT_FAILURE';
+export const SIGNUP_REQUEST = 'App/SIGNUP_REQUEST';
+export const SIGNUP_SUCCESS = 'App/SIGNUP_SUCCESS';
+export const SIGNUP_FAILURE = 'App/SIGNUP_FAILURE';
+export const PASS_RESET_REQUEST = 'App/PASS_RESET_REQUEST';
+export const PASS_RESET_SUCCESS = 'App/PASS_RESET_SUCCESS';
+export const PASS_RESET_FAILURE = 'App/PASS_RESET_FAILURE';
+export const SYNC_USER = 'App/SYNC_USER';
+export const SYNC = 'App/SYNC';

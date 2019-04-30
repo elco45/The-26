@@ -1,0 +1,39 @@
+{
+  "app.containers.HomePage.welcome": "Bienvenue!",
+
+  "app.containers.LocaleToggle.en": "en",
+  "app.containers.LocaleToggle.es": "es",
+  "app.containers.LocaleToggle.fr": "fr",
+
+  "app.auth.login": "Commencer la session",
+  "app.auth.logout": "Fermer la session",
+  "app.auth.enter": "Entrer",
+  "app.auth.forgotPass": "Mot de passe oublié...",
+  "app.auth.users": "Les Utilisateurs",
+  "app.auth.clients": "Les Clients",
+  "app.auth.profile": "Profil",
+  "app.auth.editProfile": "Editer le Profil",
+  "app.auth.addUser": "Ajouter un Utilisateur",
+  "app.auth.removeUser": "Supprimer L'Utilisateur",
+  "app.auth.verificationSent": "Un email de vérification a été envoyé.",
+  "app.auth.messageSent": "Un message a été envoyé au mail.",
+  "app.auth.invalidEmailOrPass": "E-mail ou mot de passe invalide.",
+  "app.auth.verifyEmail": "S'il vous plaît vérifier votre email.",
+  "app.auth.emailTaken": "Cet email est déjà utilisé.",
+
+  "app.action.add": "Ajouter",
+  "app.action.update": "Mettre à jour",
+  "app.action.edit": "Modifier",
+  "app.action.remove": "Retirer",
+  "app.action.delete": "Effacer",
+  "app.action.eliminate": "Éliminer",
+
+  "app.model.name": "Nom",
+  "app.model.fullName": "Nom Complet",
+  "app.model.email": "Adresse électronique",
+  "app.model.password": "Mot de passe",
+
+  "app.error.required": "est requis.",
+  "app.error.invalid": "est invalide.",
+  "app.error.minRequired": "Minimum de caractères requis:"
+}

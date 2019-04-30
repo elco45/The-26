@@ -11,8 +11,8 @@ import messages from './messages';
 
 export default function HomePage() {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <div>
+      <FormattedMessage {...messages.welcome} />
+    </div>
   );
 }
