@@ -13,13 +13,7 @@ import injectSaga from 'utils/injectSaga';
 import Auth from '../Auth';
 import CurrentUser from '../CurrentUser';
 
-import {
-  login,
-  loginWithProvider,
-  logout,
-  signUp,
-  passReset,
-} from '../../containers/App/actions';
+import { login, logout, signUp, passReset } from '../../containers/App/actions';
 import {
   makeSelectCurrentUser,
   makeSelectLoggedIn,
@@ -70,7 +64,8 @@ class HomeNav extends React.Component {
   }
 
   renderUserNavItem() {
-    const { user, loggedIn, syncing, signOut } = this.props;
+    const { user, loggedIn, syncing, signOut, history } = this.props;
+
     return (
       <Navbar.Collapse className="justify-content-end">
         <Nav key="uN">
@@ -80,7 +75,12 @@ class HomeNav extends React.Component {
             </Nav.Link>
           </Nav.Item>
           {loggedIn && user ? (
-            <CurrentUser user={user} syncing={syncing} signOut={signOut} />
+            <CurrentUser
+              user={user}
+              syncing={syncing}
+              signOut={signOut}
+              history={history}
+            />
           ) : (
             this.renderAuth()
           )}
@@ -123,14 +123,10 @@ class HomeNav extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <Navbar bg="dark" variant="dark" expand="lg">
-        {/* <div className="container"> */}
-        <Navbar.Brand // eslint-disable-line
-          href="/"
-        >
-          The 26th
-        </Navbar.Brand>
+        <Navbar.Brand onClick={() => history.push('/')}>The 26th</Navbar.Brand>
         <Navbar.Toggle className="ml-auto" aria-controls="collapse-nav" />
         {this.renderNavItems()}
       </Navbar>
@@ -153,11 +149,11 @@ HomeNav.propTypes = {
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
   location: PropTypes.object,
+  history: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   signIn: login,
-  signInWithProvider: loginWithProvider,
   signOut: logout,
   createUser: signUp,
   sendPassReset: passReset,

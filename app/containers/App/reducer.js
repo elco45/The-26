@@ -1,7 +1,6 @@
 import produce from 'immer';
 import {
   LOGIN_REQUEST,
-  LOGIN_PROVIDER_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
@@ -15,6 +14,18 @@ import {
   PASS_RESET_FAILURE,
   SYNC_USER,
   SYNC,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILURE,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
+  GET_USERS_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -28,6 +39,12 @@ export const initialState = {
   signInError: null,
   passResetError: null,
   signUpSuccess: false,
+  selectedUser: null,
+  loadingSelectedUser: false,
+  selectedUserError: null,
+  users: [],
+  loadingUsers: false,
+  usersError: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -45,7 +62,6 @@ const appReducer = (state = initialState, action) =>
         draft.signInError = null;
         break;
 
-      case LOGIN_PROVIDER_REQUEST:
       case LOGOUT_REQUEST:
         draft.loading = true;
         break;
@@ -56,7 +72,12 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case LOGIN_SUCCESS:
+        draft.loading = false;
+        draft.loggedIn = true;
+        break;
+
       case LOGOUT_SUCCESS:
+        draft.user = null;
         draft.loading = false;
         draft.loggedIn = true;
         break;
@@ -90,13 +111,60 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SYNC:
-        draft.syncing = true;
+        draft.syncing = action.isSyncing;
         break;
 
       case SYNC_USER:
         draft.loggedIn = action.user != null;
-        draft.syncing = false;
         draft.user = action.user;
+        break;
+
+      case GET_USER_REQUEST:
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        draft.selectedUser = null;
+        break;
+
+      case GET_USER_SUCCESS:
+        draft.loadingSelectedUser = false;
+        draft.selectedUser = action.selectedUser;
+        break;
+
+      case GET_USER_FAILURE:
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
+        break;
+
+      case GET_USERS_REQUEST:
+        draft.loadingUsers = true;
+        draft.usersError = null;
+        draft.users = [];
+        break;
+
+      case GET_USERS_SUCCESS:
+        draft.loadingUsers = false;
+        draft.users = action.users;
+        break;
+
+      case GET_USERS_FAILURE:
+        draft.loadingUsers = false;
+        draft.usersError = action.error;
+        break;
+
+      case UPDATE_PROFILE_REQUEST:
+      case UPDATE_USER_REQUEST:
+        draft.loadingSelectedUser = true;
+        break;
+
+      case UPDATE_PROFILE_SUCCESS:
+      case UPDATE_USER_SUCCESS:
+        draft.loadingSelectedUser = false;
+        break;
+
+      case UPDATE_PROFILE_FAILURE:
+      case UPDATE_USER_FAILURE:
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
         break;
     }
   });

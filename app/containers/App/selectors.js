@@ -58,6 +58,36 @@ const makeSelectLoadingPassReset = () =>
     globalState => globalState.loadingPassReset,
   );
 
+const makeSelectLoadingSelectedUser = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.loadingSelectedUser,
+  );
+
+const makeSelectSelectedUserError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.selectedUserError,
+  );
+
+const makeSelectUsers = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.users,
+  );
+
+const makeSelectLoadingUsers = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.loadingUsers,
+  );
+
+const makeSelectusersError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.usersError,
+  );
+
 const makeSelectLocation = () =>
   createSelector(
     selectRouter,
@@ -75,4 +105,9 @@ export {
   makeSelectSync,
   makeSelectLoading,
   makeSelectLoadingPassReset,
+  makeSelectLoadingSelectedUser,
+  makeSelectSelectedUserError,
+  makeSelectUsers,
+  makeSelectLoadingUsers,
+  makeSelectusersError,
 };

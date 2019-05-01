@@ -27,6 +27,7 @@
   "app.action.remove": "Remove",
   "app.action.delete": "Delete",
   "app.action.eliminate": "Eliminate",
+  "app.action.loading": "Loading",
 
   "app.model.name": "Name",
   "app.model.fullName": "Full Name",
@@ -35,5 +36,6 @@
 
   "app.error.required": "is required.",
   "app.error.invalid": "is invalid.",
-  "app.error.minRequired": "Minimum of required characters:"
+  "app.error.minRequired": "Minimum of required characters:",
+  "app.error.unauthorized": "Not authorized"
 }

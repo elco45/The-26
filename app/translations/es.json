@@ -27,6 +27,7 @@
   "app.action.remove": "Remover",
   "app.action.delete": "Borrar",
   "app.action.eliminate": "Eliminar",
+  "app.action.loading": "Cargando",
 
   "app.model.name": "Nombre",
   "app.model.fullName": "Nombre Completo",
@@ -35,5 +36,6 @@
 
   "app.error.required": "es un campo requerido.",
   "app.error.invalid": "es inválido.",
-  "app.error.minRequired": "Mínimo de caracteres requerido:"
+  "app.error.minRequired": "Mínimo de caracteres requerido:",
+  "app.error.unauthorized": "No autorizado"
 }

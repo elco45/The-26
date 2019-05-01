@@ -31,7 +31,7 @@ class CurrentUser extends React.Component {
   }
 
   render() {
-    const { user, signOut } = this.props;
+    const { user, signOut, history } = this.props;
 
     return (
       <Nav.Item>
@@ -44,7 +44,7 @@ class CurrentUser extends React.Component {
             />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item>
+            <Dropdown.Item onClick={() => history.push('/profile')}>
               <FormattedMessage {...messages.profile} />
             </Dropdown.Item>
             <Dropdown.Item onClick={signOut}>
@@ -60,13 +60,14 @@ class CurrentUser extends React.Component {
 CurrentUser.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    uid: PropTypes.string.isRequired,
+    displayName: PropTypes.string,
+    uid: PropTypes.string,
     profile: PropTypes.shape({
-      name: PropTypes.string,
       role: PropTypes.arrayOf(PropTypes.string),
     }),
   }),
   signOut: PropTypes.func.isRequired,
+  history: PropTypes.object,
 };
 
 export default CurrentUser;
