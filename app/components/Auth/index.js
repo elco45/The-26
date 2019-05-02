@@ -132,7 +132,11 @@ class Auth extends React.Component {
     if (!syncing) {
       return [this.renderSignIn(), this.renderSignUp()];
     }
-    return <i key="spin" className="fa fa-spinner fa-spin deep-purple-text" />;
+    return (
+      <div key="spin" className="text-center">
+        <i className="fa fa-spinner fa-spin fa-pulse" />
+      </div>
+    );
   }
 
   render() {

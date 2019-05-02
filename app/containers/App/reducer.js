@@ -26,6 +26,12 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -39,6 +45,7 @@ export const initialState = {
   signInError: null,
   passResetError: null,
   signUpSuccess: false,
+  resetSuccess: false,
   selectedUser: null,
   loadingSelectedUser: false,
   selectedUserError: null,
@@ -151,17 +158,42 @@ const appReducer = (state = initialState, action) =>
         draft.usersError = action.error;
         break;
 
+      case UPDATE_PASSWORD_REQUEST:
+        draft.resetSuccess = false;
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        break;
+
+      case UPDATE_EMAIL_REQUEST:
       case UPDATE_PROFILE_REQUEST:
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        break;
+
+      case UPDATE_PASSWORD_SUCCESS:
+        draft.resetSuccess = true;
+        break;
+
+      case UPDATE_EMAIL_SUCCESS:
+      case UPDATE_PROFILE_SUCCESS:
+        draft.loadingSelectedUser = false;
+        break;
+
+      case UPDATE_EMAIL_FAILURE:
+      case UPDATE_PASSWORD_FAILURE:
+      case UPDATE_PROFILE_FAILURE:
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
+        break;
+
       case UPDATE_USER_REQUEST:
         draft.loadingSelectedUser = true;
         break;
 
-      case UPDATE_PROFILE_SUCCESS:
       case UPDATE_USER_SUCCESS:
         draft.loadingSelectedUser = false;
         break;
 
-      case UPDATE_PROFILE_FAILURE:
       case UPDATE_USER_FAILURE:
         draft.loadingSelectedUser = false;
         draft.selectedUserError = action.error;

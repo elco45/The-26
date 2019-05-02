@@ -30,8 +30,14 @@ class CurrentUser extends React.Component {
     });
   }
 
+  logout() {
+    const { signOut, history } = this.props;
+    signOut();
+    history.push('/');
+  }
+
   render() {
-    const { user, signOut, history } = this.props;
+    const { user, history } = this.props;
 
     return (
       <Nav.Item>
@@ -47,7 +53,7 @@ class CurrentUser extends React.Component {
             <Dropdown.Item onClick={() => history.push('/profile')}>
               <FormattedMessage {...messages.profile} />
             </Dropdown.Item>
-            <Dropdown.Item onClick={signOut}>
+            <Dropdown.Item onClick={() => this.logout()}>
               <FormattedMessage {...messages.logout} />
             </Dropdown.Item>
           </Dropdown.Menu>

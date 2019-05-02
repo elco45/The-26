@@ -25,6 +25,12 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAILURE,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 } from './constants';
 
 export const getUser = userInfo => ({
@@ -71,7 +77,7 @@ export const updateUserFailure = error => ({
   error,
 });
 
-export const updateProfile = userInfo => ({
+export const updateProfileRequest = userInfo => ({
   type: UPDATE_PROFILE_REQUEST,
   userInfo,
 });
@@ -82,6 +88,34 @@ export const updateProfileSuccess = () => ({
 
 export const updateProfileFailure = error => ({
   type: UPDATE_PROFILE_FAILURE,
+  error,
+});
+
+export const updateEmailRequest = userInfo => ({
+  type: UPDATE_EMAIL_REQUEST,
+  userInfo,
+});
+
+export const updateEmailSuccess = () => ({
+  type: UPDATE_EMAIL_SUCCESS,
+});
+
+export const updateEmailFailure = error => ({
+  type: UPDATE_EMAIL_FAILURE,
+  error,
+});
+
+export const updatePasswordRequest = userInfo => ({
+  type: UPDATE_PASSWORD_REQUEST,
+  userInfo,
+});
+
+export const updatePasswordSuccess = () => ({
+  type: UPDATE_PASSWORD_SUCCESS,
+});
+
+export const updatePasswordFailure = error => ({
+  type: UPDATE_PASSWORD_FAILURE,
   error,
 });
 

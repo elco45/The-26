@@ -10,6 +10,12 @@ const makeSelectCurrentUser = () =>
     globalState => globalState.user,
   );
 
+const makeSelectResetSuccess = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.resetSuccess,
+  );
+
 const makeSelectSignUpSuccess = () =>
   createSelector(
     selectGlobal,
@@ -64,6 +70,12 @@ const makeSelectLoadingSelectedUser = () =>
     globalState => globalState.loadingSelectedUser,
   );
 
+const makeSelectSelectedUser = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.selectedUser,
+  );
+
 const makeSelectSelectedUserError = () =>
   createSelector(
     selectGlobal,
@@ -97,6 +109,7 @@ const makeSelectLocation = () =>
 export {
   makeSelectCurrentUser,
   makeSelectLocation,
+  makeSelectResetSuccess,
   makeSelectLoggedIn,
   makeSelectSignUpSuccess,
   makeSelectSignUpError,
@@ -106,6 +119,7 @@ export {
   makeSelectLoading,
   makeSelectLoadingPassReset,
   makeSelectLoadingSelectedUser,
+  makeSelectSelectedUser,
   makeSelectSelectedUserError,
   makeSelectUsers,
   makeSelectLoadingUsers,

@@ -10,6 +10,8 @@ import {
   GET_USERS_REQUEST,
   UPDATE_USER_REQUEST,
   UPDATE_PROFILE_REQUEST,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
 } from 'containers/App/constants';
 import {
   loginSuccess,
@@ -30,6 +32,10 @@ import {
   updateUserFailure,
   updateProfileSuccess,
   updateProfileFailure,
+  updateEmailSuccess,
+  updateEmailFailure,
+  updatePasswordSuccess,
+  updatePasswordFailure,
 } from './actions';
 
 import { reduxSagaFirebase } from '../../firebase';
@@ -82,7 +88,7 @@ function* loginSaga(action) {
       (user && user.profile && user.profile.roles && user.profile.roles.admin)
     ) {
       yield put(loginSuccess());
-      yield put(syncUser(response.user));
+      yield put(syncUser({ ...user, uid }));
     } else {
       const error = {
         code: 'auth/user-not-verified',
@@ -173,6 +179,27 @@ function* updateProfileSaga(action) {
   }
 }
 
+function* updateEmailSaga(action) {
+  try {
+    const { email } = action.userInfo;
+    yield call(reduxSagaFirebase.auth.updateEmail, email);
+
+    yield put(updateEmailSuccess());
+  } catch (error) {
+    yield put(updateEmailFailure(error));
+  }
+}
+
+function* updatePasswordSaga(action) {
+  try {
+    const { password } = action.userInfo;
+    yield call(reduxSagaFirebase.auth.updatePassword, password);
+
+    yield put(updatePasswordSuccess());
+  } catch (error) {
+    yield put(updatePasswordFailure(error));
+  }
+}
 function* syncUserSaga() {
   const channel = yield call(reduxSagaFirebase.auth.channel);
 
@@ -204,4 +231,6 @@ export default function* loginRootSaga() {
   yield takeEvery(GET_USERS_REQUEST, getUsersSaga);
   yield takeEvery(UPDATE_USER_REQUEST, updateUserSaga);
   yield takeEvery(UPDATE_PROFILE_REQUEST, updateProfileSaga);
+  yield takeEvery(UPDATE_EMAIL_REQUEST, updateEmailSaga);
+  yield takeEvery(UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
 }
