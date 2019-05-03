@@ -69,7 +69,7 @@ CurrentUser.propTypes = {
     displayName: PropTypes.string,
     uid: PropTypes.string,
     profile: PropTypes.shape({
-      role: PropTypes.arrayOf(PropTypes.string),
+      roles: PropTypes.arrayOf(PropTypes.string),
     }),
   }),
   signOut: PropTypes.func.isRequired,

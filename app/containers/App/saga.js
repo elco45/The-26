@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import '@firebase/firestore';
-import { call, fork, put, take, takeEvery } from 'redux-saga/effects';
+import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
 import {
   SIGNUP_REQUEST,
   LOGIN_REQUEST,
@@ -38,7 +38,7 @@ import {
   updatePasswordFailure,
 } from './actions';
 
-import { reduxSagaFirebase } from '../../firebase';
+import { reduxSagaFirebase, reduxSagaFirebaseClone } from '../../firebase';
 
 const firestore = new firebase.firestore(); // eslint-disable-line
 
@@ -46,7 +46,7 @@ function* signUpSaga(action) {
   try {
     const { email, name, roles = [], password } = action.credential;
     const response = yield call(
-      reduxSagaFirebase.auth.createUserWithEmailAndPassword,
+      reduxSagaFirebaseClone.auth.createUserWithEmailAndPassword,
       email,
       password,
     );
@@ -59,7 +59,7 @@ function* signUpSaga(action) {
         roles,
       },
     });
-    yield call(reduxSagaFirebase.auth.sendEmailVerification, {});
+    yield call(reduxSagaFirebaseClone.auth.sendEmailVerification, {});
 
     yield put(signUpSuccess());
   } catch (error) {
@@ -85,7 +85,10 @@ function* loginSaga(action) {
     const user = getUser.data();
     if (
       emailVerified ||
-      (user && user.profile && user.profile.roles && user.profile.roles.admin)
+      (user &&
+        user.profile &&
+        user.profile.roles &&
+        user.profile.roles.contains('admin'))
     ) {
       yield put(loginSuccess());
       yield put(syncUser({ ...user, uid }));
@@ -102,8 +105,8 @@ function* loginSaga(action) {
 
 function* logoutSaga() {
   try {
-    const data = yield call(reduxSagaFirebase.auth.signOut);
-    yield put(logoutSuccess(data));
+    yield call(reduxSagaFirebase.auth.signOut);
+    yield put(logoutSuccess());
   } catch (error) {
     yield put(logoutFailure(error));
   }
@@ -223,14 +226,14 @@ function* syncUserSaga() {
 
 export default function* loginRootSaga() {
   yield fork(syncUserSaga);
-  yield takeEvery(SIGNUP_REQUEST, signUpSaga);
-  yield takeEvery(LOGIN_REQUEST, loginSaga);
-  yield takeEvery(LOGOUT_REQUEST, logoutSaga);
-  yield takeEvery(PASS_RESET_REQUEST, passResetSaga);
-  yield takeEvery(GET_USER_REQUEST, getUserSaga);
-  yield takeEvery(GET_USERS_REQUEST, getUsersSaga);
-  yield takeEvery(UPDATE_USER_REQUEST, updateUserSaga);
-  yield takeEvery(UPDATE_PROFILE_REQUEST, updateProfileSaga);
-  yield takeEvery(UPDATE_EMAIL_REQUEST, updateEmailSaga);
-  yield takeEvery(UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
+  yield takeLatest(SIGNUP_REQUEST, signUpSaga);
+  yield takeLatest(LOGIN_REQUEST, loginSaga);
+  yield takeLatest(LOGOUT_REQUEST, logoutSaga);
+  yield takeLatest(PASS_RESET_REQUEST, passResetSaga);
+  yield takeLatest(GET_USER_REQUEST, getUserSaga);
+  yield takeLatest(GET_USERS_REQUEST, getUsersSaga);
+  yield takeLatest(UPDATE_USER_REQUEST, updateUserSaga);
+  yield takeLatest(UPDATE_PROFILE_REQUEST, updateProfileSaga);
+  yield takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga);
+  yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
 }

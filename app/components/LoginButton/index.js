@@ -3,31 +3,21 @@ import PropTypes from 'prop-types';
 import { Nav } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import SignUpModal from '../UserCreateModal';
 import SignInModal from '../SignInModal';
 import PassResetModal from '../PassResetModal';
 
-class Auth extends React.Component {
+class LoginButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalSignUp: false,
       modalSignIn: false,
       modalPassReset: false,
     };
 
-    this.toggleSignUp = this.toggleSignUp.bind(this);
     this.toggleSignIn = this.toggleSignIn.bind(this);
     this.togglePassReset = this.togglePassReset.bind(this);
     this.togglePass = this.togglePass.bind(this);
     this.toggle = this.toggle.bind(this);
-  }
-
-  toggleSignUp() {
-    const { modalSignUp } = this.state;
-    this.setState({
-      modalSignUp: !modalSignUp,
-    });
   }
 
   toggleSignIn() {
@@ -53,27 +43,10 @@ class Auth extends React.Component {
   }
 
   toggle() {
-    const { modalSignUp, modalSignIn } = this.state;
+    const { modalSignIn } = this.state;
     this.setState({
-      modalSignUp: !modalSignUp,
       modalSignIn: !modalSignIn,
     });
-  }
-
-  renderSignUpModal() {
-    const { signUp, signUpError, signUpSuccess, loading } = this.props;
-    return (
-      <SignUpModal
-        key="msu"
-        toggle={this.toggle}
-        toggleSignUp={this.toggleSignUp}
-        modalSignUp={this.state.modalSignUp}
-        signUp={signUp}
-        signUpError={signUpError}
-        signUpSuccess={signUpSuccess}
-        loading={loading}
-      />
-    );
   }
 
   renderSignInModal() {
@@ -106,16 +79,6 @@ class Auth extends React.Component {
     );
   }
 
-  renderSignUp() {
-    return (
-      <Nav.Item key="su">
-        <Nav.Link onClick={this.toggleSignUp} to="#">
-          <FormattedMessage {...messages.addUser} />
-        </Nav.Link>
-      </Nav.Item>
-    );
-  }
-
   renderSignIn() {
     return (
       <Nav.Item key="si">
@@ -130,7 +93,7 @@ class Auth extends React.Component {
     const { syncing } = this.props;
 
     if (!syncing) {
-      return [this.renderSignIn(), this.renderSignUp()];
+      return this.renderSignIn();
     }
     return (
       <div key="spin" className="text-center">
@@ -142,24 +105,20 @@ class Auth extends React.Component {
   render() {
     return [
       this.renderAuthItems(),
-      this.renderSignUpModal(),
       this.renderSignInModal(),
       this.renderPassResetModal(),
     ];
   }
 }
 
-Auth.propTypes = {
-  signUpSuccess: PropTypes.bool,
-  signUpError: PropTypes.object,
+LoginButton.propTypes = {
   signInError: PropTypes.object,
   passResetError: PropTypes.object,
   signIn: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
   sendPassReset: PropTypes.func.isRequired,
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
 };
 
-export default Auth;
+export default LoginButton;

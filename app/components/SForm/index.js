@@ -12,6 +12,7 @@ class SForm extends React.Component {
     this.state = {
       formData: {},
       live: false,
+      showExtraError: false,
     };
     this.submit = this.submit.bind(this);
   }
@@ -139,28 +140,33 @@ class SForm extends React.Component {
   };
 
   submit(data) {
-    this.setState({ live: true });
-    this.props.submitFunc(data.formData);
+    const { hiddenFormData } = this.props;
+    this.setState({ live: true, showExtraError: true });
+    const newFormData = { ...data.formData, ...hiddenFormData };
+    this.props.submitFunc(newFormData);
   }
 
   render() {
     const { idPrefix, loading, validateFunc, submitBtnText } = this.props;
+    const { live, showExtraError } = this.state;
     return (
       <Form
         idPrefix={idPrefix}
         className="col-12  mt-2 mb-1"
         formData={this.state.formData}
-        onChange={({ formData }) => this.setState({ formData, live: false })}
+        onChange={({ formData }) =>
+          this.setState({ formData, showExtraError: false })
+        }
         onSubmit={this.submit}
         schema={this.getSchema()}
         validate={(formData, errors) =>
-          validateFunc(formData, errors, this.state.live)
+          validateFunc(formData, errors, showExtraError)
         }
         uiSchema={this.getUiSchema()}
         transformErrors={this.transformErrors}
         showErrorList={false}
         noHtml5Validate
-        liveValidate={this.state.live}
+        liveValidate={live}
       >
         <Button type="submit" variant="primary">
           {loading ? (
@@ -185,6 +191,7 @@ SForm.propTypes = {
   submitBtnText: PropTypes.string,
   defaultValues: PropTypes.object,
   idPrefix: PropTypes.string,
+  hiddenFormData: PropTypes.object,
   intl: intlShape.isRequired,
 };
 
@@ -194,6 +201,7 @@ SForm.defaultProps = {
   showUiLabels: false,
   showPlaceHolder: true,
   defaultValues: {},
+  hiddenFormData: {},
   submitBtnText: 'action.submit',
 };
 

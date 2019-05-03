@@ -10,15 +10,13 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import Auth from '../Auth';
+import LoginButton from '../LoginButton';
 import CurrentUser from '../CurrentUser';
 
-import { login, logout, signUp, passReset } from '../../containers/App/actions';
+import { login, logout, passReset } from '../../containers/App/actions';
 import {
   makeSelectCurrentUser,
   makeSelectLoggedIn,
-  makeSelectSignUpSuccess,
-  makeSelectSignUpError,
   makeSelectSignInError,
   makeSelectPassResetError,
   makeSelectSync,
@@ -91,25 +89,19 @@ class HomeNav extends React.Component {
 
   renderAuth() {
     const {
-      signUpSuccess,
-      signUpError,
       signInError,
       passResetError,
       signIn,
-      createUser,
       sendPassReset,
       syncing,
       loading,
       loadingPassReset,
     } = this.props;
     return (
-      <Auth
-        signUpSuccess={signUpSuccess}
-        signUpError={signUpError}
+      <LoginButton
         signInError={signInError}
         passResetError={passResetError}
         signIn={signIn}
-        signUp={createUser}
         sendPassReset={sendPassReset}
         syncing={syncing}
         loading={loading}
@@ -136,15 +128,12 @@ class HomeNav extends React.Component {
 
 HomeNav.propTypes = {
   user: PropTypes.object,
-  signUpSuccess: PropTypes.bool,
-  signUpError: PropTypes.object,
   signInError: PropTypes.object,
   passResetError: PropTypes.object,
   loggedIn: PropTypes.bool.isRequired,
   signIn: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
   sendPassReset: PropTypes.func.isRequired,
-  createUser: PropTypes.func.isRequired,
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
@@ -155,15 +144,12 @@ HomeNav.propTypes = {
 const mapDispatchToProps = {
   signIn: login,
   signOut: logout,
-  createUser: signUp,
   sendPassReset: passReset,
 };
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectCurrentUser(),
   loggedIn: makeSelectLoggedIn(),
-  signUpSuccess: makeSelectSignUpSuccess(),
-  signUpError: makeSelectSignUpError(),
   signInError: makeSelectSignInError(),
   passResetError: makeSelectPassResetError(),
   syncing: makeSelectSync(),

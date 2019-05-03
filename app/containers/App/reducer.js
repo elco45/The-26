@@ -59,7 +59,7 @@ const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case SIGNUP_REQUEST:
-        draft.loading = true;
+        draft.loadingSelectedUser = true;
         draft.signUpError = null;
         draft.signUpSuccess = false;
         break;
@@ -74,7 +74,7 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SIGNUP_SUCCESS:
-        draft.loading = false;
+        draft.loadingSelectedUser = false;
         draft.signUpSuccess = true;
         break;
 
@@ -90,7 +90,7 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SIGNUP_FAILURE:
-        draft.loading = false;
+        draft.loadingSelectedUser = false;
         draft.signUpError = action.error;
         break;
 
@@ -158,23 +158,24 @@ const appReducer = (state = initialState, action) =>
         draft.usersError = action.error;
         break;
 
+      case UPDATE_EMAIL_REQUEST:
       case UPDATE_PASSWORD_REQUEST:
         draft.resetSuccess = false;
         draft.loadingSelectedUser = true;
         draft.selectedUserError = null;
         break;
 
-      case UPDATE_EMAIL_REQUEST:
       case UPDATE_PROFILE_REQUEST:
         draft.loadingSelectedUser = true;
         draft.selectedUserError = null;
         break;
 
+      case UPDATE_EMAIL_SUCCESS:
       case UPDATE_PASSWORD_SUCCESS:
+        draft.user = null;
         draft.resetSuccess = true;
         break;
 
-      case UPDATE_EMAIL_SUCCESS:
       case UPDATE_PROFILE_SUCCESS:
         draft.loadingSelectedUser = false;
         break;
@@ -182,6 +183,7 @@ const appReducer = (state = initialState, action) =>
       case UPDATE_EMAIL_FAILURE:
       case UPDATE_PASSWORD_FAILURE:
       case UPDATE_PROFILE_FAILURE:
+        draft.resetSuccess = false;
         draft.loadingSelectedUser = false;
         draft.selectedUserError = action.error;
         break;
