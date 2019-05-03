@@ -85,7 +85,8 @@ class SForm extends React.Component {
     const allModels = this.allModels();
     const newSchema = {};
     schema.forEach(element => {
-      newSchema[element] = allModels[element];
+      const { name } = element;
+      newSchema[name] = allModels[name];
     });
     return {
       type: 'object',
@@ -98,23 +99,20 @@ class SForm extends React.Component {
     const { intl, schema, showUiLabels, showPlaceHolder } = this.props;
     const newUiSchema = {};
     schema.forEach(element => {
-      if (
-        element === 'email' ||
-        (element === 'password' || element === 'repeatPassword')
-      ) {
-        newUiSchema[element] = {};
-        newUiSchema[element]['ui:widget'] =
-          element !== 'repeatPassword' ? element : 'password';
+      const { name, uiWidget } = element;
+      if (uiWidget) {
+        newUiSchema[name] = {};
+        newUiSchema[name]['ui:widget'] = uiWidget;
       }
       if (!showUiLabels) {
-        if (!newUiSchema[element]) {
-          newUiSchema[element] = {};
+        if (!newUiSchema[name]) {
+          newUiSchema[name] = {};
         }
-        newUiSchema[element]['ui:options'] = { label: false };
+        newUiSchema[name]['ui:options'] = { label: false };
       }
       if (showPlaceHolder) {
-        newUiSchema[element]['ui:placeholder'] = intl.formatMessage(
-          messages[`model.${element}`],
+        newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
+          messages[`model.${name}`],
         );
       }
     });
@@ -187,7 +185,12 @@ SForm.propTypes = {
   showUiLabels: PropTypes.bool,
   showPlaceHolder: PropTypes.bool,
   requiredSchema: PropTypes.arrayOf(PropTypes.string),
-  schema: PropTypes.arrayOf(PropTypes.string).isRequired,
+  schema: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      uiWidget: PropTypes.string,
+    }),
+  ).isRequired,
   submitBtnText: PropTypes.string,
   defaultValues: PropTypes.object,
   idPrefix: PropTypes.string,

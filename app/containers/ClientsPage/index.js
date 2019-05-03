@@ -33,7 +33,6 @@ class ClientsPage extends React.Component {
 
     this.notifyVerificationSent = this.notifyVerificationSent.bind(this);
     this.validateCreateUser = this.validateCreateUser.bind(this);
-    this.validateUpdateEmail = this.validateUpdateEmail.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,26 +65,7 @@ class ClientsPage extends React.Component {
     return errors;
   }
 
-  validateUpdateEmail(formData, errors, live) {
-    const { selectedUserError, intl } = this.props;
-    if (
-      live &&
-      selectedUserError &&
-      selectedUserError.code === 'auth/email-already-in-use'
-    ) {
-      errors.email.addError(intl.formatMessage(messages.auth.emailTaken));
-    }
-    if (
-      live &&
-      selectedUserError &&
-      selectedUserError.code === 'auth/requires-recent-login'
-    ) {
-      errors.email.addError(intl.formatMessage(messages.auth.relogin));
-    }
-    return errors;
-  }
-
-  render() {
+  renderAddButton() {
     const {
       signUpSuccess,
       signUpError,
@@ -93,34 +73,51 @@ class ClientsPage extends React.Component {
       syncing,
       loadingSelectedUser,
     } = this.props;
+    const addClientSchema = [
+      {
+        name: 'name',
+      },
+      {
+        name: 'email',
+        uiWidget: 'email',
+      },
+      {
+        name: 'password',
+        uiWidget: 'password',
+      },
+    ];
+    return (
+      <SButton
+        syncing={syncing}
+        loading={loadingSelectedUser}
+        buttonTextId="app.auth.addUser"
+        functionSuccess={signUpSuccess}
+        functionError={signUpError}
+        func={createUser}
+        validateFunc={this.validateCreateUser}
+        modalTitleTextId="app.auth.addUser"
+        modalButtonTextId="action.add"
+        requiredSchema={['name', 'email', 'password']}
+        schema={addClientSchema}
+        hiddenFormData={{
+          roles: ['client'],
+        }}
+      />
+    );
+  }
+
+  render() {
     return (
       <AuthWrapper>
         <Container>
           <Row>
             <Col md={4} xs={12}>
-              <SButton
-                syncing={syncing}
-                loading={loadingSelectedUser}
-                buttonTextId="app.auth.addUser"
-                functionSuccess={signUpSuccess}
-                functionError={signUpError}
-                func={createUser}
-                validateFunc={this.validateCreateUser}
-                modalTitleTextId="app.auth.addUser"
-                modalButtonTextId="action.add"
-                requiredSchema={['name', 'email', 'password']}
-                schema={['name', 'email', 'password']}
-                hiddenFormData={{
-                  roles: ['client'],
-                }}
-              />
+              {this.renderAddButton()}
             </Col>
             <Col md={8} xs={12}>
               <h2>
-                <FormattedMessage {...messages.action.edit} />{' '}
-                <FormattedMessage {...messages.model.email} />
+                <FormattedMessage {...messages.model.clients} />
               </h2>
-              <hr />
             </Col>
           </Row>
         </Container>

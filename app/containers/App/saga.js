@@ -51,12 +51,13 @@ function* signUpSaga(action) {
       password,
     );
 
-    const { uid } = response.user;
+    const { uid, metadata } = response.user;
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, {
       email,
       displayName: name,
       profile: {
         roles,
+        createdAt: metadata.creationTime,
       },
     });
     yield call(reduxSagaFirebaseClone.auth.sendEmailVerification, {});
@@ -208,7 +209,6 @@ function* syncUserSaga() {
 
   while (true) {
     const { user } = yield take(channel);
-
     yield put(sync(true));
     if (user && user.emailVerified) {
       const getUser = yield call(

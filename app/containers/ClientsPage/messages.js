@@ -26,6 +26,9 @@ export default defineMessages({
     },
   },
   model: {
+    clients: {
+      id: `${scopeModel}.clients`,
+    },
     fullName: {
       id: `${scopeModel}.fullName`,
     },

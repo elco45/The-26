@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -32,18 +33,10 @@ class HomeNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false,
       dropdownOpen: false,
     };
-    this.onClick = this.onClick.bind(this);
-    this.toggle = this.toggle.bind(this);
-  }
 
-  onClick() {
-    const { collapse } = this.state;
-    this.setState({
-      collapse,
-    });
+    this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
@@ -53,20 +46,40 @@ class HomeNav extends React.Component {
     });
   }
 
-  checkActive(path) {
-    const { location } = this.props;
-    if (location.pathname === path) {
-      return 'true';
+  renderMenu() {
+    const { history, user, syncing } = this.props;
+    if (syncing) {
+      return (
+        <div key="spin" className="text-center">
+          <i className="fa fa-spinner fa-spin fa-pulse" />
+        </div>
+      );
     }
-    return 'false';
+    return (
+      <Navbar.Collapse key="menuItems">
+        <Nav>
+          {user ? (
+            <Nav.Item>
+              <Nav.Link onClick={() => history.push('/clients')}>
+                <FormattedMessage {...{ id: 'app.model.clients' }} />
+              </Nav.Link>
+            </Nav.Item>
+          ) : (
+            <Nav.Item>
+              <Nav.Link onClick={() => history.push('/asd')}>asd</Nav.Link>
+            </Nav.Item>
+          )}
+        </Nav>
+      </Navbar.Collapse>
+    );
   }
 
   renderUserNavItem() {
     const { user, loggedIn, syncing, signOut, history } = this.props;
 
     return (
-      <Navbar.Collapse className="justify-content-end">
-        <Nav key="uN">
+      <Navbar.Collapse key="authItem" className="justify-content-end">
+        <Nav>
           <Nav.Item>
             <Nav.Link>
               <LocaleToggle />
@@ -80,14 +93,14 @@ class HomeNav extends React.Component {
               history={history}
             />
           ) : (
-            this.renderAuth()
+            this.renderLoginButton()
           )}
         </Nav>
       </Navbar.Collapse>
     );
   }
 
-  renderAuth() {
+  renderLoginButton() {
     const {
       signInError,
       passResetError,
@@ -111,7 +124,7 @@ class HomeNav extends React.Component {
   }
 
   renderNavItems() {
-    return this.renderUserNavItem();
+    return [this.renderMenu(), this.renderUserNavItem()];
   }
 
   render() {
@@ -137,7 +150,6 @@ HomeNav.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
-  location: PropTypes.object,
   history: PropTypes.object,
 };
 

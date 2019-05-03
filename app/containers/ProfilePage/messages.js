@@ -24,6 +24,9 @@ export default defineMessages({
     resetSuccess: {
       id: `${scopeAuth}.resetSuccess`,
     },
+    sameEmailError: {
+      id: `${scopeAuth}.sameEmailError`,
+    },
   },
   model: {
     fullName: {

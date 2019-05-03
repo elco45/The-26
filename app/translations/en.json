@@ -10,7 +10,6 @@
   "app.auth.enter": "Enter",
   "app.auth.forgotPass": "Forgot password...",
   "app.auth.users": "Users",
-  "app.auth.clients": "Clients",
   "app.auth.profile": "Profile",
   "app.auth.myProfile": "My Profile",
   "app.auth.editProfile": "Edit Profile",
@@ -24,6 +23,7 @@
   "app.auth.emailNotRegistered": "Email is not registered.",
   "app.auth.restorePass": "Restore Password.",
   "app.auth.repeatPassError": "The passwords does not match.",
+  "app.auth.sameEmailError": "The new email should not be the same one.",
   "app.auth.relogin": "An error has occurred. Please relogin and try again.",
   "app.auth.resetSuccess": "The value has been successfully changed. Please relogin.",
 
@@ -37,6 +37,7 @@
   "app.action.loading": "Loading",
   "app.action.send": "Send",
 
+  "app.model.clients": "Clients",
   "app.model.name": "Name",
   "app.model.fullName": "Full Name",
   "app.model.email": "Email Address",

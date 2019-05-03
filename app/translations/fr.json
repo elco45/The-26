@@ -10,7 +10,6 @@
   "app.auth.enter": "Entrer",
   "app.auth.forgotPass": "Mot de passe oublié...",
   "app.auth.users": "Les Utilisateurs",
-  "app.auth.clients": "Les Clients",
   "app.auth.profile": "Profil",
   "app.auth.myProfile": "Mon Profil",
   "app.auth.editProfile": "Editer le Profil",
@@ -24,6 +23,7 @@
   "app.auth.emailNotRegistered": "Email n'est pas enregistré.",
   "app.auth.restorePass": "Restaurer le mot de passe.",
   "app.auth.repeatPassError": "Les mots de passe ne correspondent pas.",
+  "app.auth.sameEmailError": "Le nouvel email ne devrait pas être le même.",
   "app.auth.relogin": "Une erreur est survenue. Veuillez vous reconnecter et réessayer.",
   "app.auth.resetSuccess": "La valeur a été modifiée avec succès. S'il vous plaît reconnecter.",
 
@@ -37,6 +37,7 @@
   "app.action.loading": "Chargement",
   "app.action.send": "Envoyer",
 
+  "app.model.clients": "Les Clients",
   "app.model.name": "Nom",
   "app.model.fullName": "Nom Complet",
   "app.model.email": "Adresse électronique",

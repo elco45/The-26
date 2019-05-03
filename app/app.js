@@ -16,6 +16,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
+import 'moment/min/locales';
+import moment from 'moment';
 
 // Import root app
 import App from 'containers/App';
@@ -33,7 +35,7 @@ import 'file-loader?name=.htaccess!./.htaccess';
 import configureStore from './configureStore';
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import { translationMessages, DEFAULT_LOCALE } from './i18n';
 
 // Import external stylings
 import 'font-awesome/css/font-awesome.min.css';
@@ -45,6 +47,9 @@ toast.configure({
   autoClose: 4000,
   draggable: false,
 });
+
+// Configure moment
+moment.locale(DEFAULT_LOCALE);
 
 // Create redux store with history
 const initialState = {};

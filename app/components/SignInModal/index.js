@@ -65,7 +65,16 @@ class SignInModal extends React.Component {
 
   render() {
     const { modalSignIn, loading, signIn } = this.props;
-
+    const loginSchema = [
+      {
+        name: 'email',
+        uiWidget: 'email',
+      },
+      {
+        name: 'password',
+        uiWidget: 'password',
+      },
+    ];
     return (
       <Modal
         show={modalSignIn}
@@ -91,7 +100,7 @@ class SignInModal extends React.Component {
                   showUiLabels={false}
                   showPlaceHolder
                   requiredSchema={['email', 'password']}
-                  schema={['email', 'password']}
+                  schema={loginSchema}
                   submitBtnText="auth.enter"
                 />
                 <Col>

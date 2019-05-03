@@ -49,7 +49,10 @@ class ProfilePage extends React.Component {
   }
 
   validateUpdateEmail(formData, errors, live) {
-    const { selectedUserError, intl } = this.props;
+    const { user, selectedUserError, intl } = this.props;
+    if (user.email === formData.email) {
+      errors.email.addError(intl.formatMessage(messages.auth.sameEmailError));
+    }
     if (
       live &&
       selectedUserError &&
@@ -84,13 +87,70 @@ class ProfilePage extends React.Component {
     return errors;
   }
 
+  renderEditEmail() {
+    const { user, loadingSelectedUser, updateEmail } = this.props;
+    const schema = [
+      {
+        name: 'email',
+        uiWidget: 'email',
+      },
+    ];
+    return (
+      <div>
+        <h2>
+          <FormattedMessage {...messages.action.edit} />{' '}
+          <FormattedMessage {...messages.model.email} />
+        </h2>
+        <SForm
+          idPrefix="editE"
+          submitFunc={updateEmail}
+          validateFunc={this.validateUpdateEmail}
+          loading={loadingSelectedUser}
+          showUiLabels
+          showPlaceHolder={false}
+          requiredSchema={['email']}
+          schema={schema}
+          submitBtnText="action.edit"
+          defaultValues={{ email: user && user.email }}
+        />
+      </div>
+    );
+  }
+
+  renderEditPass() {
+    const { loadingSelectedUser, updatePassword } = this.props;
+    const schema = [
+      {
+        name: 'password',
+        uiWidget: 'password',
+      },
+      {
+        name: 'repeatPassword',
+        uiWidget: 'password',
+      },
+    ];
+    return (
+      <div>
+        <h2>
+          <FormattedMessage {...messages.action.edit} />{' '}
+          <FormattedMessage {...messages.model.password} />
+        </h2>
+        <SForm
+          idPrefix="editP"
+          submitFunc={updatePassword}
+          validateFunc={this.validateUpdatePass}
+          loading={loadingSelectedUser}
+          showUiLabels
+          showPlaceHolder={false}
+          requiredSchema={['password', 'repeatPassword']}
+          schema={schema}
+          submitBtnText="action.edit"
+        />
+      </div>
+    );
+  }
+
   render() {
-    const {
-      user,
-      loadingSelectedUser,
-      updateEmail,
-      updatePassword,
-    } = this.props;
     return (
       <AuthWrapper>
         <Container>
@@ -99,38 +159,9 @@ class ProfilePage extends React.Component {
               <div>Profile Pic</div>
             </Col>
             <Col md={8} xs={12}>
-              <h2>
-                <FormattedMessage {...messages.action.edit} />{' '}
-                <FormattedMessage {...messages.model.email} />
-              </h2>
-              <SForm
-                idPrefix="editE"
-                submitFunc={updateEmail}
-                validateFunc={this.validateUpdateEmail}
-                loading={loadingSelectedUser}
-                showUiLabels
-                showPlaceHolder={false}
-                requiredSchema={['email']}
-                schema={['email']}
-                submitBtnText="action.edit"
-                defaultValues={{ email: user && user.email }}
-              />
+              {this.renderEditEmail()}
               <hr />
-              <h2>
-                <FormattedMessage {...messages.action.edit} />{' '}
-                <FormattedMessage {...messages.model.password} />
-              </h2>
-              <SForm
-                idPrefix="editP"
-                submitFunc={updatePassword}
-                validateFunc={this.validateUpdatePass}
-                loading={loadingSelectedUser}
-                showUiLabels
-                showPlaceHolder={false}
-                requiredSchema={['password', 'repeatPassword']}
-                schema={['password', 'repeatPassword']}
-                submitBtnText="action.edit"
-              />
+              {this.renderEditPass()}
             </Col>
           </Row>
         </Container>

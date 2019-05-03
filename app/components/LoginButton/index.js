@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Nav } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import messages from './messages';
 import SignInModal from '../SignInModal';
-import PassResetModal from '../PassResetModal';
+import SModal from '../SModal';
 
 class LoginButton extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class LoginButton extends React.Component {
     this.togglePassReset = this.togglePassReset.bind(this);
     this.togglePass = this.togglePass.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.validatePassReset = this.validatePassReset.bind(this);
   }
 
   toggleSignIn() {
@@ -49,6 +50,20 @@ class LoginButton extends React.Component {
     });
   }
 
+  validatePassReset(formData, errors, live) {
+    const { passResetError, intl } = this.props;
+    if (
+      live &&
+      passResetError &&
+      passResetError.code === 'auth/user-not-found'
+    ) {
+      errors.email.addError(
+        intl.formatMessage(messages.auth.emailNotRegistered),
+      );
+    }
+    return errors;
+  }
+
   renderSignInModal() {
     const { signIn, signInError, loading } = this.props;
     return (
@@ -67,33 +82,40 @@ class LoginButton extends React.Component {
 
   renderPassResetModal() {
     const { sendPassReset, passResetError, loadingPassReset } = this.props;
+    const schema = [
+      {
+        name: 'email',
+        uiWidget: 'email',
+      },
+    ];
     return (
-      <PassResetModal
+      <SModal
         key="mpr"
-        togglePassReset={this.togglePass}
-        modalPassReset={this.state.modalPassReset}
-        passReset={sendPassReset}
-        passResetError={passResetError}
-        loadingPassReset={loadingPassReset}
+        toggle={this.togglePass}
+        modalToggle={this.state.modalPassReset}
+        func={sendPassReset}
+        functionError={passResetError}
+        validateFunc={this.validatePassReset}
+        modalTitleTextId="app.auth.restorePass"
+        modalButtonTextId="action.send"
+        loading={loadingPassReset}
+        schema={schema}
+        requiredSchema={['email']}
       />
     );
   }
 
-  renderSignIn() {
-    return (
-      <Nav.Item key="si">
-        <Nav.Link onClick={this.toggleSignIn} to="#">
-          <FormattedMessage {...messages.login} />
-        </Nav.Link>
-      </Nav.Item>
-    );
-  }
-
-  renderAuthItems() {
+  renderSignInButton() {
     const { syncing } = this.props;
 
     if (!syncing) {
-      return this.renderSignIn();
+      return (
+        <Nav.Item key="si">
+          <Nav.Link onClick={this.toggleSignIn} to="#">
+            <FormattedMessage {...messages.login} />
+          </Nav.Link>
+        </Nav.Item>
+      );
     }
     return (
       <div key="spin" className="text-center">
@@ -104,7 +126,7 @@ class LoginButton extends React.Component {
 
   render() {
     return [
-      this.renderAuthItems(),
+      this.renderSignInButton(),
       this.renderSignInModal(),
       this.renderPassResetModal(),
     ];
@@ -119,6 +141,7 @@ LoginButton.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
-export default LoginButton;
+export default injectIntl(LoginButton);

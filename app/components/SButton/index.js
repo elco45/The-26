@@ -92,7 +92,12 @@ SButton.propTypes = {
   modalTitleTextId: PropTypes.string.isRequired,
   modalButtonTextId: PropTypes.string.isRequired,
   requiredSchema: PropTypes.arrayOf(PropTypes.string),
-  schema: PropTypes.arrayOf(PropTypes.string),
+  schema: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      uiWidget: PropTypes.string,
+    }),
+  ).isRequired,
   hiddenFormData: PropTypes.object,
 };
 
