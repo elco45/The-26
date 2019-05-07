@@ -1,33 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Nav } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import messages from './messages';
-import SignUpModal from '../UserCreateModal';
 import SignInModal from '../SignInModal';
-import PassResetModal from '../PassResetModal';
+import SModal from '../SModal';
 
-class Auth extends React.Component {
+class LoginButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalSignUp: false,
       modalSignIn: false,
       modalPassReset: false,
     };
 
-    this.toggleSignUp = this.toggleSignUp.bind(this);
     this.toggleSignIn = this.toggleSignIn.bind(this);
     this.togglePassReset = this.togglePassReset.bind(this);
     this.togglePass = this.togglePass.bind(this);
     this.toggle = this.toggle.bind(this);
-  }
-
-  toggleSignUp() {
-    const { modalSignUp } = this.state;
-    this.setState({
-      modalSignUp: !modalSignUp,
-    });
+    this.validatePassReset = this.validatePassReset.bind(this);
   }
 
   toggleSignIn() {
@@ -53,27 +44,24 @@ class Auth extends React.Component {
   }
 
   toggle() {
-    const { modalSignUp, modalSignIn } = this.state;
+    const { modalSignIn } = this.state;
     this.setState({
-      modalSignUp: !modalSignUp,
       modalSignIn: !modalSignIn,
     });
   }
 
-  renderSignUpModal() {
-    const { signUp, signUpError, signUpSuccess, loading } = this.props;
-    return (
-      <SignUpModal
-        key="msu"
-        toggle={this.toggle}
-        toggleSignUp={this.toggleSignUp}
-        modalSignUp={this.state.modalSignUp}
-        signUp={signUp}
-        signUpError={signUpError}
-        signUpSuccess={signUpSuccess}
-        loading={loading}
-      />
-    );
+  validatePassReset(formData, errors, live) {
+    const { passResetError, intl } = this.props;
+    if (
+      live &&
+      passResetError &&
+      passResetError.code === 'auth/user-not-found'
+    ) {
+      errors.email.addError(
+        intl.formatMessage(messages.auth.emailNotRegistered),
+      );
+    }
+    return errors;
   }
 
   renderSignInModal() {
@@ -94,68 +82,66 @@ class Auth extends React.Component {
 
   renderPassResetModal() {
     const { sendPassReset, passResetError, loadingPassReset } = this.props;
+    const schema = [
+      {
+        name: 'email',
+        uiWidget: 'email',
+      },
+    ];
     return (
-      <PassResetModal
+      <SModal
         key="mpr"
-        togglePassReset={this.togglePass}
-        modalPassReset={this.state.modalPassReset}
-        passReset={sendPassReset}
-        passResetError={passResetError}
-        loadingPassReset={loadingPassReset}
+        toggle={this.togglePass}
+        modalToggle={this.state.modalPassReset}
+        func={sendPassReset}
+        functionError={passResetError}
+        validateFunc={this.validatePassReset}
+        modalTitleTextId="app.auth.restorePass"
+        modalButtonTextId="action.send"
+        loading={loadingPassReset}
+        schema={schema}
+        requiredSchema={['email']}
       />
     );
   }
 
-  renderSignUp() {
-    return (
-      <Nav.Item key="su">
-        <Nav.Link onClick={this.toggleSignUp} to="#">
-          <FormattedMessage {...messages.addUser} />
-        </Nav.Link>
-      </Nav.Item>
-    );
-  }
-
-  renderSignIn() {
-    return (
-      <Nav.Item key="si">
-        <Nav.Link onClick={this.toggleSignIn} to="#">
-          <FormattedMessage {...messages.login} />
-        </Nav.Link>
-      </Nav.Item>
-    );
-  }
-
-  renderAuthItems() {
+  renderSignInButton() {
     const { syncing } = this.props;
 
     if (!syncing) {
-      return [this.renderSignIn(), this.renderSignUp()];
+      return (
+        <Nav.Item key="si">
+          <Nav.Link onClick={this.toggleSignIn} to="#">
+            <FormattedMessage {...messages.login} />
+          </Nav.Link>
+        </Nav.Item>
+      );
     }
-    return <i key="spin" className="fa fa-spinner fa-spin deep-purple-text" />;
+    return (
+      <div key="spin" className="text-center">
+        <i className="fa fa-spinner fa-spin fa-pulse" />
+      </div>
+    );
   }
 
   render() {
     return [
-      this.renderAuthItems(),
-      this.renderSignUpModal(),
+      this.renderSignInButton(),
       this.renderSignInModal(),
       this.renderPassResetModal(),
     ];
   }
 }
 
-Auth.propTypes = {
-  signUpSuccess: PropTypes.bool,
-  signUpError: PropTypes.object,
+LoginButton.propTypes = {
   signInError: PropTypes.object,
   passResetError: PropTypes.object,
   signIn: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
   sendPassReset: PropTypes.func.isRequired,
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
+  intl: intlShape.isRequired,
 };
 
-export default Auth;
+export default injectIntl(LoginButton);

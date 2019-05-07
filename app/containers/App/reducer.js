@@ -1,7 +1,6 @@
 import produce from 'immer';
 import {
   LOGIN_REQUEST,
-  LOGIN_PROVIDER_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT_REQUEST,
@@ -15,6 +14,24 @@ import {
   PASS_RESET_FAILURE,
   SYNC_USER,
   SYNC,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILURE,
+  GET_USERS_REQUEST,
+  GET_USERS_SUCCESS,
+  GET_USERS_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -28,6 +45,13 @@ export const initialState = {
   signInError: null,
   passResetError: null,
   signUpSuccess: false,
+  resetSuccess: false,
+  selectedUser: null,
+  loadingSelectedUser: false,
+  selectedUserError: null,
+  users: [],
+  loadingUsers: false,
+  usersError: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -35,7 +59,7 @@ const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case SIGNUP_REQUEST:
-        draft.loading = true;
+        draft.loadingSelectedUser = true;
         draft.signUpError = null;
         draft.signUpSuccess = false;
         break;
@@ -45,24 +69,28 @@ const appReducer = (state = initialState, action) =>
         draft.signInError = null;
         break;
 
-      case LOGIN_PROVIDER_REQUEST:
       case LOGOUT_REQUEST:
         draft.loading = true;
         break;
 
       case SIGNUP_SUCCESS:
-        draft.loading = false;
+        draft.loadingSelectedUser = false;
         draft.signUpSuccess = true;
         break;
 
       case LOGIN_SUCCESS:
+        draft.loading = false;
+        draft.loggedIn = true;
+        break;
+
       case LOGOUT_SUCCESS:
+        draft.user = null;
         draft.loading = false;
         draft.loggedIn = true;
         break;
 
       case SIGNUP_FAILURE:
-        draft.loading = false;
+        draft.loadingSelectedUser = false;
         draft.signUpError = action.error;
         break;
 
@@ -90,13 +118,87 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SYNC:
-        draft.syncing = true;
+        draft.syncing = action.isSyncing;
         break;
 
       case SYNC_USER:
         draft.loggedIn = action.user != null;
-        draft.syncing = false;
         draft.user = action.user;
+        break;
+
+      case GET_USER_REQUEST:
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        draft.selectedUser = null;
+        break;
+
+      case GET_USER_SUCCESS:
+        draft.loadingSelectedUser = false;
+        draft.selectedUser = action.selectedUser;
+        break;
+
+      case GET_USER_FAILURE:
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
+        break;
+
+      case GET_USERS_REQUEST:
+        draft.loadingUsers = true;
+        draft.usersError = null;
+        draft.users = [];
+        break;
+
+      case GET_USERS_SUCCESS:
+        draft.loadingUsers = false;
+        draft.users = action.users;
+        break;
+
+      case GET_USERS_FAILURE:
+        draft.loadingUsers = false;
+        draft.usersError = action.error;
+        break;
+
+      case UPDATE_EMAIL_REQUEST:
+      case UPDATE_PASSWORD_REQUEST:
+        draft.resetSuccess = false;
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        break;
+
+      case UPDATE_PROFILE_REQUEST:
+        draft.loadingSelectedUser = true;
+        draft.selectedUserError = null;
+        break;
+
+      case UPDATE_EMAIL_SUCCESS:
+      case UPDATE_PASSWORD_SUCCESS:
+        draft.user = null;
+        draft.resetSuccess = true;
+        break;
+
+      case UPDATE_PROFILE_SUCCESS:
+        draft.loadingSelectedUser = false;
+        break;
+
+      case UPDATE_EMAIL_FAILURE:
+      case UPDATE_PASSWORD_FAILURE:
+      case UPDATE_PROFILE_FAILURE:
+        draft.resetSuccess = false;
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
+        break;
+
+      case UPDATE_USER_REQUEST:
+        draft.loadingSelectedUser = true;
+        break;
+
+      case UPDATE_USER_SUCCESS:
+        draft.loadingSelectedUser = false;
+        break;
+
+      case UPDATE_USER_FAILURE:
+        draft.loadingSelectedUser = false;
+        draft.selectedUserError = action.error;
         break;
     }
   });

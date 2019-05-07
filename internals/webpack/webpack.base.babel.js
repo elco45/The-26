@@ -119,6 +119,9 @@ module.exports = options => ({
   ]),
   resolve: {
     modules: ['node_modules', 'app'],
+    alias: {
+      moment$: 'moment/moment.js',
+    },
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
   },

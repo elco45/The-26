@@ -5,6 +5,7 @@
  */
 import produce from 'immer';
 
+import moment from 'moment';
 import { CHANGE_LOCALE } from './constants';
 import { DEFAULT_LOCALE } from '../../i18n';
 
@@ -17,6 +18,7 @@ const languageProviderReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case CHANGE_LOCALE:
+        moment.locale(action.locale);
         draft.locale = action.locale;
         break;
     }

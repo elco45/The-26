@@ -7,19 +7,25 @@ export const scopeError = 'app.error';
 
 export default defineMessages({
   action: {
-    add: {
-      id: `${scopeAction}.add`,
+    edit: {
+      id: `${scopeAction}.edit`,
     },
   },
   auth: {
-    addUser: {
-      id: `${scopeAuth}.addUser`,
-    },
     emailTaken: {
       id: `${scopeAuth}.emailTaken`,
     },
-    verificationSent: {
-      id: `${scopeAuth}.verificationSent`,
+    relogin: {
+      id: `${scopeAuth}.relogin`,
+    },
+    repeatPassError: {
+      id: `${scopeAuth}.repeatPassError`,
+    },
+    resetSuccess: {
+      id: `${scopeAuth}.resetSuccess`,
+    },
+    sameEmailError: {
+      id: `${scopeAuth}.sameEmailError`,
     },
   },
   model: {
@@ -31,17 +37,6 @@ export default defineMessages({
     },
     password: {
       id: `${scopeModel}.password`,
-    },
-  },
-  error: {
-    required: {
-      id: `${scopeError}.required`,
-    },
-    invalid: {
-      id: `${scopeError}.invalid`,
-    },
-    minRequired: {
-      id: `${scopeError}.minRequired`,
     },
   },
 });
