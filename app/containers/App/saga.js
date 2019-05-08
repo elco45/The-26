@@ -205,7 +205,6 @@ function* updatePasswordSaga(action) {
 }
 function* syncUserSaga() {
   const channel = yield call(reduxSagaFirebase.auth.channel);
-
   while (true) {
     const { user } = yield take(channel);
     yield put(sync(true));
@@ -223,8 +222,8 @@ function* syncUserSaga() {
 }
 
 export default function* loginRootSaga() {
+  yield fork(syncUserSaga);
   yield all([
-    fork(syncUserSaga),
     takeLatest(SIGNUP_REQUEST, signUpSaga),
     takeLatest(LOGIN_REQUEST, loginSaga),
     takeLatest(LOGOUT_REQUEST, logoutSaga),

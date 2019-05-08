@@ -175,6 +175,7 @@ const appReducer = (state = initialState, action) =>
       case UPDATE_EMAIL_SUCCESS:
       case UPDATE_PASSWORD_SUCCESS:
         draft.user = null;
+        draft.loadingSelectedUser = false;
         draft.resetSuccess = true;
         break;
 
