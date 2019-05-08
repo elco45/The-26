@@ -10,6 +10,9 @@ export default defineMessages({
     edit: {
       id: `${scopeAction}.edit`,
     },
+    success: {
+      id: `${scopeAction}.success`,
+    },
   },
   auth: {
     emailTaken: {
@@ -23,6 +26,9 @@ export default defineMessages({
     },
     resetSuccess: {
       id: `${scopeAuth}.resetSuccess`,
+    },
+    verificationSent: {
+      id: `${scopeAuth}.verificationSent`,
     },
   },
   model: {

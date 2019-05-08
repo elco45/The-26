@@ -36,6 +36,7 @@
   "app.action.eliminate": "Éliminer",
   "app.action.loading": "Chargement",
   "app.action.send": "Envoyer",
+  "app.action.success": "Succès!",
 
   "app.model.clients": "Les Clients",
   "app.model.name": "Nom",

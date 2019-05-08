@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import '@firebase/firestore';
-import { call, fork, put, take, takeLatest } from 'redux-saga/effects';
+import { call, fork, put, take, takeLatest, all } from 'redux-saga/effects';
 import {
   SIGNUP_REQUEST,
   LOGIN_REQUEST,
@@ -50,7 +50,6 @@ function* signUpSaga(action) {
       email,
       password,
     );
-
     const { uid, metadata } = response.user;
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, {
       email,
@@ -89,7 +88,7 @@ function* loginSaga(action) {
       (user &&
         user.profile &&
         user.profile.roles &&
-        user.profile.roles.contains('admin'))
+        user.profile.roles.includes('admin'))
     ) {
       yield put(loginSuccess());
       yield put(syncUser({ ...user, uid }));
@@ -210,14 +209,13 @@ function* syncUserSaga() {
   while (true) {
     const { user } = yield take(channel);
     yield put(sync(true));
-    if (user && user.emailVerified) {
+    if (user) {
       const getUser = yield call(
         reduxSagaFirebase.firestore.getDocument,
         `users/${user.uid}`,
       );
       const userInfo = getUser.data();
       yield put(syncUser({ ...userInfo, uid: user.uid }));
-      yield put(sync(false));
     } else {
       yield put(sync(false));
     }
@@ -225,15 +223,17 @@ function* syncUserSaga() {
 }
 
 export default function* loginRootSaga() {
-  yield fork(syncUserSaga);
-  yield takeLatest(SIGNUP_REQUEST, signUpSaga);
-  yield takeLatest(LOGIN_REQUEST, loginSaga);
-  yield takeLatest(LOGOUT_REQUEST, logoutSaga);
-  yield takeLatest(PASS_RESET_REQUEST, passResetSaga);
-  yield takeLatest(GET_USER_REQUEST, getUserSaga);
-  yield takeLatest(GET_USERS_REQUEST, getUsersSaga);
-  yield takeLatest(UPDATE_USER_REQUEST, updateUserSaga);
-  yield takeLatest(UPDATE_PROFILE_REQUEST, updateProfileSaga);
-  yield takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga);
-  yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga);
+  yield all([
+    fork(syncUserSaga),
+    takeLatest(SIGNUP_REQUEST, signUpSaga),
+    takeLatest(LOGIN_REQUEST, loginSaga),
+    takeLatest(LOGOUT_REQUEST, logoutSaga),
+    takeLatest(PASS_RESET_REQUEST, passResetSaga),
+    takeLatest(GET_USER_REQUEST, getUserSaga),
+    takeLatest(GET_USERS_REQUEST, getUsersSaga),
+    takeLatest(UPDATE_USER_REQUEST, updateUserSaga),
+    takeLatest(UPDATE_PROFILE_REQUEST, updateProfileSaga),
+    takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga),
+    takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga),
+  ]);
 }

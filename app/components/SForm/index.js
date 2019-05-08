@@ -19,10 +19,7 @@ class SForm extends React.Component {
 
   notifyError = () => {
     const { intl } = this.props;
-    return toast(intl.formatMessage(messages['error.happened']), {
-      className: 'bg-danger',
-      bodyClassName: 'text-white',
-    });
+    return toast.error(intl.formatMessage(messages['error.happened']));
   };
 
   allModels = () => {
@@ -138,10 +135,10 @@ class SForm extends React.Component {
   };
 
   submit(data) {
-    const { hiddenFormData } = this.props;
+    const { hiddenFormData, submitFunc } = this.props;
     this.setState({ live: true, showExtraError: true });
     const newFormData = { ...data.formData, ...hiddenFormData };
-    this.props.submitFunc(newFormData);
+    submitFunc(newFormData);
   }
 
   render() {

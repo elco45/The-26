@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
@@ -36,21 +35,19 @@ class ClientsPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      this.props.signUpSuccess !== nextProps.signUpSuccess &&
-      nextProps.signUpSuccess
-    ) {
+    const { signUpSuccess } = this.props;
+    if (signUpSuccess !== nextProps.signUpSuccess && nextProps.signUpSuccess) {
       this.notifyVerificationSent();
     }
   }
 
   notifyVerificationSent = () => {
     const { intl } = this.props;
-    return toast(intl.formatMessage(messages.auth.verificationSent), {
-      className: 'bg-success',
-      bodyClassName: 'text-white',
-      progressClassName: 'fancy-progress-bar',
-    });
+    return toast.success(
+      `${intl.formatMessage(messages.action.success)} ${intl.formatMessage(
+        messages.auth.verificationSent,
+      )}`,
+    );
   };
 
   validateCreateUser(formData, errors, showExtraError) {
@@ -135,7 +132,6 @@ ClientsPage.propTypes = {
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  history: PropTypes.object,
 };
 
 const mapDispatchToProps = {
@@ -157,10 +153,8 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'ClientsPage', reducer });
 const withSaga = injectSaga({ key: 'ClientsPage', saga });
 
-export default withRouter(
-  compose(
-    withReducer,
-    withSaga,
-    withConnect,
-  )(injectIntl(ClientsPage)),
-);
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(injectIntl(ClientsPage));

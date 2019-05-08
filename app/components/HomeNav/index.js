@@ -8,9 +8,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
-
 import LoginButton from '../LoginButton';
 import CurrentUser from '../CurrentUser';
 
@@ -24,8 +21,6 @@ import {
   makeSelectLoading,
   makeSelectLoadingPassReset,
 } from '../../containers/App/selectors';
-import reducer from '../../containers/App/reducer';
-import saga from '../../containers/App/saga';
 
 import LocaleToggle from '../../containers/LocaleToggle';
 
@@ -146,7 +141,7 @@ HomeNav.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   signIn: PropTypes.func.isRequired,
   signOut: PropTypes.func.isRequired,
-  sendPassReset: PropTypes.func.isRequired,
+  sendPassReset: PropTypes.func,
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
@@ -174,13 +169,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'homeNav', reducer });
-const withSaga = injectSaga({ key: 'homeNav', saga });
-
-export default withRouter(
-  compose(
-    withReducer,
-    withSaga,
-    withConnect,
-  )(HomeNav),
-);
+export default withRouter(compose(withConnect)(HomeNav));

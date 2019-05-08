@@ -81,28 +81,36 @@ class LoginButton extends React.Component {
   }
 
   renderPassResetModal() {
-    const { sendPassReset, passResetError, loadingPassReset } = this.props;
+    const {
+      sendPassReset,
+      passResetError,
+      loadingPassReset,
+      loading,
+    } = this.props;
     const schema = [
       {
         name: 'email',
         uiWidget: 'email',
       },
     ];
-    return (
-      <SModal
-        key="mpr"
-        toggle={this.togglePass}
-        modalToggle={this.state.modalPassReset}
-        func={sendPassReset}
-        functionError={passResetError}
-        validateFunc={this.validatePassReset}
-        modalTitleTextId="app.auth.restorePass"
-        modalButtonTextId="action.send"
-        loading={loadingPassReset}
-        schema={schema}
-        requiredSchema={['email']}
-      />
-    );
+    if (!loading) {
+      return (
+        <SModal
+          key="mpr"
+          toggle={this.togglePass}
+          modalToggle={this.state.modalPassReset}
+          func={sendPassReset}
+          functionError={passResetError}
+          validateFunc={this.validatePassReset}
+          modalTitleTextId="app.auth.restorePass"
+          modalButtonTextId="action.send"
+          loading={loadingPassReset}
+          schema={schema}
+          requiredSchema={['email']}
+        />
+      );
+    }
+    return <div key="mpr" />;
   }
 
   renderSignInButton() {
