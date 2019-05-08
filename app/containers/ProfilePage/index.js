@@ -9,9 +9,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
-
 import SForm from '../../components/SForm';
 
 import AuthWrapper from '../../components/AuthWrapper';
@@ -28,8 +25,6 @@ import {
   makeSelectLoadingSelectedUser,
   makeSelectSelectedUserError,
 } from '../App/selectors';
-import reducer from '../App/reducer';
-import saga from '../App/saga';
 
 import messages from './messages';
 
@@ -208,13 +203,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'ProfilePage', reducer });
-const withSaga = injectSaga({ key: 'ProfilePage', saga });
-
-export default withRouter(
-  compose(
-    withReducer,
-    withSaga,
-    withConnect,
-  )(injectIntl(ProfilePage)),
-);
+export default withRouter(compose(withConnect)(injectIntl(ProfilePage)));

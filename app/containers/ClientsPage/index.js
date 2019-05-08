@@ -8,9 +8,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
-
 import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
 
@@ -21,8 +18,6 @@ import {
   makeSelectLoadingSelectedUser,
   makeSelectSelectedUserError,
 } from '../App/selectors';
-import reducer from '../App/reducer';
-import saga from '../App/saga';
 
 import messages from './messages';
 
@@ -150,11 +145,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'ClientsPage', reducer });
-const withSaga = injectSaga({ key: 'ClientsPage', saga });
-
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(injectIntl(ClientsPage));
+export default compose(withConnect)(injectIntl(ClientsPage));
