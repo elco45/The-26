@@ -14,6 +14,12 @@ class SButton extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.functionSuccess) {
+      this.toggle();
+    }
+  }
+
   toggle() {
     const { modalToggle } = this.state;
     this.setState({

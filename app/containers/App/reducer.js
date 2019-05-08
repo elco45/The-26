@@ -118,11 +118,13 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SYNC:
+        draft.user = null;
         draft.syncing = action.isSyncing;
         break;
 
       case SYNC_USER:
         draft.loggedIn = action.user != null;
+        draft.syncing = false;
         draft.user = action.user;
         break;
 
@@ -186,6 +188,10 @@ const appReducer = (state = initialState, action) =>
         draft.resetSuccess = false;
         draft.loadingSelectedUser = false;
         draft.selectedUserError = action.error;
+        if (action.error.code === 'auth/user-token-expired') {
+          draft.user = null;
+          draft.resetSuccess = true;
+        }
         break;
 
       case UPDATE_USER_REQUEST:

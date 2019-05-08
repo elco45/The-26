@@ -36,6 +36,7 @@
   "app.action.eliminate": "Eliminate",
   "app.action.loading": "Loading",
   "app.action.send": "Send",
+  "app.action.success": "Success!",
 
   "app.model.clients": "Clients",
   "app.model.name": "Name",

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { toast } from 'react-toastify';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ import {
   updateProfileRequest,
   updateEmailRequest,
   updatePasswordRequest,
+  logout,
 } from '../App/actions';
 import {
   makeSelectCurrentUser,
@@ -40,13 +42,15 @@ class ProfilePage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      this.props.resetSuccess !== nextProps.resetSuccess &&
-      nextProps.resetSuccess
-    ) {
-      window.location.href = '/';
+    const { history } = this.props;
+    if (nextProps.resetSuccess) {
+      history.push('/');
+      this.notifyResetSuccess();
     }
   }
+
+  notifyResetSuccess = () =>
+    toast.success(this.props.intl.formatMessage(messages.auth.resetSuccess));
 
   validateUpdateEmail(formData, errors, live) {
     const { user, selectedUserError, intl } = this.props;
@@ -71,8 +75,8 @@ class ProfilePage extends React.Component {
   }
 
   validateUpdatePass(formData, errors, live) {
-    const { selectedUserError, intl } = this.props;
-    if (live && formData.password !== formData.repeatPassword) {
+    const { selectedUserError, intl, signOut, history } = this.props;
+    if (formData.password !== formData.repeatPassword) {
       errors.repeatPassword.addError(
         intl.formatMessage(messages.auth.repeatPassError),
       );
@@ -82,7 +86,9 @@ class ProfilePage extends React.Component {
       selectedUserError &&
       selectedUserError.code === 'auth/requires-recent-login'
     ) {
-      errors.repeatPassword.addError(intl.formatMessage(messages.auth.relogin));
+      toast.error(intl.formatMessage(messages.auth.relogin));
+      signOut();
+      history.push('/');
     }
     return errors;
   }
@@ -178,6 +184,7 @@ ProfilePage.propTypes = {
   // updateProfile: PropTypes.func,
   updatePassword: PropTypes.func,
   selectedUserError: PropTypes.object,
+  signOut: PropTypes.func,
   intl: intlShape.isRequired,
   history: PropTypes.object,
 };
@@ -186,6 +193,7 @@ const mapDispatchToProps = {
   updateProfile: updateProfileRequest,
   updatePassword: updatePasswordRequest,
   updateEmail: updateEmailRequest,
+  signOut: logout,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -200,8 +208,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'profilePage', reducer });
-const withSaga = injectSaga({ key: 'profilePage', saga });
+const withReducer = injectReducer({ key: 'ProfilePage', reducer });
+const withSaga = injectSaga({ key: 'ProfilePage', saga });
 
 export default withRouter(
   compose(
