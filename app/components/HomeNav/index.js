@@ -25,22 +25,6 @@ import {
 import LocaleToggle from '../../containers/LocaleToggle';
 
 class HomeNav extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dropdownOpen: false,
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    const { dropdownOpen } = this.state;
-    this.setState({
-      dropdownOpen,
-    });
-  }
-
   renderMenu() {
     const { history, user, syncing } = this.props;
     if (syncing) {

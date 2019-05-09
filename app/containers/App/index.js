@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 /**
  *
  * App.js
@@ -18,6 +17,7 @@ import injectSaga from 'utils/injectSaga';
 
 import HomePage from 'containers/HomePage/Loadable';
 import ClientsPage from 'containers/ClientsPage/Loadable';
+import ClientPage from 'containers/ClientPage/Loadable';
 import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
@@ -26,21 +26,18 @@ import HomeNav from '../../components/HomeNav';
 import reducer from './reducer';
 import saga from './saga';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <HomeNav />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/clients" component={ClientsPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    <HomeNav />
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/profile" component={ProfilePage} />
+      <Route exact path="/clients" component={ClientsPage} />
+      <Route exact path="/client/:id" component={ClientPage} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  </div>
+);
 
 const withReducer = injectReducer({ key: 'App', reducer });
 const withSaga = injectSaga({ key: 'App', saga });

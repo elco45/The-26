@@ -201,6 +201,7 @@ const appReducer = (state = initialState, action) =>
 
       case UPDATE_USER_SUCCESS:
         draft.loadingSelectedUser = false;
+        draft.selectedUser = action.user;
         break;
 
       case UPDATE_USER_FAILURE:

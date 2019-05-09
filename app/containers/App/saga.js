@@ -24,11 +24,11 @@ import {
   passResetFailure,
   syncUser,
   sync,
+  getUserRequest,
   getUserSuccess,
   getUserFailure,
   getUsersSuccess,
   getUsersFailure,
-  updateUserSuccess,
   updateUserFailure,
   updateProfileSuccess,
   updateProfileFailure,
@@ -78,11 +78,11 @@ function* loginSaga(action) {
     );
     const { uid, emailVerified } = response.user;
 
-    const getUser = yield call(
+    const userInfo = yield call(
       reduxSagaFirebase.firestore.getDocument,
       `users/${uid}`,
     );
-    const user = getUser.data();
+    const user = userInfo.data();
     if (
       emailVerified ||
       (user &&
@@ -130,7 +130,6 @@ function* getUserSaga(action) {
       reduxSagaFirebase.firestore.getDocument,
       `users/${uid}`,
     );
-
     yield put(getUserSuccess(response.data()));
   } catch (error) {
     yield put(getUserFailure(error));
@@ -139,15 +138,21 @@ function* getUserSaga(action) {
 
 function* getUsersSaga(action) {
   try {
-    const { role } = action.userInfo;
-    const response = yield call(
+    const { role } = action.collection;
+    const snapshot = yield call(
       reduxSagaFirebase.firestore.getDocument,
       firestore
         .collection('users')
         .where('profile.roles', 'array-contains', role),
     );
-
-    yield put(getUsersSuccess(response.data()));
+    const users = [];
+    snapshot.forEach(user => {
+      users.push({
+        _id: user.id,
+        ...user.data(),
+      });
+    });
+    yield put(getUsersSuccess(users));
   } catch (error) {
     yield put(getUsersFailure(error));
   }
@@ -155,14 +160,11 @@ function* getUsersSaga(action) {
 
 function* updateUserSaga(action) {
   try {
-    const { uid, email, displayName, profile } = action.userInfo;
-    yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, {
-      email,
-      displayName,
-      profile,
+    const { uid, name } = action.userInfo;
+    yield call(reduxSagaFirebase.firestore.updateDocument, `users/${uid}`, {
+      displayName: name,
     });
-
-    yield put(updateUserSuccess());
+    yield put(getUserRequest({ uid }));
   } catch (error) {
     yield put(updateUserFailure(error));
   }
@@ -203,6 +205,7 @@ function* updatePasswordSaga(action) {
     yield put(updatePasswordFailure(error));
   }
 }
+
 function* syncUserSaga() {
   const channel = yield call(reduxSagaFirebase.auth.channel);
   while (true) {
@@ -221,8 +224,33 @@ function* syncUserSaga() {
   }
 }
 
+const usersTransformer = snapshot => {
+  const users = [];
+  snapshot.forEach(user => {
+    users.push({
+      _id: user.id,
+      ...user.data(),
+    });
+  });
+  return users;
+};
+
+function* syncUsersSaga() {
+  yield fork(
+    reduxSagaFirebase.firestore.syncCollection,
+    firestore
+      .collection('users')
+      .where('profile.roles', 'array-contains', 'client'),
+    {
+      successActionCreator: getUsersSuccess,
+      transform: usersTransformer,
+    },
+  );
+}
+
 export default function* loginRootSaga() {
   yield fork(syncUserSaga);
+  yield fork(syncUsersSaga);
   yield all([
     takeLatest(SIGNUP_REQUEST, signUpSaga),
     takeLatest(LOGIN_REQUEST, loginSaga),

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Container, Row, Col } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -10,13 +11,14 @@ import { compose } from 'redux';
 
 import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
+import STable from '../../components/STable';
 
-import { signUp } from '../App/actions';
+import { signUp, getUsersRequest } from '../App/actions';
 import {
+  makeSelectUsers,
   makeSelectSignUpSuccess,
   makeSelectSignUpError,
   makeSelectLoadingSelectedUser,
-  makeSelectSelectedUserError,
 } from '../App/selectors';
 
 import messages from './messages';
@@ -27,6 +29,12 @@ class ClientsPage extends React.Component {
 
     this.notifyVerificationSent = this.notifyVerificationSent.bind(this);
     this.validateCreateUser = this.validateCreateUser.bind(this);
+    this.renderAddButton = this.renderAddButton.bind(this);
+    this.renderTable = this.renderTable.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getUsers({ role: 'client' });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -98,6 +106,59 @@ class ClientsPage extends React.Component {
     );
   }
 
+  renderTable() {
+    const { users, history } = this.props;
+    const columns = [
+      {
+        headerText: messages.model.fullName,
+        accessor: 'displayName',
+      },
+      {
+        headerText: messages.model.email,
+        accessor: 'email',
+      },
+      {
+        headerText: messages.action.edit,
+        accessor: '_id',
+        filterable: false,
+        sortable: false,
+        style: {
+          textAlign: 'center',
+        },
+        cell: row => (
+          // eslint-disable-next-line no-underscore-dangle
+          <Button onClick={() => history.push(`/client/${row.original._id}`)}>
+            <i className="fa fa-pencil" />
+          </Button>
+        ),
+      },
+    ];
+    const additionalProps = {
+      keyField: '_id',
+      showPagination: false,
+      pageSize: users && users.length ? users.length : 1,
+      defaultSorted: [
+        {
+          id: 'displayName',
+          desc: false,
+        },
+        {
+          id: 'email',
+          desc: false,
+        },
+      ],
+    };
+    return users ? (
+      <STable
+        data={users}
+        columns={columns}
+        additionalProps={additionalProps}
+      />
+    ) : (
+      <div />
+    );
+  }
+
   render() {
     return (
       <AuthWrapper>
@@ -112,6 +173,9 @@ class ClientsPage extends React.Component {
               </h2>
             </Col>
           </Row>
+          <Row>
+            <Col>{this.renderTable()}</Col>
+          </Row>
         </Container>
       </AuthWrapper>
     );
@@ -120,24 +184,27 @@ class ClientsPage extends React.Component {
 
 ClientsPage.propTypes = {
   signUpSuccess: PropTypes.bool,
-  selectedUserError: PropTypes.bool,
   signUpError: PropTypes.object,
+  users: PropTypes.arrayOf(PropTypes.object),
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  history: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   createUser: signUp,
+  getUsers: getUsersRequest,
 };
 
 const mapStateToProps = createStructuredSelector({
+  users: makeSelectUsers(),
   signUpSuccess: makeSelectSignUpSuccess(),
   signUpError: makeSelectSignUpError(),
   loadingSelectedUser: makeSelectLoadingSelectedUser(),
-  selectedUserError: makeSelectSelectedUserError(),
 });
 
 const withConnect = connect(
@@ -145,4 +212,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(injectIntl(ClientsPage));
+export default withRouter(compose(withConnect)(injectIntl(ClientsPage)));

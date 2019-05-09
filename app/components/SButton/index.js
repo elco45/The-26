@@ -15,7 +15,10 @@ class SButton extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.functionSuccess) {
+    if (
+      this.props.functionSuccess !== nextProps.functionSuccess &&
+      nextProps.functionSuccess
+    ) {
       this.toggle();
     }
   }

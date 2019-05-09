@@ -33,7 +33,7 @@ import {
   UPDATE_PASSWORD_FAILURE,
 } from './constants';
 
-export const getUser = userInfo => ({
+export const getUserRequest = userInfo => ({
   type: GET_USER_REQUEST,
   userInfo,
 });
@@ -48,7 +48,7 @@ export const getUserFailure = error => ({
   error,
 });
 
-export const getUsers = collection => ({
+export const getUsersRequest = collection => ({
   type: GET_USERS_REQUEST,
   collection,
 });
@@ -63,13 +63,14 @@ export const getUsersFailure = error => ({
   error,
 });
 
-export const updateUser = userInfo => ({
+export const updateUserRequest = userInfo => ({
   type: UPDATE_USER_REQUEST,
   userInfo,
 });
 
-export const updateUserSuccess = () => ({
+export const updateUserSuccess = user => ({
   type: UPDATE_USER_SUCCESS,
+  user,
 });
 
 export const updateUserFailure = error => ({

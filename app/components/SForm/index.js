@@ -96,7 +96,7 @@ class SForm extends React.Component {
     const { intl, schema, showUiLabels, showPlaceHolder } = this.props;
     const newUiSchema = {};
     schema.forEach(element => {
-      const { name, uiWidget } = element;
+      const { name, uiWidget, isReadOnly } = element;
       if (uiWidget) {
         newUiSchema[name] = {};
         newUiSchema[name]['ui:widget'] = uiWidget;
@@ -111,6 +111,9 @@ class SForm extends React.Component {
         newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
           messages[`model.${name}`],
         );
+      }
+      if (isReadOnly) {
+        newUiSchema[name]['ui:readonly'] = true;
       }
     });
     return newUiSchema;
@@ -163,7 +166,7 @@ class SForm extends React.Component {
         noHtml5Validate
         liveValidate={live}
       >
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={loading}>
           {loading ? (
             <i key="spin" className="fa fa-spinner fa-spin" />
           ) : (
@@ -186,6 +189,7 @@ SForm.propTypes = {
     PropTypes.shape({
       name: PropTypes.string,
       uiWidget: PropTypes.string,
+      isReadOnly: PropTypes.bool,
     }),
   ).isRequired,
   submitBtnText: PropTypes.string,
@@ -203,6 +207,7 @@ SForm.defaultProps = {
   defaultValues: {},
   hiddenFormData: {},
   submitBtnText: 'action.submit',
+  validateFunc: (formData, errors) => errors,
 };
 
 export default injectIntl(SForm);

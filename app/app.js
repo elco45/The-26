@@ -38,9 +38,11 @@ import configureStore from './configureStore';
 import { translationMessages, DEFAULT_LOCALE } from './i18n';
 
 // Import external stylings
-import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-table/react-table.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Configure toastr
 toast.configure({

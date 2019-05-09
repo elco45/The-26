@@ -96,13 +96,15 @@
     "react-redux": "7.0.2",
     "react-router-dom": "5.0.0",
     "react-spinners": "^0.5.4",
+    "react-table": "^6.8.6",
     "react-toastify": "^5.1.0",
     "redux": "4.0.1",
     "redux-saga": "1.0.2",
     "redux-saga-firebase": "^0.15.0",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "styled-components": "4.2.0"
+    "styled-components": "4.2.0",
+    "sweetalert2": "^8.10.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
