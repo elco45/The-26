@@ -139,15 +139,21 @@ function* getUserSaga(action) {
 
 function* getUsersSaga(action) {
   try {
-    const { role } = action.userInfo;
-    const response = yield call(
+    const { role } = action.collection;
+    const snapshot = yield call(
       reduxSagaFirebase.firestore.getDocument,
       firestore
         .collection('users')
         .where('profile.roles', 'array-contains', role),
     );
-
-    yield put(getUsersSuccess(response.data()));
+    const users = [];
+    snapshot.forEach(user => {
+      users.push({
+        _id: user.id,
+        ...user.data(),
+      });
+    });
+    yield put(getUsersSuccess(users));
   } catch (error) {
     yield put(getUsersFailure(error));
   }
@@ -203,6 +209,7 @@ function* updatePasswordSaga(action) {
     yield put(updatePasswordFailure(error));
   }
 }
+
 function* syncUserSaga() {
   const channel = yield call(reduxSagaFirebase.auth.channel);
   while (true) {
@@ -221,8 +228,33 @@ function* syncUserSaga() {
   }
 }
 
+const usersTransformer = snapshot => {
+  const users = [];
+  snapshot.forEach(user => {
+    users.push({
+      _id: user.id,
+      ...user.data(),
+    });
+  });
+  return users;
+};
+
+function* syncUsersSaga() {
+  yield fork(
+    reduxSagaFirebase.firestore.syncCollection,
+    firestore
+      .collection('users')
+      .where('profile.roles', 'array-contains', 'client'),
+    {
+      successActionCreator: getUsersSuccess,
+      transform: usersTransformer,
+    },
+  );
+}
+
 export default function* loginRootSaga() {
   yield fork(syncUserSaga);
+  yield fork(syncUsersSaga);
   yield all([
     takeLatest(SIGNUP_REQUEST, signUpSaga),
     takeLatest(LOGIN_REQUEST, loginSaga),

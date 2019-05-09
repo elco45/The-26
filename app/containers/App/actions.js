@@ -48,7 +48,7 @@ export const getUserFailure = error => ({
   error,
 });
 
-export const getUsers = collection => ({
+export const getUsersRequest = collection => ({
   type: GET_USERS_REQUEST,
   collection,
 });

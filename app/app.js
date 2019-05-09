@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import history from 'utils/history';
+import 'react-table/react-table.css';
 import 'sanitize.css/sanitize.css';
 import 'moment/min/locales';
 import moment from 'moment';

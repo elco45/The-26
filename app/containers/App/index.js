@@ -1,4 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
 /**
  *
  * App.js
@@ -26,21 +25,17 @@ import HomeNav from '../../components/HomeNav';
 import reducer from './reducer';
 import saga from './saga';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <HomeNav />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/clients" component={ClientsPage} />
-          <Route component={NotFoundPage} />
-        </Switch>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    <HomeNav />
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/profile" component={ProfilePage} />
+      <Route exact path="/clients" component={ClientsPage} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  </div>
+);
 
 const withReducer = injectReducer({ key: 'App', reducer });
 const withSaga = injectSaga({ key: 'App', saga });

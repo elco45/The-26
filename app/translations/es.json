@@ -38,6 +38,7 @@
   "app.action.send": "Enviar",
   "app.action.success": "Éxito!",
 
+  "app.model.empty": "¡Vacío!",
   "app.model.clients": "Clientes",
   "app.model.name": "Nombre",
   "app.model.fullName": "Nombre Completo",
