@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import { toast } from 'react-toastify';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
