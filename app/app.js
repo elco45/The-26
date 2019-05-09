@@ -15,7 +15,6 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { toast } from 'react-toastify';
 import history from 'utils/history';
-import 'react-table/react-table.css';
 import 'sanitize.css/sanitize.css';
 import 'moment/min/locales';
 import moment from 'moment';
@@ -39,9 +38,11 @@ import configureStore from './configureStore';
 import { translationMessages, DEFAULT_LOCALE } from './i18n';
 
 // Import external stylings
-import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-table/react-table.css';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Configure toastr
 toast.configure({

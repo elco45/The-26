@@ -39,12 +39,14 @@
   "app.action.success": "Success!",
 
   "app.model.empty": "Empty!",
+  "app.model.client": "Client",
   "app.model.clients": "Clients",
   "app.model.name": "Name",
   "app.model.fullName": "Full Name",
   "app.model.email": "Email Address",
   "app.model.password": "Password",
   "app.model.repeatPassword": "Repeat Password.",
+  "app.model.monthlyMealPlan": "Monthly Plan",
 
   "app.error.happened": "An error has happened.",
   "app.error.required": "is required.",

@@ -19,7 +19,6 @@ import {
   makeSelectSignUpSuccess,
   makeSelectSignUpError,
   makeSelectLoadingSelectedUser,
-  makeSelectSelectedUserError,
 } from '../App/selectors';
 
 import messages from './messages';
@@ -143,6 +142,10 @@ class ClientsPage extends React.Component {
           id: 'displayName',
           desc: false,
         },
+        {
+          id: 'email',
+          desc: false,
+        },
       ],
     };
     return users ? (
@@ -181,7 +184,6 @@ class ClientsPage extends React.Component {
 
 ClientsPage.propTypes = {
   signUpSuccess: PropTypes.bool,
-  selectedUserError: PropTypes.bool,
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
   syncing: PropTypes.bool,
@@ -203,7 +205,6 @@ const mapStateToProps = createStructuredSelector({
   signUpSuccess: makeSelectSignUpSuccess(),
   signUpError: makeSelectSignUpError(),
   loadingSelectedUser: makeSelectLoadingSelectedUser(),
-  selectedUserError: makeSelectSelectedUserError(),
 });
 
 const withConnect = connect(

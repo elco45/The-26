@@ -24,11 +24,11 @@ import {
   passResetFailure,
   syncUser,
   sync,
+  getUserRequest,
   getUserSuccess,
   getUserFailure,
   getUsersSuccess,
   getUsersFailure,
-  updateUserSuccess,
   updateUserFailure,
   updateProfileSuccess,
   updateProfileFailure,
@@ -78,11 +78,11 @@ function* loginSaga(action) {
     );
     const { uid, emailVerified } = response.user;
 
-    const getUser = yield call(
+    const userInfo = yield call(
       reduxSagaFirebase.firestore.getDocument,
       `users/${uid}`,
     );
-    const user = getUser.data();
+    const user = userInfo.data();
     if (
       emailVerified ||
       (user &&
@@ -130,7 +130,6 @@ function* getUserSaga(action) {
       reduxSagaFirebase.firestore.getDocument,
       `users/${uid}`,
     );
-
     yield put(getUserSuccess(response.data()));
   } catch (error) {
     yield put(getUserFailure(error));
@@ -161,14 +160,11 @@ function* getUsersSaga(action) {
 
 function* updateUserSaga(action) {
   try {
-    const { uid, email, displayName, profile } = action.userInfo;
-    yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, {
-      email,
-      displayName,
-      profile,
+    const { uid, name } = action.userInfo;
+    yield call(reduxSagaFirebase.firestore.updateDocument, `users/${uid}`, {
+      displayName: name,
     });
-
-    yield put(updateUserSuccess());
+    yield put(getUserRequest({ uid }));
   } catch (error) {
     yield put(updateUserFailure(error));
   }

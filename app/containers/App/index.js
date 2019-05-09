@@ -17,6 +17,7 @@ import injectSaga from 'utils/injectSaga';
 
 import HomePage from 'containers/HomePage/Loadable';
 import ClientsPage from 'containers/ClientsPage/Loadable';
+import ClientPage from 'containers/ClientPage/Loadable';
 import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
@@ -32,6 +33,7 @@ const App = () => (
       <Route exact path="/" component={HomePage} />
       <Route exact path="/profile" component={ProfilePage} />
       <Route exact path="/clients" component={ClientsPage} />
+      <Route exact path="/client/:id" component={ClientPage} />
       <Route component={NotFoundPage} />
     </Switch>
   </div>

@@ -103,7 +103,8 @@
     "redux-saga-firebase": "^0.15.0",
     "reselect": "4.0.0",
     "sanitize.css": "8.0.0",
-    "styled-components": "4.2.0"
+    "styled-components": "4.2.0",
+    "sweetalert2": "^8.10.4"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
