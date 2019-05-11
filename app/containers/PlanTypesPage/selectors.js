@@ -45,10 +45,16 @@ const makeSelectLoadingPlanTypes = () =>
     globalState => globalState.loadingPlanTypes,
   );
 
-const makeSelectplanTypesError = () =>
+const makeSelectPlanTypesError = () =>
   createSelector(
     selectGlobal,
     globalState => globalState.planTypesError,
+  );
+
+const makeSelectUpdatePlanTypeSuccess = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.updatePlanTypeSuccess,
   );
 
 export {
@@ -59,5 +65,6 @@ export {
   makeSelectSelectedPlanTypeError,
   makeSelectPlanTypes,
   makeSelectLoadingPlanTypes,
-  makeSelectplanTypesError,
+  makeSelectPlanTypesError,
+  makeSelectUpdatePlanTypeSuccess,
 };

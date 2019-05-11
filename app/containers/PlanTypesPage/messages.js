@@ -30,5 +30,11 @@ export default defineMessages({
     dailyFoodCount: {
       id: `${scopeModel}.dailyFoodCount`,
     },
+    createdAt: {
+      id: `${scopeModel}.createdAt`,
+    },
+    updatedAt: {
+      id: `${scopeModel}.updatedAt`,
+    },
   },
 });

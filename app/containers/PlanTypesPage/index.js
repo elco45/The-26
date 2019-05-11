@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import * as moment from 'moment/moment';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -110,13 +111,22 @@ class PlantTypesPage extends React.Component {
         accessor: 'dailyFoodCount',
       },
       {
+        headerText: messages.model.createdAt,
+        accessor: 'createdAt',
+        cell: row =>
+          moment(row.original.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+      },
+      {
+        headerText: messages.model.updatedAt,
+        accessor: 'updatedAt',
+        cell: row =>
+          moment(row.original.updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+      },
+      {
         headerText: messages.action.edit,
         accessor: '_id',
         filterable: false,
         sortable: false,
-        style: {
-          textAlign: 'center',
-        },
         cell: row => (
           <Button
             // eslint-disable-next-line no-underscore-dangle

@@ -7,6 +7,7 @@ import {
   GET_PLAN_TYPES_REQUEST,
   UPDATE_PLAN_TYPE_REQUEST,
 } from 'containers/PlanTypesPage/constants';
+import * as moment from 'moment/moment';
 import {
   addPlanTypeSuccess,
   addPlanTypeFailure,
@@ -15,6 +16,7 @@ import {
   getPlanTypeFailure,
   getPlanTypesSuccess,
   getPlanTypesFailure,
+  updatePlanTypeSuccess,
   updatePlanTypeFailure,
 } from './actions';
 
@@ -37,6 +39,12 @@ function* addPlanTypeSaga(action) {
       price,
       durationDays,
       dailyFoodCount,
+      createdAt: moment()
+        .utc()
+        .format(),
+      updatedAt: moment()
+        .utc()
+        .format(),
     });
     yield put(addPlanTypeSuccess());
   } catch (error) {
@@ -86,7 +94,11 @@ function* updatePlanTypeSaga(action) {
       price,
       durationDays,
       dailyFoodCount,
+      updatedAt: moment()
+        .utc()
+        .format(),
     });
+    yield put(updatePlanTypeSuccess());
     yield put(getPlanTypeRequest({ id }));
   } catch (error) {
     yield put(updatePlanTypeFailure(error));

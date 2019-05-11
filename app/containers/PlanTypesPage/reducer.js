@@ -25,6 +25,7 @@ export const initialState = {
   planTypes: [],
   loadingPlanTypes: false,
   planTypesError: null,
+  updatePlanTypeSuccess: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -80,10 +81,12 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case UPDATE_PLAN_TYPE_REQUEST:
+        draft.updatePlanTypeSuccess = false;
         draft.loadingSelectedPlanType = true;
         break;
 
       case UPDATE_PLAN_TYPE_SUCCESS:
+        draft.updatePlanTypeSuccess = true;
         draft.loadingSelectedPlanType = false;
         draft.selectedPlanType = action.planType;
         break;

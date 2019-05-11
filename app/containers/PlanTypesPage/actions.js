@@ -47,9 +47,8 @@ export const updatePlanTypeRequest = planTypeInfo => ({
   planTypeInfo,
 });
 
-export const updatePlanTypeSuccess = planType => ({
+export const updatePlanTypeSuccess = () => ({
   type: UPDATE_PLAN_TYPE_SUCCESS,
-  planType,
 });
 
 export const updatePlanTypeFailure = error => ({
