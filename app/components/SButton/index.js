@@ -36,10 +36,12 @@ class SButton extends React.Component {
       functionError,
       functionSuccess,
       loading,
+      showUiLabels,
       modalTitleTextId,
       modalButtonTextId,
       requiredSchema,
       schema,
+      defaultValues,
       hiddenFormData,
       validateFunc,
     } = this.props;
@@ -47,6 +49,7 @@ class SButton extends React.Component {
       <SModal
         toggle={this.toggle}
         modalToggle={this.state.modalToggle}
+        showUiLabels={showUiLabels}
         func={func}
         functionError={functionError}
         functionSuccess={functionSuccess}
@@ -56,6 +59,7 @@ class SButton extends React.Component {
         loading={loading}
         schema={schema}
         requiredSchema={requiredSchema}
+        defaultValues={defaultValues}
         hiddenFormData={hiddenFormData}
       />
     );
@@ -93,6 +97,7 @@ class SButton extends React.Component {
 SButton.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
+  showUiLabels: PropTypes.bool,
   buttonTextId: PropTypes.string.isRequired,
   functionSuccess: PropTypes.bool,
   functionError: PropTypes.object,
@@ -107,6 +112,7 @@ SButton.propTypes = {
       uiWidget: PropTypes.string,
     }),
   ).isRequired,
+  defaultValues: PropTypes.object,
   hiddenFormData: PropTypes.object,
 };
 

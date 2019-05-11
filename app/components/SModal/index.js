@@ -18,6 +18,7 @@ const ModalRightTitle = Styled.p`
 const SModal = ({
   modalToggle,
   loading,
+  showUiLabels,
   func,
   validateFunc,
   toggle,
@@ -25,6 +26,7 @@ const SModal = ({
   modalButtonTextId,
   requiredSchema,
   schema,
+  defaultValues,
   hiddenFormData,
 }) => {
   const modalTitleText = {
@@ -34,24 +36,25 @@ const SModal = ({
     <Modal show={modalToggle} onHide={toggle}>
       <Container>
         <Row>
-          <ModalRightContainer className="col-12 text-center">
+          <ModalRightContainer className="col-12">
             <Row>
               <Col className="text-right">
                 <Button variant="danger" onClick={toggle}>
                   X
                 </Button>
               </Col>
-              <ModalRightTitle className="col-12">
+              <ModalRightTitle className="col-12 text-center">
                 <FormattedMessage {...modalTitleText} />
               </ModalRightTitle>
               <SForm
                 submitFunc={func}
                 validateFunc={validateFunc}
                 loading={loading}
-                showUiLabels={false}
+                showUiLabels={showUiLabels}
                 showPlaceHolder
                 requiredSchema={requiredSchema}
                 schema={schema}
+                defaultValues={defaultValues}
                 submitBtnText={modalButtonTextId}
                 hiddenFormData={hiddenFormData}
               />
@@ -66,6 +69,7 @@ const SModal = ({
 SModal.propTypes = {
   loading: PropTypes.bool,
   toggle: PropTypes.func,
+  showUiLabels: PropTypes.bool,
   modalToggle: PropTypes.bool,
   functionSuccess: PropTypes.bool,
   functionError: PropTypes.object,
@@ -80,6 +84,7 @@ SModal.propTypes = {
       uiWidget: PropTypes.string,
     }),
   ).isRequired,
+  defaultValues: PropTypes.object,
   hiddenFormData: PropTypes.object,
   intl: intlShape.isRequired,
 };

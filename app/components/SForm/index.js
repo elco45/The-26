@@ -74,6 +74,48 @@ class SForm extends React.Component {
           required: `${intl.formatMessage(messages[`auth.repeatPassError`])}`,
         },
       },
+      description: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.description`]),
+        default: defaultValues && defaultValues.description,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.description`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      price: {
+        type: 'number',
+        title: intl.formatMessage(messages[`model.price`]),
+        default: defaultValues && defaultValues.price,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.price`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      durationDays: {
+        type: 'integer',
+        title: intl.formatMessage(messages[`model.durationDays`]),
+        default: defaultValues && defaultValues.durationDays,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.durationDays`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      dailyFoodCount: {
+        type: 'integer',
+        title: intl.formatMessage(messages[`model.dailyFoodCount`]),
+        default: defaultValues && defaultValues.dailyFoodCount,
+        minimum: 1,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.dailyFoodCount`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+          minimum: `${intl.formatMessage(messages[`error.minimum`])} 1`,
+        },
+      },
     };
   };
 
@@ -97,14 +139,11 @@ class SForm extends React.Component {
     const newUiSchema = {};
     schema.forEach(element => {
       const { name, uiWidget, isReadOnly } = element;
+      newUiSchema[name] = {};
       if (uiWidget) {
-        newUiSchema[name] = {};
         newUiSchema[name]['ui:widget'] = uiWidget;
       }
       if (!showUiLabels) {
-        if (!newUiSchema[name]) {
-          newUiSchema[name] = {};
-        }
         newUiSchema[name]['ui:options'] = { label: false };
       }
       if (showPlaceHolder) {
