@@ -38,6 +38,8 @@
   "app.action.send": "Enviar",
   "app.action.success": "Éxito!",
 
+  "app.model.createdAt": "Creado en",
+  "app.model.updatedAt": "Actualizado en",
   "app.model.empty": "¡Vacío!",
   "app.model.client": "Cliente",
   "app.model.clients": "Clientes",
