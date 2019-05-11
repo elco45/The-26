@@ -122,9 +122,6 @@ class ClientsPage extends React.Component {
         accessor: '_id',
         filterable: false,
         sortable: false,
-        style: {
-          textAlign: 'center',
-        },
         cell: row => (
           // eslint-disable-next-line no-underscore-dangle
           <Button onClick={() => history.push(`/client/${row.original._id}`)}>
