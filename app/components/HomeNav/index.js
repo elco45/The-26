@@ -36,19 +36,26 @@ class HomeNav extends React.Component {
     }
     return (
       <Navbar.Collapse key="menuItems">
-        <Nav>
-          {user ? (
+        {user ? (
+          <Nav>
             <Nav.Item>
               <Nav.Link onClick={() => history.push('/clients')}>
                 <FormattedMessage {...{ id: 'app.model.clients' }} />
               </Nav.Link>
             </Nav.Item>
-          ) : (
+            <Nav.Item>
+              <Nav.Link onClick={() => history.push('/plan-types')}>
+                <FormattedMessage {...{ id: 'app.model.planTypes' }} />
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        ) : (
+          <Nav>
             <Nav.Item>
               <Nav.Link onClick={() => history.push('/asd')}>asd</Nav.Link>
             </Nav.Item>
-          )}
-        </Nav>
+          </Nav>
+        )}
       </Navbar.Collapse>
     );
   }
