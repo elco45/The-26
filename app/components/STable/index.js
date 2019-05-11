@@ -23,7 +23,10 @@ class STable extends React.Component {
         Cell: cell,
         filterable,
         sortable,
-        style,
+        style: {
+          textAlign: 'center',
+          ...style,
+        },
         headerStyle: {
           background: '#212529',
           color: '#fff',
@@ -33,6 +36,7 @@ class STable extends React.Component {
     });
     return (
       <ReactTable
+        className="-highlight -striped"
         data={data}
         columns={newColumns}
         noDataText={intl.formatMessage({ id: 'app.model.empty' })}
