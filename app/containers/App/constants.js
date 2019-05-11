@@ -1,5 +1,3 @@
-export const DEFAULT_LOCALE = 'en';
-
 export const LOGIN_REQUEST = 'App/LOGIN_REQUEST';
 export const LOGIN_PROVIDER_REQUEST = 'App/LOGIN_PROVIDER_REQUEST';
 export const LOGIN_SUCCESS = 'App/LOGIN_SUCCESS';

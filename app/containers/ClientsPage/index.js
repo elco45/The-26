@@ -164,10 +164,10 @@ class ClientsPage extends React.Component {
       <AuthWrapper>
         <Container>
           <Row>
-            <Col md={4} xs={12}>
+            <Col md={5} xs={12}>
               {this.renderAddButton()}
             </Col>
-            <Col md={8} xs={12}>
+            <Col md={7} xs={12}>
               <h2>
                 <FormattedMessage {...messages.model.clients} />
               </h2>
@@ -187,7 +187,6 @@ ClientsPage.propTypes = {
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
   syncing: PropTypes.bool,
-  loading: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
