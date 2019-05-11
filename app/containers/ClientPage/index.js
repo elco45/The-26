@@ -10,6 +10,7 @@ import { compose } from 'redux';
 
 import AuthWrapper from '../../components/AuthWrapper';
 import SForm from '../../components/SForm';
+import NotFoundPage from '../NotFoundPage';
 
 import { getUserRequest, updateUserRequest } from '../App/actions';
 import {
@@ -63,8 +64,8 @@ class ClientPage extends React.Component {
     const { selectedUser, loadingSelectedUser, selectedUserError } = this.props;
     return !loadingSelectedUser ? (
       <AuthWrapper>
-        <Container>
-          {!selectedUserError && selectedUser ? (
+        {!selectedUserError && selectedUser ? (
+          <Container>
             <Row>
               <Col md={6} xs={12}>
                 <h2>
@@ -78,10 +79,10 @@ class ClientPage extends React.Component {
                 </h2>
               </Col>
             </Row>
-          ) : (
-            <h1>No such user!</h1>
-          )}
-        </Container>
+          </Container>
+        ) : (
+          <NotFoundPage />
+        )}
       </AuthWrapper>
     ) : (
       <div />
