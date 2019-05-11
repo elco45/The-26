@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import { Nav, Dropdown } from 'react-bootstrap';
+import { Nav, Dropdown, Row, Col } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
+import CustomToggle from '../CustomToggle';
 import avatarProfileAlt from '../../images/icon-72x72.png';
 
 const AvatarImage = Styled.img`
@@ -42,12 +43,19 @@ class CurrentUser extends React.Component {
     return (
       <Nav.Item>
         <Dropdown alignRight>
-          <Dropdown.Toggle>
-            <AvatarImage
-              className="rounded-circle"
-              src={(user.profile && user.profile.photoURL) || avatarProfileAlt}
-              alt={user.profile && user.profile.name}
-            />
+          <Dropdown.Toggle as={CustomToggle}>
+            <Row>
+              <Col>
+                <AvatarImage
+                  className="rounded-circle"
+                  src={
+                    (user.profile && user.profile.photoURL) || avatarProfileAlt
+                  }
+                  alt={user.profile && user.profile.name}
+                />
+                <i className="fa fa-caret-down text-white" />
+              </Col>
+            </Row>
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => history.push('/profile')}>
