@@ -122,9 +122,6 @@ class ClientsPage extends React.Component {
         accessor: '_id',
         filterable: false,
         sortable: false,
-        style: {
-          textAlign: 'center',
-        },
         cell: row => (
           // eslint-disable-next-line no-underscore-dangle
           <Button onClick={() => history.push(`/client/${row.original._id}`)}>
@@ -164,10 +161,10 @@ class ClientsPage extends React.Component {
       <AuthWrapper>
         <Container>
           <Row>
-            <Col md={4} xs={12}>
+            <Col md={5} xs={12}>
               {this.renderAddButton()}
             </Col>
-            <Col md={8} xs={12}>
+            <Col md={7} xs={12}>
               <h2>
                 <FormattedMessage {...messages.model.clients} />
               </h2>
@@ -187,7 +184,6 @@ ClientsPage.propTypes = {
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
   syncing: PropTypes.bool,
-  loading: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,

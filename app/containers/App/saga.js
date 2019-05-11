@@ -145,13 +145,7 @@ function* getUsersSaga(action) {
         .collection('users')
         .where('profile.roles', 'array-contains', role),
     );
-    const users = [];
-    snapshot.forEach(user => {
-      users.push({
-        _id: user.id,
-        ...user.data(),
-      });
-    });
+    const users = usersTransformer(snapshot);
     yield put(getUsersSuccess(users));
   } catch (error) {
     yield put(getUsersFailure(error));

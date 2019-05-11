@@ -48,7 +48,7 @@ export default defineMessages({
   },
 
   'model.name': {
-    id: `${scopeModel}.fullName`,
+    id: `${scopeModel}.name`,
   },
   'model.email': {
     id: `${scopeModel}.email`,
@@ -58,6 +58,18 @@ export default defineMessages({
   },
   'model.repeatPassword': {
     id: `${scopeModel}.repeatPassword`,
+  },
+  'model.description': {
+    id: `${scopeModel}.description`,
+  },
+  'model.price': {
+    id: `${scopeModel}.price`,
+  },
+  'model.durationDays': {
+    id: `${scopeModel}.durationDays`,
+  },
+  'model.dailyFoodCount': {
+    id: `${scopeModel}.dailyFoodCount`,
   },
 
   'error.happened': {
@@ -71,5 +83,8 @@ export default defineMessages({
   },
   'error.minRequired': {
     id: `${scopeError}.minRequired`,
+  },
+  'error.minimum': {
+    id: `${scopeError}.minimum`,
   },
 });

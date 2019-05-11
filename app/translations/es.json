@@ -38,6 +38,8 @@
   "app.action.send": "Enviar",
   "app.action.success": "Éxito!",
 
+  "app.model.createdAt": "Creado en",
+  "app.model.updatedAt": "Actualizado en",
   "app.model.empty": "¡Vacío!",
   "app.model.client": "Cliente",
   "app.model.clients": "Clientes",
@@ -47,10 +49,18 @@
   "app.model.password": "Contraseña",
   "app.model.repeatPassword": "Repita la contraseña.",
   "app.model.monthlyMealPlan": "Plan Mensual",
+  "app.model.planType": "Tipo de Plan",
+  "app.model.planTypes": "Tipo de Planes",
+  "app.model.description": "Descripción",
+  "app.model.price": "Precio",
+  "app.model.durationDays": "Duración (Días)",
+  "app.model.dailyFoodCount": "Número de Comida Diaria",
 
   "app.error.happened": "Ha ocurrido un error.",
   "app.error.required": "es un campo requerido.",
   "app.error.invalid": "es inválido.",
   "app.error.minRequired": "Mínimo de caracteres requerido:",
+  "app.error.minimum": "Debe ser al menos:",
+  "app.error.maximum": "No debe excederse de:",
   "app.error.unauthorized": "No autorizado"
 }

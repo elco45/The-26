@@ -18,6 +18,8 @@ import injectSaga from 'utils/injectSaga';
 import HomePage from 'containers/HomePage/Loadable';
 import ClientsPage from 'containers/ClientsPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
+import PlanTypesPage from 'containers/PlanTypesPage/Loadable';
+import PlanTypePage from 'containers/PlanTypePage/Loadable';
 import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
@@ -31,9 +33,11 @@ const App = () => (
     <HomeNav />
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <Route exact path="/profile" component={ProfilePage} />
       <Route exact path="/clients" component={ClientsPage} />
       <Route exact path="/client/:id" component={ClientPage} />
+      <Route exact path="/plan-types" component={PlanTypesPage} />
+      <Route exact path="/plan-type/:id" component={PlanTypePage} />
+      <Route exact path="/profile" component={ProfilePage} />
       <Route component={NotFoundPage} />
     </Switch>
   </div>
