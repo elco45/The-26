@@ -127,7 +127,7 @@ function* syncPlanTypesSaga() {
   );
 }
 
-export default function* loginRootSaga() {
+export default function* planTypesRootSaga() {
   yield fork(syncPlanTypesSaga);
   yield all([
     takeLatest(ADD_PLAN_TYPE_REQUEST, addPlanTypeSaga),
