@@ -14,7 +14,6 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
 import SForm from '../../components/SForm';
 import STable from '../../components/STable';
@@ -264,7 +263,7 @@ class ClientPage extends React.Component {
   render() {
     const { selectedUser, loadingSelectedUser, selectedUserError } = this.props;
     return !loadingSelectedUser ? (
-      <AuthWrapper>
+      <div>
         {!selectedUserError && selectedUser ? (
           <Container>
             <Row>
@@ -292,7 +291,7 @@ class ClientPage extends React.Component {
         ) : (
           <NotFoundPage />
         )}
-      </AuthWrapper>
+      </div>
     ) : (
       <div />
     );

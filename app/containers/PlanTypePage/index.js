@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import AuthWrapper from '../../components/AuthWrapper';
 import SForm from '../../components/SForm';
 import NotFoundPage from '../NotFoundPage';
 
@@ -120,7 +119,7 @@ class PlanTypePage extends React.Component {
       selectedPlanTypeError,
     } = this.props;
     return !loadingSelectedPlanType ? (
-      <AuthWrapper>
+      <div>
         {!selectedPlanTypeError && selectedPlanType ? (
           <Container>
             <Row>
@@ -135,7 +134,7 @@ class PlanTypePage extends React.Component {
         ) : (
           <NotFoundPage />
         )}
-      </AuthWrapper>
+      </div>
     ) : (
       <div>Loading.....</div>
     );

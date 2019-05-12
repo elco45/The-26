@@ -36,19 +36,8 @@ class HomeNav extends React.Component {
     }
     return (
       <Navbar.Collapse key="menuItems">
-        {user ? (
-          <Nav>
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push('/clients')}>
-                <FormattedMessage {...{ id: 'app.model.clients' }} />
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link onClick={() => history.push('/plan-types')}>
-                <FormattedMessage {...{ id: 'app.model.planTypes' }} />
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
+        {user && user.profile ? (
+          this.renderUserMenu()
         ) : (
           <Nav>
             <Nav.Item>
@@ -57,6 +46,30 @@ class HomeNav extends React.Component {
           </Nav>
         )}
       </Navbar.Collapse>
+    );
+  }
+
+  renderUserMenu() {
+    const { user, history } = this.props;
+    return user.profile.roles.includes('admin') ? (
+      <Nav>
+        <Nav.Item>
+          <Nav.Link onClick={() => history.push('/clients')}>
+            <FormattedMessage {...{ id: 'app.model.clients' }} />
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link onClick={() => history.push('/plan-types')}>
+            <FormattedMessage {...{ id: 'app.model.planTypes' }} />
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    ) : (
+      <Nav>
+        <Nav.Item>
+          <Nav.Link onClick={() => history.push('/asd')}>qwe</Nav.Link>
+        </Nav.Item>
+      </Nav>
     );
   }
 
