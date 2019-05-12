@@ -13,6 +13,15 @@ export default defineMessages({
     success: {
       id: `${scopeAction}.success`,
     },
+    areYouSure: {
+      id: `${scopeAction}.areYouSure`,
+    },
+    accept: {
+      id: `${scopeAction}.accept`,
+    },
+    cancel: {
+      id: `${scopeAction}.cancel`,
+    },
   },
   auth: {
     emailTaken: {
@@ -35,8 +44,17 @@ export default defineMessages({
     client: {
       id: `${scopeModel}.client`,
     },
-    monthlyMealPlan: {
-      id: `${scopeModel}.monthlyMealPlan`,
+    mealPlan: {
+      id: `${scopeModel}.mealPlan`,
+    },
+    planType: {
+      id: `${scopeModel}.planType`,
+    },
+    startDate: {
+      id: `${scopeModel}.startDate`,
+    },
+    endDate: {
+      id: `${scopeModel}.endDate`,
     },
     fullName: {
       id: `${scopeModel}.fullName`,
@@ -46,6 +64,14 @@ export default defineMessages({
     },
     password: {
       id: `${scopeModel}.password`,
+    },
+  },
+  error: {
+    invalid: {
+      id: `${scopeError}.invalid`,
+    },
+    hasActivePlan: {
+      id: `${scopeError}.hasActivePlan`,
     },
   },
 });

@@ -70,7 +70,6 @@ class ClientsPage extends React.Component {
       signUpSuccess,
       signUpError,
       createUser,
-      syncing,
       loadingSelectedUser,
     } = this.props;
     const addClientSchema = [
@@ -88,7 +87,6 @@ class ClientsPage extends React.Component {
     ];
     return (
       <SButton
-        syncing={syncing}
         loading={loadingSelectedUser}
         buttonTextId="app.auth.addUser"
         functionSuccess={signUpSuccess}
@@ -183,7 +181,6 @@ ClientsPage.propTypes = {
   signUpSuccess: PropTypes.bool,
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
-  syncing: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,
