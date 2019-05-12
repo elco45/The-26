@@ -120,41 +120,50 @@ class SForm extends React.Component {
   };
 
   getSchema = () => {
-    const { schema, requiredSchema } = this.props;
+    const { schema, requiredSchema, customSchema, definitions } = this.props;
     const allModels = this.allModels();
-    const newSchema = {};
-    schema.forEach(element => {
-      const { name } = element;
-      newSchema[name] = allModels[name];
-    });
+    let newSchema = {};
+    if (schema) {
+      schema.forEach(element => {
+        const { name } = element;
+        newSchema[name] = allModels[name];
+      });
+    }
+    newSchema = {
+      ...newSchema,
+      ...customSchema,
+    };
     return {
       type: 'object',
       required: requiredSchema,
       properties: newSchema,
+      definitions,
     };
   };
 
   getUiSchema = () => {
     const { intl, schema, showUiLabels, showPlaceHolder } = this.props;
     const newUiSchema = {};
-    schema.forEach(element => {
-      const { name, uiWidget, isReadOnly } = element;
-      newUiSchema[name] = {};
-      if (uiWidget) {
-        newUiSchema[name]['ui:widget'] = uiWidget;
-      }
-      if (!showUiLabels) {
-        newUiSchema[name]['ui:options'] = { label: false };
-      }
-      if (showPlaceHolder) {
-        newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
-          messages[`model.${name}`],
-        );
-      }
-      if (isReadOnly) {
-        newUiSchema[name]['ui:readonly'] = true;
-      }
-    });
+    if (schema) {
+      schema.forEach(element => {
+        const { name, uiWidget, isReadOnly } = element;
+        newUiSchema[name] = {};
+        if (uiWidget) {
+          newUiSchema[name]['ui:widget'] = uiWidget;
+        }
+        if (!showUiLabels) {
+          newUiSchema[name]['ui:options'] = { label: false };
+        }
+        if (showPlaceHolder) {
+          newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
+            messages[`model.${name}`],
+          );
+        }
+        if (isReadOnly) {
+          newUiSchema[name]['ui:readonly'] = true;
+        }
+      });
+    }
     return newUiSchema;
   };
 
@@ -205,13 +214,15 @@ class SForm extends React.Component {
         noHtml5Validate
         liveValidate={live}
       >
-        <Button type="submit" variant="primary" disabled={loading}>
-          {loading ? (
-            <i key="spin" className="fa fa-spinner fa-spin" />
-          ) : (
-            <FormattedMessage {...messages[submitBtnText]} />
-          )}
-        </Button>
+        <div className="d-flex justify-content-center">
+          <Button type="submit" variant="primary" disabled={loading}>
+            {loading ? (
+              <i key="spin" className="fa fa-spinner fa-spin" />
+            ) : (
+              <FormattedMessage {...messages[submitBtnText]} />
+            )}
+          </Button>
+        </div>
       </Form>
     );
   }
@@ -230,7 +241,9 @@ SForm.propTypes = {
       uiWidget: PropTypes.string,
       isReadOnly: PropTypes.bool,
     }),
-  ).isRequired,
+  ),
+  customSchema: PropTypes.object,
+  definitions: PropTypes.object,
   submitBtnText: PropTypes.string,
   defaultValues: PropTypes.object,
   idPrefix: PropTypes.string,

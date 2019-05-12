@@ -9,7 +9,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
 import STable from '../../components/STable';
 
@@ -70,7 +69,6 @@ class ClientsPage extends React.Component {
       signUpSuccess,
       signUpError,
       createUser,
-      syncing,
       loadingSelectedUser,
     } = this.props;
     const addClientSchema = [
@@ -88,7 +86,6 @@ class ClientsPage extends React.Component {
     ];
     return (
       <SButton
-        syncing={syncing}
         loading={loadingSelectedUser}
         buttonTextId="app.auth.addUser"
         functionSuccess={signUpSuccess}
@@ -158,23 +155,21 @@ class ClientsPage extends React.Component {
 
   render() {
     return (
-      <AuthWrapper>
-        <Container>
-          <Row>
-            <Col md={5} xs={12}>
-              {this.renderAddButton()}
-            </Col>
-            <Col md={7} xs={12}>
-              <h2>
-                <FormattedMessage {...messages.model.clients} />
-              </h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>{this.renderTable()}</Col>
-          </Row>
-        </Container>
-      </AuthWrapper>
+      <Container>
+        <Row>
+          <Col md={5} xs={12}>
+            {this.renderAddButton()}
+          </Col>
+          <Col md={7} xs={12}>
+            <h2>
+              <FormattedMessage {...messages.model.clients} />
+            </h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>{this.renderTable()}</Col>
+        </Row>
+      </Container>
     );
   }
 }
@@ -183,7 +178,6 @@ ClientsPage.propTypes = {
   signUpSuccess: PropTypes.bool,
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
-  syncing: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,

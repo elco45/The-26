@@ -11,8 +11,6 @@ import { compose } from 'redux';
 
 import SForm from '../../components/SForm';
 
-import AuthWrapper from '../../components/AuthWrapper';
-
 import {
   updateProfileRequest,
   updateEmailRequest,
@@ -153,20 +151,18 @@ class ProfilePage extends React.Component {
 
   render() {
     return (
-      <AuthWrapper>
-        <Container>
-          <Row>
-            <Col md={4} xs={12}>
-              <div>Profile Pic</div>
-            </Col>
-            <Col md={8} xs={12}>
-              {this.renderEditEmail()}
-              <hr />
-              {this.renderEditPass()}
-            </Col>
-          </Row>
-        </Container>
-      </AuthWrapper>
+      <Container>
+        <Row>
+          <Col md={4} xs={12}>
+            <div>Profile Pic</div>
+          </Col>
+          <Col md={8} xs={12}>
+            {this.renderEditEmail()}
+            <hr />
+            {this.renderEditPass()}
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

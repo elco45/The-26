@@ -24,20 +24,25 @@ import ProfilePage from 'containers/ProfilePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import HomeNav from '../../components/HomeNav';
+import Authorization from '../../components/AuthWrapper';
 
 import reducer from './reducer';
 import saga from './saga';
+
+// const Client = Authorization(['client']);
+const Admin = Authorization(['admin']);
+const LoggedIn = Authorization(['admin', 'client']);
 
 const App = () => (
   <div>
     <HomeNav />
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <Route exact path="/clients" component={ClientsPage} />
-      <Route exact path="/client/:id" component={ClientPage} />
-      <Route exact path="/plan-types" component={PlanTypesPage} />
-      <Route exact path="/plan-type/:id" component={PlanTypePage} />
-      <Route exact path="/profile" component={ProfilePage} />
+      <Route path="/clients" component={Admin(ClientsPage)} />
+      <Route exact path="/client/:id" component={Admin(ClientPage)} />
+      <Route exact path="/plan-types" component={Admin(PlanTypesPage)} />
+      <Route exact path="/plan-type/:id" component={Admin(PlanTypePage)} />
+      <Route exact path="/profile" component={LoggedIn(ProfilePage)} />
       <Route component={NotFoundPage} />
     </Switch>
   </div>

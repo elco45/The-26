@@ -40,8 +40,9 @@ import { translationMessages, DEFAULT_LOCALE } from './i18n';
 // Import external stylings
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import 'react-toastify/dist/ReactToastify.min.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-table/react-table.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 // Configure toastr

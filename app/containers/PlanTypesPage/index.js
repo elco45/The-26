@@ -12,7 +12,6 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
 import STable from '../../components/STable';
 
@@ -161,23 +160,21 @@ class PlantTypesPage extends React.Component {
 
   render() {
     return (
-      <AuthWrapper>
-        <Container>
-          <Row>
-            <Col md={5} xs={12}>
-              {this.renderAddButton()}
-            </Col>
-            <Col md={7} xs={12}>
-              <h2>
-                <FormattedMessage {...{ id: 'app.model.planType' }} />
-              </h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>{this.renderTable()}</Col>
-          </Row>
-        </Container>
-      </AuthWrapper>
+      <Container>
+        <Row>
+          <Col md={5} xs={12}>
+            {this.renderAddButton()}
+          </Col>
+          <Col md={7} xs={12}>
+            <h2>
+              <FormattedMessage {...{ id: 'app.model.planType' }} />
+            </h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col>{this.renderTable()}</Col>
+        </Row>
+      </Container>
     );
   }
 }
