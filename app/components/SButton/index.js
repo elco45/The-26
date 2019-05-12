@@ -41,6 +41,8 @@ class SButton extends React.Component {
       modalButtonTextId,
       requiredSchema,
       schema,
+      customSchema,
+      definitions,
       defaultValues,
       hiddenFormData,
       validateFunc,
@@ -58,8 +60,10 @@ class SButton extends React.Component {
         modalButtonTextId={modalButtonTextId}
         loading={loading}
         schema={schema}
+        customSchema={customSchema}
         requiredSchema={requiredSchema}
         defaultValues={defaultValues}
+        definitions={definitions}
         hiddenFormData={hiddenFormData}
       />
     );
@@ -111,7 +115,9 @@ SButton.propTypes = {
       name: PropTypes.string,
       uiWidget: PropTypes.string,
     }),
-  ).isRequired,
+  ),
+  customSchema: PropTypes.object,
+  definitions: PropTypes.object,
   defaultValues: PropTypes.object,
   hiddenFormData: PropTypes.object,
 };

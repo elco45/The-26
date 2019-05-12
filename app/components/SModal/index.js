@@ -26,7 +26,9 @@ const SModal = ({
   modalButtonTextId,
   requiredSchema,
   schema,
+  customSchema,
   defaultValues,
+  definitions,
   hiddenFormData,
 }) => {
   const modalTitleText = {
@@ -54,7 +56,9 @@ const SModal = ({
                 showPlaceHolder
                 requiredSchema={requiredSchema}
                 schema={schema}
+                customSchema={customSchema}
                 defaultValues={defaultValues}
+                definitions={definitions}
                 submitBtnText={modalButtonTextId}
                 hiddenFormData={hiddenFormData}
               />
@@ -83,7 +87,9 @@ SModal.propTypes = {
       name: PropTypes.string,
       uiWidget: PropTypes.string,
     }),
-  ).isRequired,
+  ),
+  customSchema: PropTypes.object,
+  definitions: PropTypes.object,
   defaultValues: PropTypes.object,
   hiddenFormData: PropTypes.object,
   intl: intlShape.isRequired,

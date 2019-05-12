@@ -71,6 +71,9 @@ export default defineMessages({
   'model.dailyFoodCount': {
     id: `${scopeModel}.dailyFoodCount`,
   },
+  'model.mealPlan': {
+    id: `${scopeModel}.mealPlan`,
+  },
 
   'error.happened': {
     id: `${scopeError}.happened`,
