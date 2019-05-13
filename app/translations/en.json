@@ -37,6 +37,7 @@
   "app.action.loading": "Loading",
   "app.action.send": "Send",
   "app.action.success": "Success!",
+  "app.action.error": "Error!",
   "app.action.areYouSure": "Are you sure?",
   "app.action.accept": "Accept",
   "app.action.cancel": "Cancel",
@@ -68,5 +69,7 @@
   "app.error.minRequired": "Minimum of required characters:",
   "app.error.minimum": "Should be at least:",
   "app.error.maximum": "Should not exceed:",
-  "app.error.unauthorized": "Not authorized"
+  "app.error.unauthorized": "Not authorized",
+  "app.error.exceedDailyLimit": "Daily limit exceeded!",
+  "app.error.invalidQr": "Invalid QR Code!"
 }

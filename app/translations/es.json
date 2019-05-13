@@ -37,6 +37,7 @@
   "app.action.loading": "Cargando",
   "app.action.send": "Enviar",
   "app.action.success": "Éxito!",
+  "app.action.error": "¡Error!",
   "app.action.areYouSure": "¿Estás seguro?",
   "app.action.accept": "Aceptar",
   "app.action.cancel": "Cancelar",
@@ -68,5 +69,7 @@
   "app.error.minRequired": "Mínimo de caracteres requerido:",
   "app.error.minimum": "Debe ser al menos:",
   "app.error.maximum": "No debe excederse de:",
-  "app.error.unauthorized": "No autorizado"
+  "app.error.unauthorized": "No autorizado",
+  "app.error.exceedDailyLimit": "Límite diario superado!",
+  "app.error.invalidQr": "Código QR no válido!"
 }
