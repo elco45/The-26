@@ -1,10 +1,14 @@
 import { defineMessages } from 'react-intl';
 
-export const scope = 'app.containers.HomePage';
+export const scopeModel = 'app.model';
 
 export default defineMessages({
-  welcome: {
-    id: `${scope}.welcome`,
-    defaultMessage: 'Welcome!',
+  model: {
+    startDate: {
+      id: `${scopeModel}.startDate`,
+    },
+    endDate: {
+      id: `${scopeModel}.endDate`,
+    },
   },
 });

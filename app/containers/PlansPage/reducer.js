@@ -8,6 +8,7 @@ import {
   GET_PLAN_FAILURE,
   GET_PLANS_REQUEST,
   GET_PLANS_BY_CLIENT_ID_REQUEST,
+  GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
   GET_PLANS_SUCCESS,
   GET_PLANS_FAILURE,
   UPDATE_PLAN_REQUEST,
@@ -66,6 +67,7 @@ const plansReducer = (state = initialState, action) =>
         break;
 
       case GET_PLANS_BY_CLIENT_ID_REQUEST:
+      case GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST:
       case GET_PLANS_REQUEST:
         draft.loadingPlans = true;
         draft.plansError = null;

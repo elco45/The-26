@@ -6,6 +6,7 @@ import {
   GET_PLAN_REQUEST,
   GET_PLANS_REQUEST,
   GET_PLANS_BY_CLIENT_ID_REQUEST,
+  GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
   UPDATE_PLAN_REQUEST,
 } from 'containers/PlansPage/constants';
 import moment from 'moment/moment';
@@ -49,11 +50,15 @@ function* addPlanSaga(action) {
       const plantT = planTypeResponse.data();
       if (plantT) {
         yield call(reduxSagaFirebase.firestore.addDocument, 'plans', {
-          startDate: moment.utc(startDate).format(),
+          startDate: moment
+            .utc(startDate)
+            .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+            .format(),
           planType,
           endDate: moment
             .utc(startDate)
             .add(plantT.durationDays - 1, 'days')
+            .set({ hour: 23, minute: 59, second: 59, millisecond: 59 })
             .format(),
           clientId,
           discount,
@@ -135,6 +140,28 @@ function* getPlansByClientIdSaga(action) {
   }
 }
 
+function* getActivePlansByClientIdSaga(action) {
+  try {
+    const { clientId } = action.planInfo;
+    const activePlan = yield call(
+      reduxSagaFirebase.firestore.getCollection,
+      firestore
+        .collection('plans')
+        .where('clientId', '==', clientId)
+        .where('endDate', '>=', moment.utc(new Date()).format()),
+    );
+    const snapshot = yield call(
+      reduxSagaFirebase.firestore.getDocument,
+      firestore.collection('planTypes'),
+    );
+    const planTypes = planTypesTransformer(snapshot);
+    const plans = plansTransformer(activePlan, planTypes);
+    yield put(getPlansSuccess(plans));
+  } catch (error) {
+    yield put(getPlanFailure(error));
+  }
+}
+
 const planTypesTransformer = snapshot => {
   const planTypes = {};
   snapshot.forEach(planType => {
@@ -178,6 +205,7 @@ function* updatePlanSaga(action) {
         endDate: moment
           .utc(startDate)
           .add(planTypeResponse.durationDays - 1, 'days')
+          .set({ hour: 23, minute: 59, second: 59, millisecond: 59 })
           .format(),
         discount,
         updatedBy,
@@ -205,6 +233,8 @@ const plansTransformer = (snapshot, planTypes = null) => {
     const newPlans = plans.map(plan => {
       const newPlan = plan;
       newPlan.planTypeName = planTypes[plan.planType].name;
+      newPlan.planTypeDuration = planTypes[plan.planType].durationDays;
+      newPlan.planTypeFoodCount = planTypes[plan.planType].dailyFoodCount;
       return newPlan;
     });
     return newPlans;
@@ -230,6 +260,10 @@ export default function* plansRootSaga() {
     takeLatest(GET_PLAN_REQUEST, getPlanSaga),
     takeLatest(GET_PLANS_REQUEST, getPlansSaga),
     takeLatest(GET_PLANS_BY_CLIENT_ID_REQUEST, getPlansByClientIdSaga),
+    takeLatest(
+      GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
+      getActivePlansByClientIdSaga,
+    ),
     takeLatest(UPDATE_PLAN_REQUEST, updatePlanSaga),
   ]);
 }

@@ -203,12 +203,12 @@ class ClientPage extends React.Component {
       {
         headerText: messages.model.startDate,
         accessor: 'startDate',
-        cell: row => moment(row.original.startDate).format('YYYY-MM-DD'),
+        cell: row => moment.utc(row.original.startDate).format('YYYY-MM-DD'),
       },
       {
         headerText: messages.model.endDate,
         accessor: 'endDate',
-        cell: row => moment(row.original.endDate).format('YYYY-MM-DD'),
+        cell: row => moment.utc(row.original.endDate).format('YYYY-MM-DD'),
       },
       {
         headerText: messages.model.planType,

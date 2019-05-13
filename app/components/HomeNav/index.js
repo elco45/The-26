@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Styled from 'styled-components';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -24,9 +25,41 @@ import {
 
 import LocaleToggle from '../../containers/LocaleToggle';
 
+const QrCodeIcon = Styled.i`
+  border-radius: 8px;
+  padding: 4px;
+  color: black;
+  background: white;
+  font-size: 28px !important;
+  margin-left: 5px;
+`;
+
 class HomeNav extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      navExpanded: false,
+    };
+
+    this.setNavExpanded = this.setNavExpanded.bind(this);
+    this.closeNav = this.closeNav.bind(this);
+  }
+
+  setNavExpanded(expanded) {
+    this.setState({ navExpanded: expanded });
+  }
+
+  closeNav(path) {
+    const { history } = this.props;
+    this.setState({ navExpanded: false });
+    if (path) {
+      history.push(path);
+    }
+  }
+
   renderMenu() {
-    const { history, user, syncing } = this.props;
+    const { user, syncing } = this.props;
     if (syncing) {
       return (
         <div key="spin" className="text-center">
@@ -41,7 +74,7 @@ class HomeNav extends React.Component {
         ) : (
           <Nav>
             <Nav.Item>
-              <Nav.Link onClick={() => history.push('/asd')}>asd</Nav.Link>
+              <Nav.Link onClick={() => this.closeNav('/asd')}>asd</Nav.Link>
             </Nav.Item>
           </Nav>
         )}
@@ -50,16 +83,16 @@ class HomeNav extends React.Component {
   }
 
   renderUserMenu() {
-    const { user, history } = this.props;
+    const { user } = this.props;
     return user.profile.roles.includes('admin') ? (
       <Nav>
         <Nav.Item>
-          <Nav.Link onClick={() => history.push('/clients')}>
+          <Nav.Link onClick={() => this.closeNav('/clients')}>
             <FormattedMessage {...{ id: 'app.model.clients' }} />
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link onClick={() => history.push('/plan-types')}>
+          <Nav.Link onClick={() => this.closeNav('/plan-types')}>
             <FormattedMessage {...{ id: 'app.model.planTypes' }} />
           </Nav.Link>
         </Nav.Item>
@@ -67,7 +100,7 @@ class HomeNav extends React.Component {
     ) : (
       <Nav>
         <Nav.Item>
-          <Nav.Link onClick={() => history.push('/asd')}>qwe</Nav.Link>
+          <Nav.Link onClick={() => this.closeNav('/asd')}>qwe</Nav.Link>
         </Nav.Item>
       </Nav>
     );
@@ -77,25 +110,37 @@ class HomeNav extends React.Component {
     const { user, loggedIn, syncing, signOut, history } = this.props;
 
     return (
-      <Navbar.Collapse key="authItem" className="justify-content-end">
-        <Nav>
+      <Nav key="authItem">
+        {loggedIn && user && user.profile.roles.includes('admin') ? (
           <Nav.Item>
-            <Nav.Link>
-              <LocaleToggle />
+            <Nav.Link onClick={() => this.closeNav('/scan-qr')}>
+              <QrCodeIcon className="fa fa-qrcode" />
             </Nav.Link>
           </Nav.Item>
-          {loggedIn && user ? (
-            <CurrentUser
-              user={user}
-              syncing={syncing}
-              signOut={signOut}
-              history={history}
-            />
-          ) : (
-            this.renderLoginButton()
-          )}
-        </Nav>
-      </Navbar.Collapse>
+        ) : (
+          <div />
+        )}
+        <Navbar.Collapse className="justify-content-end">
+          <Nav>
+            <Nav.Item>
+              <Nav.Link>
+                <LocaleToggle />
+              </Nav.Link>
+            </Nav.Item>
+            {loggedIn && user ? (
+              <CurrentUser
+                user={user}
+                syncing={syncing}
+                signOut={signOut}
+                history={history}
+                closeNav={this.closeNav}
+              />
+            ) : (
+              this.renderLoginButton()
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Nav>
     );
   }
 
@@ -118,6 +163,7 @@ class HomeNav extends React.Component {
         syncing={syncing}
         loading={loading}
         loadingPassReset={loadingPassReset}
+        closeNav={this.closeNav}
       />
     );
   }
@@ -129,7 +175,13 @@ class HomeNav extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar
+        bg="dark"
+        variant="dark"
+        expand="lg"
+        onToggle={this.setNavExpanded}
+        expanded={this.state.navExpanded}
+      >
         <Navbar.Brand onClick={() => history.push('/')}>The 26th</Navbar.Brand>
         <Navbar.Toggle className="ml-auto" aria-controls="collapse-nav" />
         {this.renderNavItems()}
