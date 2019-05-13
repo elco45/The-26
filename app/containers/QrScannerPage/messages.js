@@ -82,5 +82,8 @@ export default defineMessages({
     happened: {
       id: `${scopeError}.happened`,
     },
+    enableCamera: {
+      id: `${scopeError}.enableCamera`,
+    },
   },
 });

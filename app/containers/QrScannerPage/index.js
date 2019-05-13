@@ -37,6 +37,7 @@ class QrScannerPage extends React.Component {
         width: -1,
         height: -1,
       },
+      errorSwalIsOpened: false,
     };
 
     this.handleScan = this.handleScan.bind(this);
@@ -68,12 +69,12 @@ class QrScannerPage extends React.Component {
       type: 'success',
       confirmButtonText: intl.formatMessage(messages.action.accept),
     });
-    history.push(`/client/${planEventClientId}`);
+    history.push(`/calendar/${planEventClientId}`);
   }
 
   showError(addPlanEventError = null) {
     const { intl } = this.props;
-    let message = intl.formatMessage(messages.error.invalidQr);
+    let message = intl.formatMessage(messages.error.happened);
     if (
       addPlanEventError &&
       addPlanEventError.code === 'invalid/daily-limit-exceed'
@@ -90,35 +91,42 @@ class QrScannerPage extends React.Component {
       text: message,
       type: 'error',
       confirmButtonText: intl.formatMessage(messages.action.accept),
+    }).then(result => {
+      if (result.value) {
+        this.setState({
+          errorSwalIsOpened: false,
+        });
+      }
     });
   }
 
   handleScan(data) {
-    const {
-      addPlanEvent,
-      user,
-      loadingSelectedPlan,
-      addPlanEventSuccess,
-    } = this.props;
-    if (data) {
-      if (
-        data.includes('plan-') &&
-        !loadingSelectedPlan &&
-        !addPlanEventSuccess
-      ) {
+    const { addPlanEvent, user, loadingSelectedPlan } = this.props;
+    const { errorSwalIsOpened } = this.state;
+    if (data && !errorSwalIsOpened) {
+      if (data.includes('plan-') && !loadingSelectedPlan) {
         const planId = data.replace('plan-', '');
         addPlanEvent({
           planId,
           adminId: user.uid,
         });
       } else {
+        this.setState({
+          errorSwalIsOpened: true,
+        });
         this.showError({ code: 'invalid/no-such-plan' });
       }
     }
   }
 
-  handleError(data) {
-    console.log(data);
+  handleError() {
+    const { intl } = this.props;
+    Swal.fire({
+      title: intl.formatMessage(messages.action.error),
+      text: intl.formatMessage(messages.error.enableCamera),
+      type: 'error',
+      confirmButtonText: intl.formatMessage(messages.action.accept),
+    });
   }
 
   render() {
@@ -135,7 +143,7 @@ class QrScannerPage extends React.Component {
           <Container ref={measureRef}>
             <div className="d-flex justify-content-center">
               <QrReader
-                delay={2000}
+                delay={1000}
                 onError={data => this.handleError(data)}
                 onScan={data => this.handleScan(data)}
                 style={{ width: width < 768 ? '100%' : '40%' }}
