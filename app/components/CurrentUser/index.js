@@ -32,13 +32,13 @@ class CurrentUser extends React.Component {
   }
 
   logout() {
-    const { signOut, history } = this.props;
+    const { signOut, closeNav } = this.props;
     signOut();
-    history.push('/');
+    closeNav('/');
   }
 
   render() {
-    const { user, history } = this.props;
+    const { user, closeNav } = this.props;
 
     return (
       <Nav.Item>
@@ -58,7 +58,7 @@ class CurrentUser extends React.Component {
             </Row>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => history.push('/profile')}>
+            <Dropdown.Item onClick={() => closeNav('/profile')}>
               <FormattedMessage {...messages.profile} />
             </Dropdown.Item>
             <Dropdown.Item onClick={() => this.logout()}>
@@ -81,6 +81,7 @@ CurrentUser.propTypes = {
     }),
   }),
   signOut: PropTypes.func.isRequired,
+  closeNav: PropTypes.func,
   history: PropTypes.object,
 };
 
