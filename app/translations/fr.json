@@ -71,5 +71,6 @@
   "app.error.maximum": "Ne devrait pas dépasser:",
   "app.error.unauthorized": "Pas autorisé",
   "app.error.exceedDailyLimit": "Limite journalière dépassée!",
-  "app.error.invalidQr": "Code QR invalide!"
+  "app.error.invalidQr": "Code QR invalide!",
+  "app.error.enableCamera": "L'autorisation de la caméra est requise!"
 }
