@@ -9,6 +9,7 @@ import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
 import plansReducer from 'containers/PlansPage/reducer';
 import planTypesReducer from 'containers/PlanTypesPage/reducer';
+import planEventsReducer from 'containers/PlanEventsPage/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 /**
@@ -19,6 +20,7 @@ export default function createReducer(injectedReducers = {}) {
     language: languageProviderReducer,
     global: globalReducer,
     plans: plansReducer,
+    planEvents: planEventsReducer,
     planTypes: planTypesReducer,
     router: connectRouter(history),
     ...injectedReducers,
