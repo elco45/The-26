@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Styled from 'styled-components';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
@@ -23,6 +24,15 @@ import {
 } from '../../containers/App/selectors';
 
 import LocaleToggle from '../../containers/LocaleToggle';
+
+const QrCodeIcon = Styled.i`
+  border-radius: 8px;
+  padding: 4px;
+  color: black;
+  background: white;
+  font-size: 28px !important;
+  margin-left: 5px;
+`;
 
 class HomeNav extends React.Component {
   renderMenu() {
@@ -77,25 +87,32 @@ class HomeNav extends React.Component {
     const { user, loggedIn, syncing, signOut, history } = this.props;
 
     return (
-      <Navbar.Collapse key="authItem" className="justify-content-end">
-        <Nav>
-          <Nav.Item>
-            <Nav.Link>
-              <LocaleToggle />
-            </Nav.Link>
-          </Nav.Item>
-          {loggedIn && user ? (
-            <CurrentUser
-              user={user}
-              syncing={syncing}
-              signOut={signOut}
-              history={history}
-            />
-          ) : (
-            this.renderLoginButton()
-          )}
-        </Nav>
-      </Navbar.Collapse>
+      <Nav key="authItem">
+        <Nav.Item>
+          <Nav.Link onClick={() => history.push('/scan-qr')}>
+            <QrCodeIcon className="fa fa-qrcode" />
+          </Nav.Link>
+        </Nav.Item>
+        <Navbar.Collapse className="justify-content-end">
+          <Nav>
+            <Nav.Item>
+              <Nav.Link>
+                <LocaleToggle />
+              </Nav.Link>
+            </Nav.Item>
+            {loggedIn && user ? (
+              <CurrentUser
+                user={user}
+                syncing={syncing}
+                signOut={signOut}
+                history={history}
+              />
+            ) : (
+              this.renderLoginButton()
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Nav>
     );
   }
 

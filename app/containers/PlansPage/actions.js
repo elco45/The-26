@@ -7,6 +7,7 @@ import {
   GET_PLAN_FAILURE,
   GET_PLANS_REQUEST,
   GET_PLANS_BY_CLIENT_ID_REQUEST,
+  GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
   GET_PLANS_SUCCESS,
   GET_PLANS_FAILURE,
   UPDATE_PLAN_REQUEST,
@@ -35,6 +36,11 @@ export const getPlansRequest = () => ({
 
 export const getPlansByClientIdRequest = planInfo => ({
   type: GET_PLANS_BY_CLIENT_ID_REQUEST,
+  planInfo,
+});
+
+export const getActivePlansByClientIdRequest = planInfo => ({
+  type: GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
   planInfo,
 });
 

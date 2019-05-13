@@ -1,10 +1,3 @@
-/*
- * HomePage
- *
- * This is the first thing users see of our App, at the '/' route
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -31,11 +24,16 @@ class HomePage extends React.Component {
   }
 
   renderClientHomePage() {
-    return <ClientHomePage />;
+    const { user } = this.props;
+    return <ClientHomePage clientId={user.uid} />;
   }
 
   renderAdminHomePage() {
-    return this.renderHomePage();
+    return (
+      <div>
+        <FormattedMessage {...messages.welcome} /> Admin
+      </div>
+    );
   }
 
   renderByUserRole() {

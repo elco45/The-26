@@ -21,6 +21,7 @@ import ClientPage from 'containers/ClientPage/Loadable';
 import PlanTypesPage from 'containers/PlanTypesPage/Loadable';
 import PlanTypePage from 'containers/PlanTypePage/Loadable';
 import ProfilePage from 'containers/ProfilePage/Loadable';
+import QrScannerPage from 'containers/QrScannerPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 import HomeNav from '../../components/HomeNav';
@@ -43,6 +44,7 @@ const App = () => (
       <Route exact path="/plan-types" component={Admin(PlanTypesPage)} />
       <Route exact path="/plan-type/:id" component={Admin(PlanTypePage)} />
       <Route exact path="/profile" component={LoggedIn(ProfilePage)} />
+      <Route exact path="/scan-qr" component={Admin(QrScannerPage)} />
       <Route component={NotFoundPage} />
     </Switch>
   </div>

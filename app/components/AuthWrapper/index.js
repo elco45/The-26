@@ -8,40 +8,17 @@ import {
   makeSelectSync,
   makeSelectLoading,
 } from '../../containers/App/selectors';
+import LoadingSpinner from '../LoadingSpinner';
 import messages from './messages';
 
-// export function AuthWrapper({
-//   user,
-//   allowedRoles,
-//   syncing,
-//   loading,
-//   children,
-//   intl,
-// }) {
-//   console.log(allowedRoles);
-//   return (
-//     <div>
-//       {syncing || loading ? (
-//         intl.formatMessage(messages.loading)
-//       ) : (
-//         <div>
-//           {user &&
-//           user.profile &&
-//           (user.profile.roles.includes(allowedRoles) || !allowedRoles)
-//             ? React.Children.only(children)
-//             : intl.formatMessage(messages.unauthorized)}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 export default function Authorization(allowedRoles) {
   return WrappedComponent => {
+    // eslint-disable-next-line react/prefer-stateless-function
     class WithAuthorization extends Component {
       render() {
         const { user, syncing, loading, intl } = this.props;
         if (syncing || loading) {
-          return intl.formatMessage(messages.loading);
+          return <LoadingSpinner />;
         }
         if (
           (user &&
@@ -78,27 +55,3 @@ export default function Authorization(allowedRoles) {
     );
   };
 }
-
-// Authorization.propTypes = {
-//   user: PropTypes.object,
-//   allowedRoles: PropTypes.arrayOf(PropTypes.string),
-//   syncing: PropTypes.bool,
-//   loading: PropTypes.bool,
-//   children: PropTypes.element.isRequired,
-//   intl: intlShape.isRequired,
-// };
-
-// const mapDispatchToProps = {};
-
-// const mapStateToProps = createStructuredSelector({
-//   user: makeSelectCurrentUser(),
-//   syncing: makeSelectSync(),
-//   loading: makeSelectLoading(),
-// });
-
-// export default injectIntl(
-//   connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-//   )(Authorization),
-// );
