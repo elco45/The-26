@@ -49,6 +49,7 @@ const planEventsReducer = (state = initialState, action) =>
       case ADD_PLAN_EVENT_FAILURE:
         draft.loadingSelectedPlanEvent = false;
         draft.addPlanEventError = action.error;
+        draft.addPlanEventSuccess = false;
         break;
 
       case GET_PLAN_EVENT_REQUEST:

@@ -7,7 +7,9 @@ import {
   GET_PLAN_EVENTS_REQUEST,
   GET_PLAN_EVENTS_BY_CLIENT_ID_REQUEST,
 } from 'containers/PlanEventsPage/constants';
-import moment from 'moment/moment';
+import Moment from 'moment/moment';
+import { extendMoment } from 'moment-range';
+
 import {
   addPlanEventSuccess,
   addPlanEventFailure,
@@ -18,6 +20,7 @@ import {
 } from './actions';
 
 import { reduxSagaFirebase } from '../../firebase';
+const moment = extendMoment(Moment);
 
 const firestore = new firebase.firestore(); // eslint-disable-line
 
@@ -55,6 +58,7 @@ function* addPlanEventSaga(action) {
           planId,
           clientId: activePlan.clientId,
           adminId,
+          title: `Meal #${todaysPlanEvents.length + 1}`,
           start: moment()
             .utc()
             .format(),
@@ -101,28 +105,30 @@ function* getPlanEventSaga(action) {
 
 function* getPlanEventsByClientIdSaga(action) {
   try {
-    const { clientId, start, end } = action.planEventInfo;
+    const {
+      clientId,
+      start = moment()
+        .utc()
+        .startOf('month')
+        .format(),
+      end = moment()
+        .utc()
+        .endOf('month')
+        .format(),
+    } = action.planEventInfo;
     const response = yield call(
       reduxSagaFirebase.firestore.getCollection,
-      firestore
-        .collection('planEvents')
-        .where('clientId', '==', clientId)
-        .where('start', '>=', start)
-        .where('end', '<=', end),
+      firestore.collection('planEvents').where('clientId', '==', clientId),
     );
-    const planEvents = transformer(response);
+    const planEvents = transformerFilter(response, start, end);
     yield put(getPlanEventSuccess(planEvents));
 
     yield fork(
       reduxSagaFirebase.firestore.syncCollection,
-      firestore
-        .collection('planEvents')
-        .where('clientId', '==', clientId)
-        .where('start', '>=', start)
-        .where('end', '<=', end),
+      firestore.collection('planEvents').where('clientId', '==', clientId),
       {
         successActionCreator: getPlanEventsSuccess,
-        transform: transformer,
+        transform: snap => transformerFilter(snap, start, end),
       },
     );
   } catch (error) {
@@ -150,6 +156,22 @@ const transformer = snapshot => {
       _id: snap.id,
       ...snap.data(),
     });
+  });
+  return response;
+};
+
+const transformerFilter = (snapshot, start, end) => {
+  const response = [];
+  snapshot.forEach(snap => {
+    const event = snap.data();
+    if (event && moment(event.start).range(start, end)) {
+      response.push({
+        id: snap.id,
+        title: event.title,
+        start: new Date(event.start),
+        end: new Date(event.end),
+      });
+    }
   });
   return response;
 };

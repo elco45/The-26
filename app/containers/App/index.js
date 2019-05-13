@@ -18,6 +18,7 @@ import injectSaga from 'utils/injectSaga';
 import HomePage from 'containers/HomePage/Loadable';
 import ClientsPage from 'containers/ClientsPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
+import PlanEventsPage from 'containers/PlanEventsPage/Loadable';
 import PlanTypesPage from 'containers/PlanTypesPage/Loadable';
 import PlanTypePage from 'containers/PlanTypePage/Loadable';
 import ProfilePage from 'containers/ProfilePage/Loadable';
@@ -39,7 +40,12 @@ const App = () => (
     <HomeNav />
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <Route path="/clients" component={Admin(ClientsPage)} />
+      <Route
+        exact
+        path="/calendar/:clientId"
+        component={Admin(PlanEventsPage)}
+      />
+      <Route exact path="/clients" component={Admin(ClientsPage)} />
       <Route exact path="/client/:id" component={Admin(ClientPage)} />
       <Route exact path="/plan-types" component={Admin(PlanTypesPage)} />
       <Route exact path="/plan-type/:id" component={Admin(PlanTypePage)} />
