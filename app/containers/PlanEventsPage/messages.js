@@ -28,6 +28,12 @@ export default defineMessages({
     scannedAt: {
       id: `${scopeAction}.scannedAt`,
     },
+    success: {
+      id: `${scopeAction}.success`,
+    },
+    error: {
+      id: `${scopeAction}.error`,
+    },
   },
   model: {
     mealPlan: {

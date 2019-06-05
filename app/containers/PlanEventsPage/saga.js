@@ -6,6 +6,7 @@ import {
   GET_PLAN_EVENT_REQUEST,
   GET_PLAN_EVENTS_REQUEST,
   GET_PLAN_EVENTS_BY_CLIENT_ID_REQUEST,
+  DELETE_PLAN_EVENT_REQUEST,
 } from 'containers/PlanEventsPage/constants';
 import Moment from 'moment/moment';
 import { extendMoment } from 'moment-range';
@@ -17,6 +18,8 @@ import {
   getPlanEventFailure,
   getPlanEventsSuccess,
   getPlanEventsFailure,
+  deletePlanEventSuccess,
+  deletePlanEventFailure,
 } from './actions';
 
 import { reduxSagaFirebase } from '../../firebase';
@@ -146,6 +149,16 @@ function* getPlanEventsSaga() {
   }
 }
 
+function* deletePlanEventSaga(action) {
+  try {
+    const { id } = action.planEventInfo;
+    yield call(reduxSagaFirebase.firestore.deleteDocument, `planEvents/${id}`);
+    yield put(deletePlanEventSuccess());
+  } catch (error) {
+    yield put(deletePlanEventFailure(error));
+  }
+}
+
 const transformer = snapshot => {
   const response = [];
   snapshot.forEach(snap => {
@@ -182,5 +195,6 @@ export default function* planEventsRootSaga() {
       GET_PLAN_EVENTS_BY_CLIENT_ID_REQUEST,
       getPlanEventsByClientIdSaga,
     ),
+    takeLatest(DELETE_PLAN_EVENT_REQUEST, deletePlanEventSaga),
   ]);
 }

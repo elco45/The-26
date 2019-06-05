@@ -14,6 +14,9 @@ import {
   UPDATE_PLAN_REQUEST,
   UPDATE_PLAN_SUCCESS,
   UPDATE_PLAN_FAILURE,
+  DELETE_PLAN_REQUEST,
+  DELETE_PLAN_SUCCESS,
+  DELETE_PLAN_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -28,6 +31,8 @@ export const initialState = {
   loadingPlans: false,
   plansError: null,
   updatePlanSuccess: false,
+  deletePlanSuccess: false,
+  deletePlanError: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -98,6 +103,19 @@ const plansReducer = (state = initialState, action) =>
       case UPDATE_PLAN_FAILURE:
         draft.loadingSelectedPlan = false;
         draft.selectedPlanError = action.error;
+        break;
+
+      case DELETE_PLAN_REQUEST:
+        draft.deletePlanSuccess = false;
+        draft.deletePlanError = null;
+        break;
+
+      case DELETE_PLAN_SUCCESS:
+        draft.deletePlanSuccess = true;
+        break;
+
+      case DELETE_PLAN_FAILURE:
+        draft.deletePlanError = action.error;
         break;
     }
   });

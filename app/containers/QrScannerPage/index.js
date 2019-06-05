@@ -37,6 +37,7 @@ class QrScannerPage extends React.Component {
         height: -1,
       },
       errorSwalIsOpened: false,
+      addPlanEventErrorState: false,
     };
 
     this.handleScan = this.handleScan.bind(this);
@@ -66,6 +67,7 @@ class QrScannerPage extends React.Component {
       nextProps.addPlanEventError
     ) {
       this.showError(nextProps.addPlanEventError);
+      this.setState({ addPlanEventErrorState: true });
     }
   }
 
@@ -102,6 +104,7 @@ class QrScannerPage extends React.Component {
       if (result.value) {
         this.setState({
           errorSwalIsOpened: false,
+          addPlanEventErrorState: false,
         });
       }
     });
@@ -109,8 +112,9 @@ class QrScannerPage extends React.Component {
 
   handleScan(data) {
     const { addPlanEvent, user, loadingSelectedPlan } = this.props;
+    const { addPlanEventErrorState } = this.state;
     const { errorSwalIsOpened } = this.state;
-    if (data && !errorSwalIsOpened) {
+    if (data && !errorSwalIsOpened && !addPlanEventErrorState) {
       if (data.includes('plan-') && !loadingSelectedPlan) {
         const planId = data.replace('plan-', '');
         addPlanEvent({

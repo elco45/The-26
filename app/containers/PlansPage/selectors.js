@@ -57,6 +57,17 @@ const makeSelectUpdatePlanSuccess = () =>
     globalState => globalState.updatePlanSuccess,
   );
 
+const makeSelectDeletePlanSuccess = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.deletePlanSuccess,
+  );
+const makeSelectDeletePlanError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.deletePlanError,
+  );
+
 export {
   makeSelectAddPlanSuccess,
   makeSelectAddPlanError,
@@ -67,4 +78,6 @@ export {
   makeSelectLoadingPlans,
   makeSelectPlansError,
   makeSelectUpdatePlanSuccess,
+  makeSelectDeletePlanSuccess,
+  makeSelectDeletePlanError,
 };

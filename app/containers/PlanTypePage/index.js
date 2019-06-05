@@ -13,6 +13,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import SForm from '../../components/SForm';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import NotFoundPage from '../NotFoundPage';
 
 import {
@@ -134,7 +135,7 @@ class PlanTypePage extends React.Component {
         )}
       </div>
     ) : (
-      <div>Loading.....</div>
+      <LoadingSpinner />
     );
   }
 }

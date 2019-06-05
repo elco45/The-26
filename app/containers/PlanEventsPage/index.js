@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { toast } from 'react-toastify';
+
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -13,12 +15,17 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import { getPlanEventsByClientIdRequest } from './actions';
+import {
+  getPlanEventsByClientIdRequest,
+  deletePlanEventRequest,
+} from './actions';
 import { makeSelectCurrentUser } from '../App/selectors';
 import {
   makeSelectLoadingPlanEvents,
   makeSelectPlanEvents,
   makeSelectPlanEventsError,
+  makeSelectDeletePlanEventSuccess,
+  makeSelectDeletePlanEventError,
 } from './selectors';
 
 import planEventReducer from './reducer';
@@ -56,6 +63,40 @@ class PlanEventsPage extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { deletePlanEventSuccess, deletePlanEventError } = this.props;
+    if (
+      deletePlanEventSuccess !== nextProps.deletePlanEventSuccess &&
+      nextProps.deletePlanEventSuccess
+    ) {
+      this.notifyDeleteSuccess();
+    }
+    if (
+      deletePlanEventError !== nextProps.deletePlanEventError &&
+      nextProps.deletePlanEventError
+    ) {
+      this.notifyDeleteError();
+    }
+  }
+
+  notifyDeleteSuccess = () => {
+    const { intl } = this.props;
+    return toast.success(
+      `${intl.formatMessage(messages.action.delete)} ${intl.formatMessage(
+        messages.action.success,
+      )}`,
+    );
+  };
+
+  notifyDeleteError = () => {
+    const { intl } = this.props;
+    return toast.error(
+      `${intl.formatMessage(messages.action.delete)} ${intl.formatMessage(
+        messages.action.error,
+      )}`,
+    );
+  };
+
   navigate(startDate) {
     this.setState({
       currentStartDate: startDate,
@@ -89,8 +130,8 @@ class PlanEventsPage extends React.Component {
   }
 
   selectEventAdmin(event) {
-    const { intl } = this.props;
-    const { title, start } = event;
+    const { intl, deletePlanEvent } = this.props;
+    const { id, title, start } = event;
     Swal.fire({
       title,
       html: `<p><b>${intl.formatMessage(
@@ -112,7 +153,7 @@ class PlanEventsPage extends React.Component {
           cancelButtonText: intl.formatMessage(messages.action.cancel),
         }).then(confirm => {
           if (confirm.value) {
-            // delete
+            deletePlanEvent({ id });
           }
         });
       }
@@ -174,8 +215,11 @@ class PlanEventsPage extends React.Component {
 PlanEventsPage.propTypes = {
   planEvents: PropTypes.arrayOf(PropTypes.object),
   getPlanEventsByClientId: PropTypes.func,
+  deletePlanEvent: PropTypes.func,
   loadingPlanEvents: PropTypes.bool,
   user: PropTypes.object,
+  deletePlanEventSuccess: PropTypes.bool,
+  deletePlanEventError: PropTypes.object,
 
   intl: intlShape.isRequired,
   match: PropTypes.object,
@@ -183,6 +227,7 @@ PlanEventsPage.propTypes = {
 
 const mapDispatchToProps = {
   getPlanEventsByClientId: getPlanEventsByClientIdRequest,
+  deletePlanEvent: deletePlanEventRequest,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -190,6 +235,8 @@ const mapStateToProps = createStructuredSelector({
   loadingPlanEvents: makeSelectLoadingPlanEvents(),
   planEvents: makeSelectPlanEvents(),
   planEventsError: makeSelectPlanEventsError(),
+  deletePlanEventSuccess: makeSelectDeletePlanEventSuccess(),
+  deletePlanEventError: makeSelectDeletePlanEventError(),
 });
 
 const withConnect = connect(
