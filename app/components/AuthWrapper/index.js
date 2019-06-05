@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl, intlShape } from 'react-intl';
+import { Container } from 'react-bootstrap';
 import {
   makeSelectCurrentUser,
   makeSelectSync,
@@ -21,11 +22,17 @@ export default function Authorization(allowedRoles) {
           return <LoadingSpinner />;
         }
         if (
-          (user &&
-            user.profile &&
-            allowedRoles.some(r => user.profile.roles.includes(r))) ||
-          !allowedRoles
+          user &&
+          user.profile &&
+          allowedRoles.some(r => user.profile.roles.includes(r))
         ) {
+          return (
+            <Container style={{ marginTop: '2%' }}>
+              <WrappedComponent {...this.props} />
+            </Container>
+          );
+        }
+        if (!allowedRoles) {
           return <WrappedComponent {...this.props} />;
         }
         return <h1>{intl.formatMessage(messages.unauthorized)}</h1>;

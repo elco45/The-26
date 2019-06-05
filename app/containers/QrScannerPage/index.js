@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
 import { injectIntl, intlShape } from 'react-intl';
 import Swal from 'sweetalert2';
 import QrReader from 'react-qr-reader'; // comment everything in node_modules\webrtc-adapter\src\js\adapter_core5.js
@@ -44,6 +43,14 @@ class QrScannerPage extends React.Component {
     this.handleError = this.handleError.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
     this.showError = this.showError.bind(this);
+  }
+
+  componentWillMount() {
+    const dimensions = {
+      height: `${window.innerHeight} px`,
+      width: `${window.innerWidth} px`,
+    };
+    this.setState({ dimensions });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -140,7 +147,7 @@ class QrScannerPage extends React.Component {
         }}
       >
         {({ measureRef }) => (
-          <Container ref={measureRef}>
+          <div ref={measureRef}>
             <div className="d-flex justify-content-center">
               <QrReader
                 delay={1000}
@@ -149,7 +156,7 @@ class QrScannerPage extends React.Component {
                 style={{ width: width < 768 ? '100%' : '40%' }}
               />
             </div>
-          </Container>
+          </div>
         )}
       </Measure>
     );

@@ -105,17 +105,14 @@ function* getPlanEventSaga(action) {
 
 function* getPlanEventsByClientIdSaga(action) {
   try {
-    const {
-      clientId,
-      start = moment()
-        .utc()
-        .startOf('month')
-        .format(),
-      end = moment()
-        .utc()
-        .endOf('month')
-        .format(),
-    } = action.planEventInfo;
+    const { clientId, startDate, endDate } = action.planEventInfo;
+    const start = moment(startDate)
+      .utc()
+      .format();
+    const end = moment(endDate)
+      .utc()
+      .format();
+
     const response = yield call(
       reduxSagaFirebase.firestore.getCollection,
       firestore.collection('planEvents').where('clientId', '==', clientId),

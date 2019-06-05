@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import moment from 'moment';
 import Swal from 'sweetalert2';
@@ -265,29 +265,27 @@ class ClientPage extends React.Component {
     return !loadingSelectedUser ? (
       <div>
         {!selectedUserError && selectedUser ? (
-          <Container>
-            <Row>
-              <Col md={6} xs={12}>
-                <h2>
-                  <FormattedMessage {...messages.model.client} />
-                </h2>
-                {this.renderClientEditForm()}
-              </Col>
-              <Col md={6} xs={12}>
-                <Row>
-                  <Col>
-                    <h2>
-                      <FormattedMessage {...messages.model.mealPlan} />
-                    </h2>
-                  </Col>
-                  <Col>{this.renderAddPlanButton()}</Col>
-                </Row>
-                <Row>
-                  <Col>{this.renderTable()}</Col>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
+          <Row>
+            <Col md={5} xs={12}>
+              <h2>
+                <FormattedMessage {...messages.model.client} />
+              </h2>
+              {this.renderClientEditForm()}
+            </Col>
+            <Col md={7} xs={12}>
+              <Row>
+                <Col>
+                  <h2>
+                    <FormattedMessage {...messages.model.mealPlan} />
+                  </h2>
+                </Col>
+                <Col md="auto">{this.renderAddPlanButton()}</Col>
+              </Row>
+              <Row>
+                <Col>{this.renderTable()}</Col>
+              </Row>
+            </Col>
+          </Row>
         ) : (
           <NotFoundPage />
         )}

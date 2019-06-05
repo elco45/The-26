@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -87,7 +87,7 @@ class ClientsPage extends React.Component {
     return (
       <SButton
         loading={loadingSelectedUser}
-        buttonTextId="app.auth.addUser"
+        buttonTextId="app.action.add"
         functionSuccess={signUpSuccess}
         functionError={signUpError}
         func={createUser}
@@ -126,6 +126,18 @@ class ClientsPage extends React.Component {
           </Button>
         ),
       },
+      {
+        headerText: messages.model.calendar,
+        accessor: '_id',
+        filterable: false,
+        sortable: false,
+        cell: row => (
+          // eslint-disable-next-line no-underscore-dangle
+          <Button onClick={() => history.push(`/calendar/${row.original._id}`)}>
+            <i className="fa fa-calendar" />
+          </Button>
+        ),
+      },
     ];
     const additionalProps = {
       keyField: '_id',
@@ -155,21 +167,19 @@ class ClientsPage extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Row>
-          <Col md={5} xs={12}>
-            {this.renderAddButton()}
-          </Col>
-          <Col md={7} xs={12}>
+          <Col>
             <h2>
               <FormattedMessage {...messages.model.clients} />
             </h2>
           </Col>
+          <Col md="auto">{this.renderAddButton()}</Col>
         </Row>
         <Row>
           <Col>{this.renderTable()}</Col>
         </Row>
-      </Container>
+      </div>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -151,18 +151,16 @@ class ProfilePage extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <Col md={4} xs={12}>
-            <div>Profile Pic</div>
-          </Col>
-          <Col md={8} xs={12}>
-            {this.renderEditEmail()}
-            <hr />
-            {this.renderEditPass()}
-          </Col>
-        </Row>
-      </Container>
+      <Row>
+        <Col md={4} xs={12}>
+          <div>Profile Pic</div>
+        </Col>
+        <Col md={8} xs={12}>
+          {this.renderEditEmail()}
+          <hr />
+          {this.renderEditPass()}
+        </Col>
+      </Row>
     );
   }
 }

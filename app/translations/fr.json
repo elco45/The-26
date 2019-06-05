@@ -41,6 +41,9 @@
   "app.action.areYouSure": "Êtes-vous sûr?",
   "app.action.accept": "Acceptez",
   "app.action.cancel": "Annuler",
+  "app.action.close": "Fermer",
+  "app.action.cannotUndo": "Ce processus ne peut pas être annulé!",
+  "app.action.scannedAt": "Scanné sur",
 
   "app.model.createdAt": "Créé à",
   "app.model.updatedAt": "Mis à jour à",
@@ -61,6 +64,8 @@
   "app.model.dailyFoodCount": "Nombre de Repas Quotidiens",
   "app.model.startDate": "Date de début",
   "app.model.endDate": "Date de fin",
+  "app.model.calendar": "Calendrier",
+  "app.model.record": "Histoire",
 
   "app.error.hasActivePlan": "Le client a un plan actif qui se termine: ",
   "app.error.happened": "Une erreur est survenue.",
@@ -72,5 +77,6 @@
   "app.error.unauthorized": "Pas autorisé",
   "app.error.exceedDailyLimit": "Limite journalière dépassée!",
   "app.error.invalidQr": "Code QR invalide!",
-  "app.error.enableCamera": "L'autorisation de la caméra est requise!"
+  "app.error.enableCamera": "L'autorisation de la caméra est requise!",
+  "app.error.noActivePlan": "Vous n'avez actuellement aucun plan de repas actif!"
 }

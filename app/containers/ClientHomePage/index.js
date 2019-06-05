@@ -2,8 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { Container } from 'react-bootstrap';
 import QRCode from 'qrcode.react';
 import moment from 'moment/moment';
 
@@ -37,25 +37,36 @@ class ClientHomePage extends React.Component {
       return 'Loading';
     }
     return activePlans && activePlans.length > 0 ? (
-      <Container>
+      <Container style={{ marginTop: '4%' }}>
         <div className="d-flex justify-content-center">
           <h3>
-            <FormattedMessage {...messages.model.startDate} />:{' '}
-            {moment.utc(activePlans[0].startDate).format('YYYY-MM-DD')}
+            <FormattedMessage {...messages.model.mealPlan} />
           </h3>
         </div>
         <div className="d-flex justify-content-center">
-          <h3>
-            <FormattedMessage {...messages.model.endDate} />:{' '}
+          <p>
+            <b>
+              <FormattedMessage {...messages.model.startDate} />:{' '}
+            </b>
+            {moment.utc(activePlans[0].startDate).format('YYYY-MM-DD')}
+          </p>
+        </div>
+        <div className="d-flex justify-content-center">
+          <p>
+            <b>
+              <FormattedMessage {...messages.model.endDate} />:{' '}
+            </b>
             {moment.utc(activePlans[0].endDate).format('YYYY-MM-DD')}
-          </h3>
+          </p>
         </div>
         <div className="d-flex justify-content-center">
           <QRCode value={`plan-${activePlans[0]._id}`} />
         </div>
       </Container>
     ) : (
-      <h2>No active plan</h2>
+      <h2>
+        <FormattedMessage {...messages.error.noActivePlan} />
+      </h2>
     );
   }
 }

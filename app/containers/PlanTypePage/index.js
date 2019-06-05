@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -121,16 +121,14 @@ class PlanTypePage extends React.Component {
     return !loadingSelectedPlanType ? (
       <div>
         {!selectedPlanTypeError && selectedPlanType ? (
-          <Container>
-            <Row>
-              <Col>
-                <h2>
-                  <FormattedMessage {...messages.model.planType} />
-                </h2>
-                {this.renderPlanTypeEditForm()}
-              </Col>
-            </Row>
-          </Container>
+          <Row>
+            <Col>
+              <h2>
+                <FormattedMessage {...messages.model.planType} />
+              </h2>
+              {this.renderPlanTypeEditForm()}
+            </Col>
+          </Row>
         ) : (
           <NotFoundPage />
         )}

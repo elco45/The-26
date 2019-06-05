@@ -41,6 +41,9 @@
   "app.action.areYouSure": "Are you sure?",
   "app.action.accept": "Accept",
   "app.action.cancel": "Cancel",
+  "app.action.close": "Close",
+  "app.action.cannotUndo": "This process cannot be undone!",
+  "app.action.scannedAt": "Scanned on",
 
   "app.model.createdAt": "Created At",
   "app.model.updatedAt": "Updated At",
@@ -61,6 +64,8 @@
   "app.model.dailyFoodCount": "Daily Food Count",
   "app.model.startDate": "Start Date",
   "app.model.endDate": "End Date",
+  "app.model.calendar": "Calendar",
+  "app.model.record": "Record",
 
   "app.error.hasActivePlan": "The client has an active plan that ends on: ",
   "app.error.happened": "An error has happened.",
@@ -72,5 +77,6 @@
   "app.error.unauthorized": "Not authorized",
   "app.error.exceedDailyLimit": "Daily limit exceeded!",
   "app.error.invalidQr": "Invalid QR Code!",
-  "app.error.enableCamera": "Camera authorization is required!"
+  "app.error.enableCamera": "Camera authorization is required!",
+  "app.error.noActivePlan": "You currently have no active meal plan!"
 }
