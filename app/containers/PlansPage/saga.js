@@ -8,6 +8,7 @@ import {
   GET_PLANS_BY_CLIENT_ID_REQUEST,
   GET_ACTIVE_PLANS_BY_CLIENT_ID_REQUEST,
   UPDATE_PLAN_REQUEST,
+  DELETE_PLAN_REQUEST,
 } from 'containers/PlansPage/constants';
 import moment from 'moment/moment';
 import {
@@ -20,6 +21,8 @@ import {
   getPlansFailure,
   updatePlanSuccess,
   updatePlanFailure,
+  deletePlanSuccess,
+  deletePlanFailure,
 } from './actions';
 
 import { reduxSagaFirebase } from '../../firebase';
@@ -242,19 +245,33 @@ const plansTransformer = (snapshot, planTypes = null) => {
   return plans;
 };
 
-// function* syncPlansSaga() {
-//   yield fork(
-//     reduxSagaFirebase.firestore.syncCollection,
-//     firestore.collection('plans'),
-//     {
-//       successActionCreator: getPlansSuccess,
-//       transform: plansTransformer,
-//     },
-//   );
-// }
+function* deletePlanSaga(action) {
+  try {
+    const { id } = action.planInfo;
+    yield call(reduxSagaFirebase.firestore.deleteDocument, `plans/${id}`);
+    const snapshot = yield call(
+      reduxSagaFirebase.firestore.getCollection,
+      firestore.collection('planEvents').where('planId', '==', id),
+    );
+    const planEvents = [];
+    snapshot.forEach(planEvent => {
+      planEvents.push({ ...planEvent.data(), id: planEvent.id });
+    });
+    // eslint-disable-next-line func-names
+    yield* planEvents.map(function*(planEvent) {
+      yield call(
+        reduxSagaFirebase.firestore.deleteDocument,
+        `planEvents/${planEvent.id}`,
+      );
+    });
+
+    yield put(deletePlanSuccess());
+  } catch (error) {
+    yield put(deletePlanFailure(error));
+  }
+}
 
 export default function* plansRootSaga() {
-  // yield fork(syncPlansSaga);
   yield all([
     takeLatest(ADD_PLAN_REQUEST, addPlanSaga),
     takeLatest(GET_PLAN_REQUEST, getPlanSaga),
@@ -265,5 +282,6 @@ export default function* plansRootSaga() {
       getActivePlansByClientIdSaga,
     ),
     takeLatest(UPDATE_PLAN_REQUEST, updatePlanSaga),
+    takeLatest(DELETE_PLAN_REQUEST, deletePlanSaga),
   ]);
 }

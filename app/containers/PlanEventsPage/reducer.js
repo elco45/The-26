@@ -13,6 +13,9 @@ import {
   UPDATE_PLAN_EVENT_REQUEST,
   UPDATE_PLAN_EVENT_SUCCESS,
   UPDATE_PLAN_EVENT_FAILURE,
+  DELETE_PLAN_EVENT_REQUEST,
+  DELETE_PLAN_EVENT_SUCCESS,
+  DELETE_PLAN_EVENT_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -28,6 +31,8 @@ export const initialState = {
   planEventsError: null,
   updatePlanEventSuccess: false,
   planEventClientId: null,
+  deleteEventError: null,
+  deleteEventSuccess: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -99,6 +104,19 @@ const planEventsReducer = (state = initialState, action) =>
       case UPDATE_PLAN_EVENT_FAILURE:
         draft.loadingSelectedPlanEvent = false;
         draft.selectedPlanEventError = action.error;
+        break;
+
+      case DELETE_PLAN_EVENT_REQUEST:
+        draft.deletePlanEventSuccess = false;
+        draft.deletePlanEventFailure = null;
+        break;
+
+      case DELETE_PLAN_EVENT_SUCCESS:
+        draft.deletePlanEventSuccess = true;
+        break;
+
+      case DELETE_PLAN_EVENT_FAILURE:
+        draft.deletePlanEventFailure = action.error;
         break;
     }
   });

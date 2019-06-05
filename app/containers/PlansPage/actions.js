@@ -13,6 +13,9 @@ import {
   UPDATE_PLAN_REQUEST,
   UPDATE_PLAN_SUCCESS,
   UPDATE_PLAN_FAILURE,
+  DELETE_PLAN_REQUEST,
+  DELETE_PLAN_SUCCESS,
+  DELETE_PLAN_FAILURE,
 } from './constants';
 
 export const getPlanRequest = planInfo => ({
@@ -79,5 +82,19 @@ export const addPlanSuccess = () => ({
 
 export const addPlanFailure = error => ({
   type: ADD_PLAN_FAILURE,
+  error,
+});
+
+export const deletePlanRequest = planInfo => ({
+  type: DELETE_PLAN_REQUEST,
+  planInfo,
+});
+
+export const deletePlanSuccess = () => ({
+  type: DELETE_PLAN_SUCCESS,
+});
+
+export const deletePlanFailure = error => ({
+  type: DELETE_PLAN_FAILURE,
   error,
 });

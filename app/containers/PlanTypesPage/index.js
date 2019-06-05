@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import * as moment from 'moment/moment';
 
@@ -160,21 +160,19 @@ class PlantTypesPage extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <Row>
-          <Col md={5} xs={12}>
-            {this.renderAddButton()}
-          </Col>
-          <Col md={7} xs={12}>
+          <Col>
             <h2>
               <FormattedMessage {...{ id: 'app.model.planType' }} />
             </h2>
           </Col>
+          <Col md="auto">{this.renderAddButton()}</Col>
         </Row>
         <Row>
           <Col>{this.renderTable()}</Col>
         </Row>
-      </Container>
+      </div>
     );
   }
 }

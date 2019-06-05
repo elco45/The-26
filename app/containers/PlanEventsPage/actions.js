@@ -12,6 +12,9 @@ import {
   UPDATE_PLAN_EVENT_REQUEST,
   UPDATE_PLAN_EVENT_SUCCESS,
   UPDATE_PLAN_EVENT_FAILURE,
+  DELETE_PLAN_EVENT_REQUEST,
+  DELETE_PLAN_EVENT_SUCCESS,
+  DELETE_PLAN_EVENT_FAILURE,
 } from './constants';
 
 export const getPlanEventRequest = planEventInfo => ({
@@ -74,5 +77,19 @@ export const addPlanEventSuccess = planEventInfo => ({
 
 export const addPlanEventFailure = error => ({
   type: ADD_PLAN_EVENT_FAILURE,
+  error,
+});
+
+export const deletePlanEventRequest = planEventInfo => ({
+  type: DELETE_PLAN_EVENT_REQUEST,
+  planEventInfo,
+});
+
+export const deletePlanEventSuccess = () => ({
+  type: DELETE_PLAN_EVENT_SUCCESS,
+});
+
+export const deletePlanEventFailure = error => ({
+  type: DELETE_PLAN_EVENT_FAILURE,
   error,
 });

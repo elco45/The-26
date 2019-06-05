@@ -6,12 +6,17 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import CustomToggle from '../CustomToggle';
-import avatarProfileAlt from '../../images/icon-72x72.png';
 
 const AvatarImage = Styled.img`
   height: 25px;
   width: 25px;
   margin-right: 5px;
+`;
+
+const AvatarIcon = Styled.i`
+  font-size: 25px !important;
+  margin-right: 5px;
+  color: #fff;
 `;
 
 class CurrentUser extends React.Component {
@@ -46,13 +51,15 @@ class CurrentUser extends React.Component {
           <Dropdown.Toggle as={CustomToggle}>
             <Row>
               <Col>
-                <AvatarImage
-                  className="rounded-circle"
-                  src={
-                    (user.profile && user.profile.photoURL) || avatarProfileAlt
-                  }
-                  alt={user.profile && user.profile.name}
-                />
+                {user.profile && user.profile.photoURL ? (
+                  <AvatarImage
+                    className="rounded-circle"
+                    src={user.profile && user.profile.photoURL}
+                    alt={user.profile && user.profile.name}
+                  />
+                ) : (
+                  <AvatarIcon className="fa fa-user-circle" />
+                )}
                 <i className="fa fa-caret-down text-white" />
               </Col>
             </Row>

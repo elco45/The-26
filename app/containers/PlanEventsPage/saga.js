@@ -6,6 +6,7 @@ import {
   GET_PLAN_EVENT_REQUEST,
   GET_PLAN_EVENTS_REQUEST,
   GET_PLAN_EVENTS_BY_CLIENT_ID_REQUEST,
+  DELETE_PLAN_EVENT_REQUEST,
 } from 'containers/PlanEventsPage/constants';
 import Moment from 'moment/moment';
 import { extendMoment } from 'moment-range';
@@ -17,6 +18,8 @@ import {
   getPlanEventFailure,
   getPlanEventsSuccess,
   getPlanEventsFailure,
+  deletePlanEventSuccess,
+  deletePlanEventFailure,
 } from './actions';
 
 import { reduxSagaFirebase } from '../../firebase';
@@ -105,17 +108,14 @@ function* getPlanEventSaga(action) {
 
 function* getPlanEventsByClientIdSaga(action) {
   try {
-    const {
-      clientId,
-      start = moment()
-        .utc()
-        .startOf('month')
-        .format(),
-      end = moment()
-        .utc()
-        .endOf('month')
-        .format(),
-    } = action.planEventInfo;
+    const { clientId, startDate, endDate } = action.planEventInfo;
+    const start = moment(startDate)
+      .utc()
+      .format();
+    const end = moment(endDate)
+      .utc()
+      .format();
+
     const response = yield call(
       reduxSagaFirebase.firestore.getCollection,
       firestore.collection('planEvents').where('clientId', '==', clientId),
@@ -146,6 +146,16 @@ function* getPlanEventsSaga() {
     yield put(getPlanEventsSuccess(planEvents));
   } catch (error) {
     yield put(getPlanEventsFailure(error));
+  }
+}
+
+function* deletePlanEventSaga(action) {
+  try {
+    const { id } = action.planEventInfo;
+    yield call(reduxSagaFirebase.firestore.deleteDocument, `planEvents/${id}`);
+    yield put(deletePlanEventSuccess());
+  } catch (error) {
+    yield put(deletePlanEventFailure(error));
   }
 }
 
@@ -185,5 +195,6 @@ export default function* planEventsRootSaga() {
       GET_PLAN_EVENTS_BY_CLIENT_ID_REQUEST,
       getPlanEventsByClientIdSaga,
     ),
+    takeLatest(DELETE_PLAN_EVENT_REQUEST, deletePlanEventSaga),
   ]);
 }

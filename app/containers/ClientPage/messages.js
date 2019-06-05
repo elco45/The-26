@@ -10,8 +10,14 @@ export default defineMessages({
     edit: {
       id: `${scopeAction}.edit`,
     },
+    delete: {
+      id: `${scopeAction}.delete`,
+    },
     success: {
       id: `${scopeAction}.success`,
+    },
+    error: {
+      id: `${scopeAction}.error`,
     },
     areYouSure: {
       id: `${scopeAction}.areYouSure`,
@@ -21,6 +27,12 @@ export default defineMessages({
     },
     cancel: {
       id: `${scopeAction}.cancel`,
+    },
+    close: {
+      id: `${scopeAction}.close`,
+    },
+    cannotUndo: {
+      id: `${scopeAction}.cannotUndo`,
     },
   },
   auth: {

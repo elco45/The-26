@@ -2,8 +2,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 
@@ -32,12 +33,15 @@ import { makeSelectPlanTypes } from '../PlanTypesPage/selectors';
 import {
   getPlansByClientIdRequest,
   addPlanRequest,
+  deletePlanRequest,
 } from '../PlansPage/actions';
 import {
   makeSelectPlans,
   makeSelectLoadingSelectedPlan,
   makeSelectAddPlanSuccess,
   makeSelectAddPlanError,
+  makeSelectDeletePlanSuccess,
+  makeSelectDeletePlanError,
 } from '../PlansPage/selectors';
 
 import messages from './messages';
@@ -60,6 +64,76 @@ class ClientPage extends React.Component {
     getUser({ uid: match.params.id });
     getPlansByClientId({ clientId: match.params.id });
     getPlanTypes();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { deletePlanSuccess, deletePlanError } = this.props;
+    if (
+      deletePlanSuccess !== nextProps.deletePlanSuccess &&
+      nextProps.deletePlanSuccess
+    ) {
+      this.notifyDeleteSuccess();
+    }
+    if (
+      deletePlanError !== nextProps.deletePlanError &&
+      nextProps.deletePlanError
+    ) {
+      this.notifyDeleteError();
+    }
+  }
+
+  notifyDeleteSuccess = () => {
+    const { intl } = this.props;
+    return toast.success(
+      `${intl.formatMessage(messages.action.delete)} ${intl.formatMessage(
+        messages.action.success,
+      )}`,
+    );
+  };
+
+  notifyDeleteError = () => {
+    const { intl } = this.props;
+    return toast.error(
+      `${intl.formatMessage(messages.action.delete)} ${intl.formatMessage(
+        messages.action.error,
+      )}`,
+    );
+  };
+
+  showDelete(plan) {
+    const { intl, deletePlan } = this.props;
+    const { _id, startDate, endDate, planTypeName } = plan;
+    Swal.fire({
+      title: planTypeName,
+      html:
+        `<p><b>${intl.formatMessage(
+          messages.model.startDate,
+        )}: </b> ${moment.utc(startDate).format('YYYY-MM-DD')}</p>` +
+        `<p><b>${intl.formatMessage(messages.model.endDate)}: </b> ${moment
+          .utc(endDate)
+          .format('YYYY-MM-DD')}</p>`,
+      showCancelButton: true,
+      confirmButtonColor: 'red',
+      confirmButtonText: intl.formatMessage(messages.action.delete),
+      cancelButtonText: intl.formatMessage(messages.action.close),
+    }).then(result => {
+      if (result.value) {
+        Swal.fire({
+          title: intl.formatMessage(messages.action.areYouSure),
+          text: intl.formatMessage(messages.action.cannotUndo),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: 'red',
+          confirmButtonText: intl.formatMessage(messages.action.delete),
+          cancelButtonText: intl.formatMessage(messages.action.cancel),
+        }).then(confirm => {
+          // eslint-disable-next-line no-underscore-dangle
+          if (confirm.value) {
+            deletePlan({ id: _id });
+          }
+        });
+      }
+    });
   }
 
   renderClientEditForm() {
@@ -198,7 +272,7 @@ class ClientPage extends React.Component {
   }
 
   renderTable() {
-    const { plans, history } = this.props;
+    const { plans } = this.props;
     const columns = [
       {
         headerText: messages.model.startDate,
@@ -215,14 +289,13 @@ class ClientPage extends React.Component {
         accessor: 'planTypeName',
       },
       {
-        headerText: messages.action.edit,
+        headerText: messages.action.delete,
         accessor: '_id',
         filterable: false,
         sortable: false,
         cell: row => (
-          // eslint-disable-next-line no-underscore-dangle
-          <Button onClick={() => history.push(`/plan/${row.original._id}`)}>
-            <i className="fa fa-pencil" />
+          <Button onClick={() => this.showDelete(row.original)}>
+            <i className="fa fa-trash" />
           </Button>
         ),
       },
@@ -265,29 +338,27 @@ class ClientPage extends React.Component {
     return !loadingSelectedUser ? (
       <div>
         {!selectedUserError && selectedUser ? (
-          <Container>
-            <Row>
-              <Col md={6} xs={12}>
-                <h2>
-                  <FormattedMessage {...messages.model.client} />
-                </h2>
-                {this.renderClientEditForm()}
-              </Col>
-              <Col md={6} xs={12}>
-                <Row>
-                  <Col>
-                    <h2>
-                      <FormattedMessage {...messages.model.mealPlan} />
-                    </h2>
-                  </Col>
-                  <Col>{this.renderAddPlanButton()}</Col>
-                </Row>
-                <Row>
-                  <Col>{this.renderTable()}</Col>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
+          <Row>
+            <Col md={5} xs={12}>
+              <h2>
+                <FormattedMessage {...messages.model.client} />
+              </h2>
+              {this.renderClientEditForm()}
+            </Col>
+            <Col md={7} xs={12}>
+              <Row>
+                <Col>
+                  <h2>
+                    <FormattedMessage {...messages.model.mealPlan} />
+                  </h2>
+                </Col>
+                <Col md="auto">{this.renderAddPlanButton()}</Col>
+              </Row>
+              <Row>
+                <Col>{this.renderTable()}</Col>
+              </Row>
+            </Col>
+          </Row>
         ) : (
           <NotFoundPage />
         )}
@@ -314,7 +385,10 @@ ClientPage.propTypes = {
   loadingSelectedPlan: PropTypes.bool,
   addPlanSuccess: PropTypes.bool,
   addPlanError: PropTypes.object,
+  deletePlanSuccess: PropTypes.bool,
+  deletePlanError: PropTypes.object,
   addPlan: PropTypes.func,
+  deletePlan: PropTypes.func,
 
   intl: intlShape.isRequired,
   history: PropTypes.object,
@@ -327,6 +401,7 @@ const mapDispatchToProps = {
   getPlanTypes: getPlanTypesRequest,
   getPlansByClientId: getPlansByClientIdRequest,
   addPlan: addPlanRequest,
+  deletePlan: deletePlanRequest,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -339,6 +414,8 @@ const mapStateToProps = createStructuredSelector({
   plans: makeSelectPlans(),
   addPlanSuccess: makeSelectAddPlanSuccess(),
   addPlanError: makeSelectAddPlanError(),
+  deletePlanSuccess: makeSelectDeletePlanSuccess(),
+  deletePlanError: makeSelectDeletePlanError(),
 });
 
 const withConnect = connect(

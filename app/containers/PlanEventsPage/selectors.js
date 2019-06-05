@@ -63,6 +63,18 @@ const makeSelectUpdatePlanEventSuccess = () =>
     globalState => globalState.updatePlanEventSuccess,
   );
 
+const makeSelectDeletePlanEventSuccess = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.deletePlanEventSuccess,
+  );
+
+const makeSelectDeletePlanEventError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.deletePlanEventFailure,
+  );
+
 export {
   makeSelectPlanEventClientId,
   makeSelectAddPlanEventSuccess,
@@ -74,4 +86,6 @@ export {
   makeSelectLoadingPlanEvents,
   makeSelectPlanEventsError,
   makeSelectUpdatePlanEventSuccess,
+  makeSelectDeletePlanEventSuccess,
+  makeSelectDeletePlanEventError,
 };

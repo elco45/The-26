@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -13,6 +13,7 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import SForm from '../../components/SForm';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import NotFoundPage from '../NotFoundPage';
 
 import {
@@ -121,22 +122,20 @@ class PlanTypePage extends React.Component {
     return !loadingSelectedPlanType ? (
       <div>
         {!selectedPlanTypeError && selectedPlanType ? (
-          <Container>
-            <Row>
-              <Col>
-                <h2>
-                  <FormattedMessage {...messages.model.planType} />
-                </h2>
-                {this.renderPlanTypeEditForm()}
-              </Col>
-            </Row>
-          </Container>
+          <Row>
+            <Col>
+              <h2>
+                <FormattedMessage {...messages.model.planType} />
+              </h2>
+              {this.renderPlanTypeEditForm()}
+            </Col>
+          </Row>
         ) : (
           <NotFoundPage />
         )}
       </div>
     ) : (
-      <div>Loading.....</div>
+      <LoadingSpinner />
     );
   }
 }

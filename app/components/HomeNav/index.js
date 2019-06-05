@@ -100,7 +100,9 @@ class HomeNav extends React.Component {
     ) : (
       <Nav>
         <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav('/asd')}>qwe</Nav.Link>
+          <Nav.Link onClick={() => this.closeNav(`/calendar/${user.uid}`)}>
+            <FormattedMessage {...{ id: 'app.model.record' }} />
+          </Nav.Link>
         </Nav.Item>
       </Nav>
     );
@@ -173,7 +175,6 @@ class HomeNav extends React.Component {
   }
 
   render() {
-    const { history } = this.props;
     return (
       <Navbar
         bg="dark"
@@ -182,7 +183,12 @@ class HomeNav extends React.Component {
         onToggle={this.setNavExpanded}
         expanded={this.state.navExpanded}
       >
-        <Navbar.Brand onClick={() => history.push('/')}>The 26th</Navbar.Brand>
+        <Navbar.Brand
+          style={{ cursor: 'pointer' }}
+          onClick={() => this.closeNav('/')}
+        >
+          The 26th
+        </Navbar.Brand>
         <Navbar.Toggle className="ml-auto" aria-controls="collapse-nav" />
         {this.renderNavItems()}
       </Navbar>
