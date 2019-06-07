@@ -64,9 +64,13 @@ class ClientHomePage extends React.Component {
         </div>
       </Container>
     ) : (
-      <h2>
-        <FormattedMessage {...messages.error.noActivePlan} />
-      </h2>
+      <Container style={{ marginTop: '4%' }}>
+        <div className="d-flex justify-content-center">
+          <h2>
+            <FormattedMessage {...messages.error.noActivePlan} />
+          </h2>
+        </div>
+      </Container>
     );
   }
 }

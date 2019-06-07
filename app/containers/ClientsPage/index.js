@@ -83,6 +83,12 @@ class ClientsPage extends React.Component {
         name: 'password',
         uiWidget: 'password',
       },
+      {
+        name: 'telephone',
+      },
+      {
+        name: 'roomNumber',
+      },
     ];
     return (
       <SButton
@@ -98,6 +104,9 @@ class ClientsPage extends React.Component {
         schema={addClientSchema}
         hiddenFormData={{
           roles: ['client'],
+        }}
+        defaultValues={{
+          password: '111111',
         }}
       />
     );

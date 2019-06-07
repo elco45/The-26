@@ -26,6 +26,8 @@
   "app.auth.sameEmailError": "El nuevo email no debe ser el mismo.",
   "app.auth.relogin": "Se ha producido un error. Por favor, vuelva a reconectarse y pruebe nuevamente.",
   "app.auth.resetSuccess": "El valor ha sido cambiado con éxito. Por favor, vuelva a iniciar sesión.",
+  "app.auth.emailVerifificationSuccess": "Correo electrónico verificado, ahora puedes iniciar sesión!",
+  "app.auth.invalidToken": "¡Token inválido o vencido!",
 
   "app.action.submit": "Enviar",
   "app.action.add": "Agregar",
@@ -45,6 +47,7 @@
   "app.action.cannotUndo": "Este proceso no se puede deshacer!",
   "app.action.scannedAt": "Escaneado en",
 
+  "app.model.new": "Nueva",
   "app.model.createdAt": "Creado en",
   "app.model.updatedAt": "Actualizado en",
   "app.model.empty": "¡Vacío!",
@@ -66,6 +69,8 @@
   "app.model.endDate": "Fecha final",
   "app.model.calendar": "Calendario",
   "app.model.record": "Historial",
+  "app.model.telephone": "Teléfono",
+  "app.model.roomNumber": "Número de cuarto",
 
   "app.error.hasActivePlan": "El cliente tiene un plan activo que termina en: ",
   "app.error.happened": "Ha ocurrido un error.",

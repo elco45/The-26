@@ -26,6 +26,8 @@
   "app.auth.sameEmailError": "Le nouvel email ne devrait pas être le même.",
   "app.auth.relogin": "Une erreur est survenue. Veuillez vous reconnecter et réessayer.",
   "app.auth.resetSuccess": "La valeur a été modifiée avec succès. S'il vous plaît reconnecter.",
+  "app.auth.emailVerifificationSuccess": "Email vérifié, vous pouvez maintenant vous connecter!",
+  "app.auth.invalidToken": "Jeton invalide ou expiré!",
 
   "app.action.submit": "Soumettre",
   "app.action.add": "Ajouter",
@@ -45,6 +47,7 @@
   "app.action.cannotUndo": "Ce processus ne peut pas être annulé!",
   "app.action.scannedAt": "Scanné sur",
 
+  "app.model.new": "Nouveau",
   "app.model.createdAt": "Créé à",
   "app.model.updatedAt": "Mis à jour à",
   "app.model.empty": "Vide!",
@@ -66,6 +69,8 @@
   "app.model.endDate": "Date de fin",
   "app.model.calendar": "Calendrier",
   "app.model.record": "Histoire",
+  "app.model.telephone": "Téléphone",
+  "app.model.roomNumber": "Numéro de chambre",
 
   "app.error.hasActivePlan": "Le client a un plan actif qui se termine: ",
   "app.error.happened": "Une erreur est survenue.",
