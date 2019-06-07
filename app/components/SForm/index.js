@@ -42,6 +42,26 @@ class SForm extends React.Component {
           )} ${intl.formatMessage(messages[`error.required`])}`,
         },
       },
+      telephone: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.telephone`]),
+        default: defaultValues && defaultValues.telephone,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.telephone`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      roomNumber: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.roomNumber`]),
+        default: defaultValues && defaultValues.roomNumber,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.roomNumber`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
       name: {
         type: 'string',
         title: intl.formatMessage(messages[`model.name`]),

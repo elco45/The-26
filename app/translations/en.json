@@ -26,6 +26,8 @@
   "app.auth.sameEmailError": "The new email should not be the same one.",
   "app.auth.relogin": "An error has occurred. Please relogin and try again.",
   "app.auth.resetSuccess": "The value has been successfully changed. Please relogin.",
+  "app.auth.emailVerifificationSuccess": "Email verified, now you can log in!",
+  "app.auth.invalidToken": "Invalid or expired token!",
 
   "app.action.submit": "Submit",
   "app.action.add": "Add",
@@ -45,6 +47,7 @@
   "app.action.cannotUndo": "This process cannot be undone!",
   "app.action.scannedAt": "Scanned on",
 
+  "app.model.new": "New",
   "app.model.createdAt": "Created At",
   "app.model.updatedAt": "Updated At",
   "app.model.empty": "Empty!",
@@ -66,6 +69,8 @@
   "app.model.endDate": "End Date",
   "app.model.calendar": "Calendar",
   "app.model.record": "Record",
+  "app.model.telephone": "Telephone",
+  "app.model.roomNumber": "Room Number",
 
   "app.error.hasActivePlan": "The client has an active plan that ends on: ",
   "app.error.happened": "An error has happened.",

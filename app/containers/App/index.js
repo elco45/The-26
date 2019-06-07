@@ -21,6 +21,7 @@ import injectSaga from 'utils/injectSaga';
 import HomePage from 'containers/HomePage/Loadable';
 import ClientsPage from 'containers/ClientsPage/Loadable';
 import ClientPage from 'containers/ClientPage/Loadable';
+import EmailAuthHandler from 'containers/EmailAuthHandler/Loadable';
 import PlanEventsPage from 'containers/PlanEventsPage/Loadable';
 import PlanTypesPage from 'containers/PlanTypesPage/Loadable';
 import PlanTypePage from 'containers/PlanTypePage/Loadable';
@@ -47,6 +48,7 @@ class App extends React.PureComponent {
         <HomeNav />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/__/auth/action" component={EmailAuthHandler} />
           <Route
             exact
             path="/calendar/:clientId"

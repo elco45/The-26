@@ -147,6 +147,12 @@ class ClientPage extends React.Component {
       {
         name: 'name',
       },
+      {
+        name: 'telephone',
+      },
+      {
+        name: 'roomNumber',
+      },
     ];
     return (
       <SForm
@@ -161,6 +167,8 @@ class ClientPage extends React.Component {
         defaultValues={{
           email: selectedUser.email,
           name: selectedUser.displayName,
+          telephone: selectedUser.profile.telephone,
+          roomNumber: selectedUser.profile.roomNumber,
         }}
         hiddenFormData={{
           uid: match.params.id,
@@ -340,10 +348,16 @@ class ClientPage extends React.Component {
         {!selectedUserError && selectedUser ? (
           <Row>
             <Col md={5} xs={12}>
-              <h2>
-                <FormattedMessage {...messages.model.client} />
-              </h2>
-              {this.renderClientEditForm()}
+              <Row>
+                <Col>
+                  <h2>
+                    <FormattedMessage {...messages.model.client} />
+                  </h2>
+                </Col>
+              </Row>
+              <Row>
+                <Col>{this.renderClientEditForm()}</Col>
+              </Row>
             </Col>
             <Col md={7} xs={12}>
               <Row>

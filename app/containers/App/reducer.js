@@ -32,6 +32,10 @@ import {
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
+  APPLY_ACTION_CODE_REQUEST,
+  CONFIRM_PASSWORD_RESET_REQUEST,
+  APPLY_ACTION_CODE_SUCCESS,
+  APPLY_ACTION_CODE_FAILURE,
 } from './constants';
 
 // The initial state of the App
@@ -52,6 +56,8 @@ export const initialState = {
   users: [],
   loadingUsers: false,
   usersError: null,
+  applyActionSuccess: null,
+  applyActionError: null,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -207,6 +213,24 @@ const appReducer = (state = initialState, action) =>
       case UPDATE_USER_FAILURE:
         draft.loadingSelectedUser = false;
         draft.selectedUserError = action.error;
+        break;
+
+      case APPLY_ACTION_CODE_REQUEST:
+        draft.applyActionSuccess = null;
+        draft.applyActionError = null;
+        break;
+
+      case CONFIRM_PASSWORD_RESET_REQUEST:
+        draft.applyActionSuccess = null;
+        draft.applyActionError = null;
+        break;
+
+      case APPLY_ACTION_CODE_SUCCESS:
+        draft.applyActionSuccess = action.success;
+        break;
+
+      case APPLY_ACTION_CODE_FAILURE:
+        draft.applyActionError = action.error;
         break;
     }
   });
