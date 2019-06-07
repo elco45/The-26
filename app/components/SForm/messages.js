@@ -47,6 +47,12 @@ export default defineMessages({
     id: `${scopeAuth}.repeatPassError`,
   },
 
+  'model.telephone': {
+    id: `${scopeModel}.telephone`,
+  },
+  'model.roomNumber': {
+    id: `${scopeModel}.roomNumber`,
+  },
   'model.name': {
     id: `${scopeModel}.name`,
   },

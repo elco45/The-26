@@ -100,6 +100,17 @@ const makeSelectusersError = () =>
     globalState => globalState.usersError,
   );
 
+const makeSelectApplyActionSuccess = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.applyActionSuccess,
+  );
+const makeSelectApplyActionError = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.applyActionError,
+  );
+
 const makeSelectLocation = () =>
   createSelector(
     selectRouter,
@@ -124,4 +135,6 @@ export {
   makeSelectUsers,
   makeSelectLoadingUsers,
   makeSelectusersError,
+  makeSelectApplyActionSuccess,
+  makeSelectApplyActionError,
 };
