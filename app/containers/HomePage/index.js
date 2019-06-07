@@ -13,14 +13,11 @@ import {
 
 import ClientHomePage from '../ClientHomePage';
 import messages from './messages';
+import Hero from './Hero';
 
 class HomePage extends React.Component {
   renderHomePage() {
-    return (
-      <div>
-        <FormattedMessage {...messages.welcome} />
-      </div>
-    );
+    return <Hero />;
   }
 
   renderClientHomePage() {

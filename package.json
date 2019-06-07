@@ -92,6 +92,7 @@
     "react": "16.8.6",
     "react-big-calendar": "^0.20.4",
     "react-bootstrap": "^1.0.0-beta.8",
+    "react-breakpoints": "^3.0.3",
     "react-dom": "16.8.6",
     "react-helmet": "6.0.0-beta",
     "react-intl": "2.8.0",
