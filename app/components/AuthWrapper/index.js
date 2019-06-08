@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { injectIntl, intlShape } from 'react-intl';
@@ -11,6 +12,20 @@ import {
 } from '../../containers/App/selectors';
 import LoadingSpinner from '../LoadingSpinner';
 import messages from './messages';
+
+const Wrapper = Styled.div`
+  margin-top: 7%;
+
+  @media (max-width: 1024px) {
+    margin-top: 10%;
+  }
+  @media (max-width: 768px) {
+    margin-top: 14%;
+  }
+  @media (max-width: 480px) {
+    margin-top: 28%;
+  }
+`;
 
 export default function Authorization(allowedRoles) {
   return WrappedComponent => {
@@ -27,9 +42,11 @@ export default function Authorization(allowedRoles) {
           allowedRoles.some(r => user.profile.roles.includes(r))
         ) {
           return (
-            <Container style={{ marginTop: '2%' }}>
-              <WrappedComponent {...this.props} />
-            </Container>
+            <Wrapper>
+              <Container>
+                <WrappedComponent {...this.props} />
+              </Container>
+            </Wrapper>
           );
         }
         if (!allowedRoles) {
