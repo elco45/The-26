@@ -14,10 +14,16 @@ import {
 import ClientHomePage from '../ClientHomePage';
 import messages from './messages';
 import Hero from './Hero';
+import RestaurantStory from './RestaurantStory';
 
 class HomePage extends React.Component {
   renderHomePage() {
-    return <Hero />;
+    return (
+      <div>
+        <Hero />
+        <RestaurantStory />
+      </div>
+    );
   }
 
   renderClientHomePage() {

@@ -3,7 +3,7 @@ import Styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const HeroWrapper = Styled.div`
-  background-image: url(https://images.alphacoders.com/633/633643.jpg);
+  background-image: url(http://themesquared.com/tomato/wp-content/uploads/2015/12/bg2.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -31,7 +31,7 @@ const Hero = () => (
           <Logo src="http://themesquared.com/tomato/wp-content/uploads/2015/12/logo.png" />
         </Col>
         <Col xs={12}>
-          <Header className="text-center">TEXTO</Header>
+          <Header className="text-center">DELICIOUS FOOD</Header>
         </Col>
       </Row>
     </Container>
