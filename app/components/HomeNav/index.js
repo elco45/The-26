@@ -40,10 +40,41 @@ class HomeNav extends React.Component {
 
     this.state = {
       navExpanded: false,
+      scrollY: 0,
     };
 
     this.setNavExpanded = this.setNavExpanded.bind(this);
     this.closeNav = this.closeNav.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      scrollY: window.pageYOffset,
+    });
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    const { scrollY } = this.state;
+    const { pageYOffset } = window;
+    if (pageYOffset === 0 || scrollY === 0) {
+      this.setState({
+        scrollY: pageYOffset,
+      });
+    }
+  }
+
+  navBarStyle(scrollY) {
+    return {
+      opacity: scrollY !== 0 ? 1 : 0.8,
+      transform: scrollY !== 0 ? 'scaleY(0.95)' : '',
+      transformOrigin: 'top',
+    };
   }
 
   setNavExpanded(expanded) {
@@ -175,13 +206,16 @@ class HomeNav extends React.Component {
   }
 
   render() {
+    const { scrollY, navExpanded } = this.state;
     return (
       <Navbar
+        fixed="top"
         bg="dark"
         variant="dark"
         expand="lg"
         onToggle={this.setNavExpanded}
-        expanded={this.state.navExpanded}
+        expanded={navExpanded}
+        style={this.navBarStyle(scrollY)}
       >
         <Navbar.Brand
           style={{ cursor: 'pointer' }}
