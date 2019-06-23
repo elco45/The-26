@@ -25,12 +25,12 @@ const Header = Styled.h1`
 
 const Hero = () => (
   <HeroWrapper>
-    <Container className="container d-flex h-100">
-      <Row className="justify-content-center align-self-center w-100">
+    <Container className="container d-flex h-100 flex-column">
+      <Row className="align-self-center my-auto">
         <Col xs={12} className="d-flex justify-content-center">
           <Logo src="http://themesquared.com/tomato/wp-content/uploads/2015/12/logo.png" />
         </Col>
-        <Col xs={12}>
+        <Col xs={12} className="d-flex justify-content-center">
           <Header className="text-center">DELICIOUS FOOD</Header>
         </Col>
       </Row>

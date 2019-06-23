@@ -52,32 +52,34 @@ const RestaurantStory = () => (
       </Col>
     </Row>
     <Row>
-      <Col xs={4}>
-        <Row>
-          <ColNoPadding className="col-12 d-sm-none d-md-block">
-            <Image
-              className="img-fluid"
-              src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb1.png"
-              alt=""
-            />
-          </ColNoPadding>
-          <ColNoPadding className="col-sm-6 d-none d-sm-block">
-            <Image
-              className="img-fluid"
-              src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb2.png"
-              alt=""
-            />
-          </ColNoPadding>
-          <ColNoPadding className="col-sm-6 d-none d-sm-block">
-            <Image
-              className="img-fluid"
-              src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb3.png"
-              alt=""
-            />
-          </ColNoPadding>
-        </Row>
+      <Col xs={12} md={4}>
+        <Container className="container d-flex h-100 flex-column">
+          <Row>
+            <ColNoPadding className="col-12 d-sm-none d-md-block">
+              <Image
+                className="img-fluid"
+                src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb1.png"
+                alt=""
+              />
+            </ColNoPadding>
+            <ColNoPadding className="col-sm-6 d-none d-sm-block">
+              <Image
+                className="img-fluid"
+                src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb2.png"
+                alt=""
+              />
+            </ColNoPadding>
+            <ColNoPadding className="col-sm-6 d-none d-sm-block">
+              <Image
+                className="img-fluid"
+                src="http://themesquared.com/tomato/wp-content/uploads/2015/12/thumb3.png"
+                alt=""
+              />
+            </ColNoPadding>
+          </Row>
+        </Container>
       </Col>
-      <Col xs={8}>
+      <Col xs={12} md={8}>
         <AboutRestaurant>
           Cras ut viverra eros. Phasellus sollicitudin sapien id luctus tempor.
           Sed hend rerit inter dum sagittis. Donec nunc lacus, dapibus nec
