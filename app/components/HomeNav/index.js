@@ -24,6 +24,7 @@ import {
 } from '../../containers/App/selectors';
 
 import LocaleToggle from '../../containers/LocaleToggle';
+require('./style.css');
 
 const QrCodeIcon = Styled.i`
   border-radius: 8px;
@@ -33,6 +34,8 @@ const QrCodeIcon = Styled.i`
   font-size: 28px !important;
   margin-left: 5px;
 `;
+
+const specialPages = ['/'];
 
 class HomeNav extends React.Component {
   constructor(props) {
@@ -46,6 +49,7 @@ class HomeNav extends React.Component {
     this.setNavExpanded = this.setNavExpanded.bind(this);
     this.closeNav = this.closeNav.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
+    this.navBarStyle = this.navBarStyle.bind(this);
   }
 
   componentDidMount() {
@@ -69,9 +73,13 @@ class HomeNav extends React.Component {
     }
   }
 
-  navBarStyle(scrollY) {
+  navBarStyle() {
+    const { scrollY } = this.state;
+    const { location } = this.props;
     return {
-      opacity: scrollY !== 0 ? 1 : 0.8,
+      backgroundColor: '#000',
+      opacity:
+        scrollY === 0 && specialPages.includes(location.pathname) ? 0.6 : 1,
       transform: scrollY !== 0 ? 'scaleY(0.95)' : '',
       transformOrigin: 'top',
     };
@@ -206,16 +214,16 @@ class HomeNav extends React.Component {
   }
 
   render() {
-    const { scrollY, navExpanded } = this.state;
+    const { navExpanded } = this.state;
     return (
       <Navbar
+        className="navbarCustomStyle"
         fixed="top"
-        bg="dark"
         variant="dark"
         expand="lg"
         onToggle={this.setNavExpanded}
         expanded={navExpanded}
-        style={this.navBarStyle(scrollY)}
+        style={this.navBarStyle()}
       >
         <Navbar.Brand
           style={{ cursor: 'pointer' }}
@@ -241,6 +249,7 @@ HomeNav.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
+  location: PropTypes.object,
   history: PropTypes.object,
 };
 
