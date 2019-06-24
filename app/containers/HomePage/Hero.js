@@ -38,8 +38,6 @@ const AnimationWrapper = Styled.div`
 `;
 
 const DivWrapper = Styled.div`
-  width:100vw;
-  max-width:100%;
   min-width:100%;
 `;
 

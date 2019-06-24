@@ -15,7 +15,7 @@ const PageHeader = Styled.h1`
 `;
 
 const UnderlineDiv = Styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   &:after {
     content: "";
     display: block;
@@ -26,6 +26,11 @@ const UnderlineDiv = Styled.div`
     margin: 0px auto;
   }
 `;
+
+const SubDescription = Styled.p`
+  font-size: 24px;
+`;
+
 const ColNoPadding = Styled.div`
   padding: 5px!important;
 `;
@@ -33,10 +38,6 @@ const ColNoPadding = Styled.div`
 const Image = Styled.img`
   width: 100%!important;
   max-width: 100%!important;
-`;
-
-const SubDescription = Styled.p`
-  font-size: 24px;
 `;
 
 const AboutRestaurant = Styled.p`

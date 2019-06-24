@@ -11,6 +11,7 @@ import ClientHomePage from '../ClientHomePage';
 import messages from './messages';
 import Hero from './Hero';
 import RestaurantStory from './RestaurantStory';
+import Menu from './Menu';
 
 class HomePage extends React.Component {
   renderHomePage() {
@@ -18,6 +19,7 @@ class HomePage extends React.Component {
       <div>
         <Hero />
         <RestaurantStory />
+        <Menu />
       </div>
     );
   }
