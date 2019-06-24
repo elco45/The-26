@@ -46,6 +46,9 @@
   "app.action.close": "Fermer",
   "app.action.cannotUndo": "Ce processus ne peut pas être annulé!",
   "app.action.scannedAt": "Scanné sur",
+  "app.action.addedBy": "Ajouté par",
+  "app.action.addedManuallyBy": "Ajouté manuellement par",
+  "app.action.createdAt": "Créé à",
 
   "app.model.new": "Nouveau",
   "app.model.createdAt": "Créé à",

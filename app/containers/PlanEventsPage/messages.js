@@ -10,6 +10,9 @@ export default defineMessages({
     areYouSure: {
       id: `${scopeAction}.areYouSure`,
     },
+    add: {
+      id: `${scopeAction}.add`,
+    },
     delete: {
       id: `${scopeAction}.delete`,
     },
@@ -28,6 +31,15 @@ export default defineMessages({
     scannedAt: {
       id: `${scopeAction}.scannedAt`,
     },
+    addedBy: {
+      id: `${scopeAction}.addedBy`,
+    },
+    addedManuallyBy: {
+      id: `${scopeAction}.addedManuallyBy`,
+    },
+    createdAt: {
+      id: `${scopeAction}.createdAt`,
+    },
     success: {
       id: `${scopeAction}.success`,
     },
@@ -44,6 +56,32 @@ export default defineMessages({
     },
     endDate: {
       id: `${scopeModel}.endDate`,
+    },
+    new: {
+      id: `${scopeModel}.new`,
+    },
+    client: {
+      id: `${scopeModel}.client`,
+    },
+    email: {
+      id: `${scopeModel}.email`,
+    },
+  },
+  error: {
+    noActivePlan: {
+      id: `${scopeError}.noActivePlan`,
+    },
+    minimum: {
+      id: `${scopeError}.minimum`,
+    },
+    maximum: {
+      id: `${scopeError}.maximum`,
+    },
+    exceedDailyLimit: {
+      id: `${scopeError}.exceedDailyLimit`,
+    },
+    happened: {
+      id: `${scopeError}.happened`,
     },
   },
 });
