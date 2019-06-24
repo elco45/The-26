@@ -46,12 +46,6 @@ const AboutRestaurant = Styled.p`
   line-height: 33px;
 `;
 
-const DivWrapper = Styled.div`
-  width:100vw;
-  max-width:100%;
-  min-width:100%;
-`;
-
 const RestaurantStory = () => (
   <Container
     style={{
