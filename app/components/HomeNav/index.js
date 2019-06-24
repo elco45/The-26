@@ -123,27 +123,21 @@ class HomeNav extends React.Component {
 
   renderUserMenu() {
     const { user } = this.props;
-    return user.profile.roles.includes('admin') ? (
-      <Nav>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav('/clients')}>
-            <FormattedMessage {...{ id: 'app.model.clients' }} />
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav('/plan-types')}>
-            <FormattedMessage {...{ id: 'app.model.planTypes' }} />
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-    ) : (
-      <Nav>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav(`/calendar/${user.uid}`)}>
-            <FormattedMessage {...{ id: 'app.model.record' }} />
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
+    return (
+      user.profile.roles.includes('admin') && (
+        <Nav>
+          <Nav.Item>
+            <Nav.Link onClick={() => this.closeNav('/clients')}>
+              <FormattedMessage {...{ id: 'app.model.clients' }} />
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => this.closeNav('/plan-types')}>
+              <FormattedMessage {...{ id: 'app.model.planTypes' }} />
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      )
     );
   }
 

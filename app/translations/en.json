@@ -46,6 +46,9 @@
   "app.action.close": "Close",
   "app.action.cannotUndo": "This process cannot be undone!",
   "app.action.scannedAt": "Scanned on",
+  "app.action.addedBy": "Added by",
+  "app.action.addedManuallyBy": "Manually Added by",
+  "app.action.createdAt": "Created at",
 
   "app.model.new": "New",
   "app.model.createdAt": "Created At",

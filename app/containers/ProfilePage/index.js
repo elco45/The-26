@@ -153,7 +153,7 @@ class ProfilePage extends React.Component {
     return (
       <Row>
         <Col md={4} xs={12}>
-          <div>Profile Pic</div>
+          <div>The 26th</div>
         </Col>
         <Col md={8} xs={12}>
           {this.renderEditEmail()}

@@ -157,8 +157,12 @@ function* getActivePlansByClientIdSaga(action) {
       reduxSagaFirebase.firestore.getDocument,
       firestore.collection('planTypes'),
     );
+    const userInfo = yield call(
+      reduxSagaFirebase.firestore.getDocument,
+      `users/${clientId}`,
+    );
     const planTypes = planTypesTransformer(snapshot);
-    const plans = plansTransformer(activePlan, planTypes);
+    const plans = plansTransformer(activePlan, planTypes, userInfo.data());
     yield put(getPlansSuccess(plans));
   } catch (error) {
     yield put(getPlanFailure(error));
@@ -224,12 +228,14 @@ function* updatePlanSaga(action) {
   }
 }
 
-const plansTransformer = (snapshot, planTypes = null) => {
+const plansTransformer = (snapshot, planTypes = null, userInfo = null) => {
   const plans = [];
   snapshot.forEach(plan => {
     plans.push({
       _id: plan.id,
       ...plan.data(),
+      clientName: userInfo && userInfo.displayName,
+      clientEmail: userInfo && userInfo.email,
     });
   });
   if (planTypes) {

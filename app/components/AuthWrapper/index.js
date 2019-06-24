@@ -14,7 +14,7 @@ import LoadingSpinner from '../LoadingSpinner';
 import messages from './messages';
 
 const Wrapper = Styled.div`
-  margin-top: 7%;
+  margin-top: 6%;
 
   @media (max-width: 1024px) {
     margin-top: 10%;
@@ -49,7 +49,7 @@ export default function Authorization(allowedRoles) {
             </Wrapper>
           );
         }
-        if (!allowedRoles) {
+        if (!allowedRoles || allowedRoles.includes('home')) {
           return <WrappedComponent {...this.props} />;
         }
         return <h1>{intl.formatMessage(messages.unauthorized)}</h1>;
