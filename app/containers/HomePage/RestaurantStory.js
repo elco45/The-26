@@ -14,6 +14,18 @@ const PageHeader = Styled.h1`
   line-height: 1.1;
 `;
 
+const UnderlineDiv = Styled.div`
+  margin-bottom: 10px;
+  &:after {
+    content: "";
+    display: block;
+    position: relative;
+    height: 3px;
+    width: 113px;
+    background-color: #f9c56a;
+    margin: 0px auto;
+  }
+`;
 const ColNoPadding = Styled.div`
   padding: 5px!important;
 `;
@@ -34,6 +46,12 @@ const AboutRestaurant = Styled.p`
   line-height: 33px;
 `;
 
+const DivWrapper = Styled.div`
+  width:100vw;
+  max-width:100%;
+  min-width:100%;
+`;
+
 const RestaurantStory = () => (
   <Container
     style={{
@@ -43,12 +61,12 @@ const RestaurantStory = () => (
   >
     <Row>
       <Col xs={12} className="d-flex justify-content-center">
-        <div>
+        <UnderlineDiv>
           <PageHeader>The Restaurant</PageHeader>
           <SubDescription>
             A little about us and a brief history of how we started.
           </SubDescription>
-        </div>
+        </UnderlineDiv>
       </Col>
     </Row>
     <Row>
