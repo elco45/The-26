@@ -34,7 +34,7 @@ const CenterWrapperCell = Styled.div`
   vertical-align: middle;
 `;
 
-const FollowUsText = Styled.p`
+const SectionTitle = Styled.p`
   color: #ff7149;
   font-size: 24px;
   font-weight: bold;
@@ -130,7 +130,7 @@ const Footer = () => (
           <Col md={4} xs={12}>
             <CenterWrapper>
               <CenterWrapperCell>
-                <FollowUsText>Follow Us</FollowUsText>
+                <SectionTitle>Follow Us</SectionTitle>
                 {renderSocialLink(
                   'https://google.com/',
                   'fb',

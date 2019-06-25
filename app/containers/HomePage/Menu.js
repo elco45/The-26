@@ -57,6 +57,7 @@ const MenuHeaderSpan = Styled.span`
   word-wrap: break-word;
   &.active{
     border-bottom: 3px solid #f9c56a;
+    color: black;
   }
 `;
 
@@ -154,8 +155,9 @@ class Menu extends React.Component {
       <Element name="Menu">
         <Container
           style={{
-            marginTop: '25px',
-            marginBottom: '25px',
+            marginTop: '24px',
+            marginBottom: '20px',
+            paddingBottom: '24px',
           }}
         >
           <Row>
