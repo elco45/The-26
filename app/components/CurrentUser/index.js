@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'styled-components';
-import { Nav, Dropdown } from 'react-bootstrap';
+import { Nav, Dropdown, Row, Col } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
-import avatarProfileAlt from '../../images/icon-72x72.png';
+import CustomToggle from '../CustomToggle';
 
 const AvatarImage = Styled.img`
   height: 25px;
   width: 25px;
   margin-right: 5px;
+`;
+
+const AvatarIcon = Styled.i`
+  font-size: 25px !important;
+  margin-right: 5px;
+  color: #fff;
 `;
 
 class CurrentUser extends React.Component {
@@ -31,26 +37,35 @@ class CurrentUser extends React.Component {
   }
 
   logout() {
-    const { signOut, history } = this.props;
+    const { signOut, closeNav } = this.props;
     signOut();
-    history.push('/');
+    closeNav('/');
   }
 
   render() {
-    const { user, history } = this.props;
+    const { user, closeNav } = this.props;
 
     return (
       <Nav.Item>
         <Dropdown alignRight>
-          <Dropdown.Toggle>
-            <AvatarImage
-              className="rounded-circle"
-              src={(user.profile && user.profile.photoURL) || avatarProfileAlt}
-              alt={user.profile && user.profile.name}
-            />
+          <Dropdown.Toggle as={CustomToggle}>
+            <Row>
+              <Col>
+                {user.profile && user.profile.photoURL ? (
+                  <AvatarImage
+                    className="rounded-circle"
+                    src={user.profile && user.profile.photoURL}
+                    alt={user.profile && user.profile.name}
+                  />
+                ) : (
+                  <AvatarIcon className="fa fa-user-circle" />
+                )}
+                <i className="fa fa-caret-down text-white" />
+              </Col>
+            </Row>
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => history.push('/profile')}>
+            <Dropdown.Item onClick={() => closeNav('/profile')}>
               <FormattedMessage {...messages.profile} />
             </Dropdown.Item>
             <Dropdown.Item onClick={() => this.logout()}>
@@ -73,6 +88,7 @@ CurrentUser.propTypes = {
     }),
   }),
   signOut: PropTypes.func.isRequired,
+  closeNav: PropTypes.func,
   history: PropTypes.object,
 };
 

@@ -47,8 +47,14 @@ export default defineMessages({
     id: `${scopeAuth}.repeatPassError`,
   },
 
+  'model.telephone': {
+    id: `${scopeModel}.telephone`,
+  },
+  'model.roomNumber': {
+    id: `${scopeModel}.roomNumber`,
+  },
   'model.name': {
-    id: `${scopeModel}.fullName`,
+    id: `${scopeModel}.name`,
   },
   'model.email': {
     id: `${scopeModel}.email`,
@@ -58,6 +64,21 @@ export default defineMessages({
   },
   'model.repeatPassword': {
     id: `${scopeModel}.repeatPassword`,
+  },
+  'model.description': {
+    id: `${scopeModel}.description`,
+  },
+  'model.price': {
+    id: `${scopeModel}.price`,
+  },
+  'model.durationDays': {
+    id: `${scopeModel}.durationDays`,
+  },
+  'model.dailyFoodCount': {
+    id: `${scopeModel}.dailyFoodCount`,
+  },
+  'model.mealPlan': {
+    id: `${scopeModel}.mealPlan`,
   },
 
   'error.happened': {
@@ -71,5 +92,8 @@ export default defineMessages({
   },
   'error.minRequired': {
     id: `${scopeError}.minRequired`,
+  },
+  'error.minimum': {
+    id: `${scopeError}.minimum`,
   },
 });

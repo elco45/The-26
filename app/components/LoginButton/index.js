@@ -22,10 +22,12 @@ class LoginButton extends React.Component {
   }
 
   toggleSignIn() {
+    const { closeNav } = this.props;
     const { modalSignIn } = this.state;
     this.setState({
       modalSignIn: !modalSignIn,
     });
+    closeNav();
   }
 
   togglePassReset() {
@@ -149,6 +151,7 @@ LoginButton.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
+  closeNav: PropTypes.func,
   intl: intlShape.isRequired,
 };
 

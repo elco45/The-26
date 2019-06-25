@@ -31,6 +31,10 @@ import {
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
+  APPLY_ACTION_CODE_REQUEST,
+  CONFIRM_PASSWORD_RESET_REQUEST,
+  APPLY_ACTION_CODE_SUCCESS,
+  APPLY_ACTION_CODE_FAILURE,
 } from './constants';
 
 export const getUserRequest = userInfo => ({
@@ -183,4 +187,24 @@ export const sync = isSyncing => ({
 export const syncUser = user => ({
   type: SYNC_USER,
   user,
+});
+
+export const applyActionCodeRequest = actionCode => ({
+  type: APPLY_ACTION_CODE_REQUEST,
+  actionCode,
+});
+
+export const confirmPasswordResetRequest = actionCode => ({
+  type: CONFIRM_PASSWORD_RESET_REQUEST,
+  actionCode,
+});
+
+export const applyActionCodeSuccess = success => ({
+  type: APPLY_ACTION_CODE_SUCCESS,
+  success,
+});
+
+export const applyActionCodeFailure = error => ({
+  type: APPLY_ACTION_CODE_FAILURE,
+  error,
 });

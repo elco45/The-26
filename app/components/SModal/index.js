@@ -18,6 +18,7 @@ const ModalRightTitle = Styled.p`
 const SModal = ({
   modalToggle,
   loading,
+  showUiLabels,
   func,
   validateFunc,
   toggle,
@@ -25,6 +26,9 @@ const SModal = ({
   modalButtonTextId,
   requiredSchema,
   schema,
+  customSchema,
+  defaultValues,
+  definitions,
   hiddenFormData,
 }) => {
   const modalTitleText = {
@@ -34,24 +38,27 @@ const SModal = ({
     <Modal show={modalToggle} onHide={toggle}>
       <Container>
         <Row>
-          <ModalRightContainer className="col-12 text-center">
+          <ModalRightContainer className="col-12">
             <Row>
               <Col className="text-right">
                 <Button variant="danger" onClick={toggle}>
                   X
                 </Button>
               </Col>
-              <ModalRightTitle className="col-12">
+              <ModalRightTitle className="col-12 text-center">
                 <FormattedMessage {...modalTitleText} />
               </ModalRightTitle>
               <SForm
                 submitFunc={func}
                 validateFunc={validateFunc}
                 loading={loading}
-                showUiLabels={false}
+                showUiLabels={showUiLabels}
                 showPlaceHolder
                 requiredSchema={requiredSchema}
                 schema={schema}
+                customSchema={customSchema}
+                defaultValues={defaultValues}
+                definitions={definitions}
                 submitBtnText={modalButtonTextId}
                 hiddenFormData={hiddenFormData}
               />
@@ -66,6 +73,7 @@ const SModal = ({
 SModal.propTypes = {
   loading: PropTypes.bool,
   toggle: PropTypes.func,
+  showUiLabels: PropTypes.bool,
   modalToggle: PropTypes.bool,
   functionSuccess: PropTypes.bool,
   functionError: PropTypes.object,
@@ -79,7 +87,10 @@ SModal.propTypes = {
       name: PropTypes.string,
       uiWidget: PropTypes.string,
     }),
-  ).isRequired,
+  ),
+  customSchema: PropTypes.object,
+  definitions: PropTypes.object,
+  defaultValues: PropTypes.object,
   hiddenFormData: PropTypes.object,
   intl: intlShape.isRequired,
 };

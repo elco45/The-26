@@ -10,8 +10,29 @@ export default defineMessages({
     edit: {
       id: `${scopeAction}.edit`,
     },
+    delete: {
+      id: `${scopeAction}.delete`,
+    },
     success: {
       id: `${scopeAction}.success`,
+    },
+    error: {
+      id: `${scopeAction}.error`,
+    },
+    areYouSure: {
+      id: `${scopeAction}.areYouSure`,
+    },
+    accept: {
+      id: `${scopeAction}.accept`,
+    },
+    cancel: {
+      id: `${scopeAction}.cancel`,
+    },
+    close: {
+      id: `${scopeAction}.close`,
+    },
+    cannotUndo: {
+      id: `${scopeAction}.cannotUndo`,
     },
   },
   auth: {
@@ -35,8 +56,17 @@ export default defineMessages({
     client: {
       id: `${scopeModel}.client`,
     },
-    monthlyMealPlan: {
-      id: `${scopeModel}.monthlyMealPlan`,
+    mealPlan: {
+      id: `${scopeModel}.mealPlan`,
+    },
+    planType: {
+      id: `${scopeModel}.planType`,
+    },
+    startDate: {
+      id: `${scopeModel}.startDate`,
+    },
+    endDate: {
+      id: `${scopeModel}.endDate`,
     },
     fullName: {
       id: `${scopeModel}.fullName`,
@@ -46,6 +76,17 @@ export default defineMessages({
     },
     password: {
       id: `${scopeModel}.password`,
+    },
+    calendar: {
+      id: `${scopeModel}.calendar`,
+    },
+  },
+  error: {
+    invalid: {
+      id: `${scopeError}.invalid`,
+    },
+    hasActivePlan: {
+      id: `${scopeError}.hasActivePlan`,
     },
   },
 });

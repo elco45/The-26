@@ -16,6 +16,11 @@ const ModalRightTitle = Styled.p`
   color: #1F3078;
 `;
 
+const MealPlanDescription = Styled.p`
+  font-size: 16px;
+  text-align: center;
+`;
+
 const ModalTextOpenSI = Styled.a`
   font-size: 12px;
   color: #69ABB7 !important;
@@ -93,6 +98,9 @@ class SignInModal extends React.Component {
                 <ModalRightTitle className="col-12">
                   <FormattedMessage {...messages.auth.login} />
                 </ModalRightTitle>
+                <MealPlanDescription className="col-12">
+                  <FormattedMessage {...messages.auth.getMealPlan} />
+                </MealPlanDescription>
                 <SForm
                   submitFunc={signIn}
                   validateFunc={this.validateSignIn}

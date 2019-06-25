@@ -44,5 +44,14 @@ export default defineMessages({
     password: {
       id: `${scopeModel}.password`,
     },
+    calendar: {
+      id: `${scopeModel}.calendar`,
+    },
+    roomNumber: {
+      id: `${scopeModel}.roomNumber`,
+    },
+    telephone: {
+      id: `${scopeModel}.telephone`,
+    },
   },
 });

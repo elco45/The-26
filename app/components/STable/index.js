@@ -5,7 +5,7 @@ import { injectIntl, intlShape } from 'react-intl';
 
 class STable extends React.Component {
   getTable() {
-    const { columns, data, additionalProps, intl } = this.props;
+    const { columns, data, additionalProps, pageSize, intl } = this.props;
     const newColumns = [];
     columns.forEach(column => {
       const {
@@ -23,7 +23,10 @@ class STable extends React.Component {
         Cell: cell,
         filterable,
         sortable,
-        style,
+        style: {
+          textAlign: 'center',
+          ...style,
+        },
         headerStyle: {
           background: '#212529',
           color: '#fff',
@@ -33,9 +36,11 @@ class STable extends React.Component {
     });
     return (
       <ReactTable
+        className="-highlight -striped"
         data={data}
         columns={newColumns}
         noDataText={intl.formatMessage({ id: 'app.model.empty' })}
+        pageSize={pageSize}
         {...additionalProps}
       />
     );
@@ -63,6 +68,7 @@ STable.propTypes = {
     }),
   ),
   additionalProps: PropTypes.object,
+  pageSize: PropTypes.number,
   data: PropTypes.arrayOf(PropTypes.object),
   intl: intlShape.isRequired,
 };
@@ -72,6 +78,7 @@ STable.defaultProps = {
     showPagination: false,
     defaultPageSize: 1,
   },
+  pageSize: 1,
 };
 
 export default injectIntl(STable);

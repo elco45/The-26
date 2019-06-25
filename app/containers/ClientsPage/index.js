@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { toast } from 'react-toastify';
 
@@ -9,7 +9,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import AuthWrapper from '../../components/AuthWrapper';
 import SButton from '../../components/SButton';
 import STable from '../../components/STable';
 
@@ -70,7 +69,6 @@ class ClientsPage extends React.Component {
       signUpSuccess,
       signUpError,
       createUser,
-      syncing,
       loadingSelectedUser,
     } = this.props;
     const addClientSchema = [
@@ -85,12 +83,17 @@ class ClientsPage extends React.Component {
         name: 'password',
         uiWidget: 'password',
       },
+      {
+        name: 'telephone',
+      },
+      {
+        name: 'roomNumber',
+      },
     ];
     return (
       <SButton
-        syncing={syncing}
         loading={loadingSelectedUser}
-        buttonTextId="app.auth.addUser"
+        buttonTextId="app.action.add"
         functionSuccess={signUpSuccess}
         functionError={signUpError}
         func={createUser}
@@ -101,6 +104,9 @@ class ClientsPage extends React.Component {
         schema={addClientSchema}
         hiddenFormData={{
           roles: ['client'],
+        }}
+        defaultValues={{
+          password: '111111',
         }}
       />
     );
@@ -118,17 +124,34 @@ class ClientsPage extends React.Component {
         accessor: 'email',
       },
       {
+        headerText: messages.model.telephone,
+        accessor: 'profile.telephone',
+      },
+      {
+        headerText: messages.model.roomNumber,
+        accessor: 'profile.roomNumber',
+      },
+      {
         headerText: messages.action.edit,
         accessor: '_id',
         filterable: false,
         sortable: false,
-        style: {
-          textAlign: 'center',
-        },
         cell: row => (
           // eslint-disable-next-line no-underscore-dangle
           <Button onClick={() => history.push(`/client/${row.original._id}`)}>
             <i className="fa fa-pencil" />
+          </Button>
+        ),
+      },
+      {
+        headerText: messages.model.calendar,
+        accessor: '_id',
+        filterable: false,
+        sortable: false,
+        cell: row => (
+          // eslint-disable-next-line no-underscore-dangle
+          <Button onClick={() => history.push(`/calendar/${row.original._id}`)}>
+            <i className="fa fa-calendar" />
           </Button>
         ),
       },
@@ -161,23 +184,19 @@ class ClientsPage extends React.Component {
 
   render() {
     return (
-      <AuthWrapper>
-        <Container>
-          <Row>
-            <Col md={4} xs={12}>
-              {this.renderAddButton()}
-            </Col>
-            <Col md={8} xs={12}>
-              <h2>
-                <FormattedMessage {...messages.model.clients} />
-              </h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>{this.renderTable()}</Col>
-          </Row>
-        </Container>
-      </AuthWrapper>
+      <div>
+        <Row>
+          <Col>
+            <h2>
+              <FormattedMessage {...messages.model.clients} />
+            </h2>
+          </Col>
+          <Col md="auto">{this.renderAddButton()}</Col>
+        </Row>
+        <Row>
+          <Col>{this.renderTable()}</Col>
+        </Row>
+      </div>
     );
   }
 }
@@ -186,8 +205,6 @@ ClientsPage.propTypes = {
   signUpSuccess: PropTypes.bool,
   signUpError: PropTypes.object,
   users: PropTypes.arrayOf(PropTypes.object),
-  syncing: PropTypes.bool,
-  loading: PropTypes.bool,
   loadingSelectedUser: PropTypes.bool,
   createUser: PropTypes.func.isRequired,
   getUsers: PropTypes.func.isRequired,

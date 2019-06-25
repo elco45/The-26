@@ -12,6 +12,8 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_EMAIL_REQUEST,
   UPDATE_PASSWORD_REQUEST,
+  APPLY_ACTION_CODE_REQUEST,
+  CONFIRM_PASSWORD_RESET_REQUEST,
 } from 'containers/App/constants';
 import {
   loginSuccess,
@@ -36,6 +38,8 @@ import {
   updateEmailFailure,
   updatePasswordSuccess,
   updatePasswordFailure,
+  applyActionCodeSuccess,
+  applyActionCodeFailure,
 } from './actions';
 
 import { reduxSagaFirebase, reduxSagaFirebaseClone } from '../../firebase';
@@ -44,7 +48,14 @@ const firestore = new firebase.firestore(); // eslint-disable-line
 
 function* signUpSaga(action) {
   try {
-    const { email, name, roles = [], password } = action.credential;
+    const {
+      email,
+      name,
+      roles = [],
+      password,
+      telephone,
+      roomNumber,
+    } = action.credential;
     const response = yield call(
       reduxSagaFirebaseClone.auth.createUserWithEmailAndPassword,
       email,
@@ -56,6 +67,8 @@ function* signUpSaga(action) {
       displayName: name,
       profile: {
         roles,
+        telephone,
+        roomNumber,
         createdAt: metadata.creationTime,
       },
     });
@@ -145,13 +158,7 @@ function* getUsersSaga(action) {
         .collection('users')
         .where('profile.roles', 'array-contains', role),
     );
-    const users = [];
-    snapshot.forEach(user => {
-      users.push({
-        _id: user.id,
-        ...user.data(),
-      });
-    });
+    const users = usersTransformer(snapshot);
     yield put(getUsersSuccess(users));
   } catch (error) {
     yield put(getUsersFailure(error));
@@ -160,9 +167,11 @@ function* getUsersSaga(action) {
 
 function* updateUserSaga(action) {
   try {
-    const { uid, name } = action.userInfo;
+    const { uid, name, telephone, roomNumber } = action.userInfo;
     yield call(reduxSagaFirebase.firestore.updateDocument, `users/${uid}`, {
       displayName: name,
+      'profile.telephone': telephone,
+      'profile.roomNumber': roomNumber,
     });
     yield put(getUserRequest({ uid }));
   } catch (error) {
@@ -248,6 +257,30 @@ function* syncUsersSaga() {
   );
 }
 
+function* applyActionCodeSaga(action) {
+  const { mode, oobCode } = action.actionCode;
+  try {
+    yield call(reduxSagaFirebase.auth.applyActionCode, oobCode);
+    yield put(applyActionCodeSuccess(mode));
+  } catch (error) {
+    yield put(applyActionCodeFailure({ mode, error }));
+  }
+}
+
+function* confirmPasswordResetSaga(action) {
+  const { mode, oobCode, newPassword } = action.actionCode;
+  try {
+    yield call(
+      reduxSagaFirebase.auth.confirmPasswordReset,
+      oobCode,
+      newPassword,
+    );
+    yield put(applyActionCodeSuccess(mode));
+  } catch (error) {
+    yield put(applyActionCodeFailure({ mode, error }));
+  }
+}
+
 export default function* loginRootSaga() {
   yield fork(syncUserSaga);
   yield fork(syncUsersSaga);
@@ -262,5 +295,7 @@ export default function* loginRootSaga() {
     takeLatest(UPDATE_PROFILE_REQUEST, updateProfileSaga),
     takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga),
     takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga),
+    takeLatest(APPLY_ACTION_CODE_REQUEST, applyActionCodeSaga),
+    takeLatest(CONFIRM_PASSWORD_RESET_REQUEST, confirmPasswordResetSaga),
   ]);
 }

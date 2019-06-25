@@ -42,6 +42,26 @@ class SForm extends React.Component {
           )} ${intl.formatMessage(messages[`error.required`])}`,
         },
       },
+      telephone: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.telephone`]),
+        default: defaultValues && defaultValues.telephone,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.telephone`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      roomNumber: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.roomNumber`]),
+        default: defaultValues && defaultValues.roomNumber,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.roomNumber`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
       name: {
         type: 'string',
         title: intl.formatMessage(messages[`model.name`]),
@@ -74,48 +94,96 @@ class SForm extends React.Component {
           required: `${intl.formatMessage(messages[`auth.repeatPassError`])}`,
         },
       },
+      description: {
+        type: 'string',
+        title: intl.formatMessage(messages[`model.description`]),
+        default: defaultValues && defaultValues.description,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.description`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      price: {
+        type: 'number',
+        title: intl.formatMessage(messages[`model.price`]),
+        default: defaultValues && defaultValues.price,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.price`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      durationDays: {
+        type: 'integer',
+        title: intl.formatMessage(messages[`model.durationDays`]),
+        default: defaultValues && defaultValues.durationDays,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.durationDays`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+        },
+      },
+      dailyFoodCount: {
+        type: 'integer',
+        title: intl.formatMessage(messages[`model.dailyFoodCount`]),
+        default: defaultValues && defaultValues.dailyFoodCount,
+        minimum: 1,
+        messages: {
+          required: `${intl.formatMessage(
+            messages[`model.dailyFoodCount`],
+          )} ${intl.formatMessage(messages[`error.required`])}`,
+          minimum: `${intl.formatMessage(messages[`error.minimum`])} 1`,
+        },
+      },
     };
   };
 
   getSchema = () => {
-    const { schema, requiredSchema } = this.props;
+    const { schema, requiredSchema, customSchema, definitions } = this.props;
     const allModels = this.allModels();
-    const newSchema = {};
-    schema.forEach(element => {
-      const { name } = element;
-      newSchema[name] = allModels[name];
-    });
+    let newSchema = {};
+    if (schema) {
+      schema.forEach(element => {
+        const { name } = element;
+        newSchema[name] = allModels[name];
+      });
+    }
+    newSchema = {
+      ...newSchema,
+      ...customSchema,
+    };
     return {
       type: 'object',
       required: requiredSchema,
       properties: newSchema,
+      definitions,
     };
   };
 
   getUiSchema = () => {
     const { intl, schema, showUiLabels, showPlaceHolder } = this.props;
     const newUiSchema = {};
-    schema.forEach(element => {
-      const { name, uiWidget, isReadOnly } = element;
-      if (uiWidget) {
+    if (schema) {
+      schema.forEach(element => {
+        const { name, uiWidget, isReadOnly } = element;
         newUiSchema[name] = {};
-        newUiSchema[name]['ui:widget'] = uiWidget;
-      }
-      if (!showUiLabels) {
-        if (!newUiSchema[name]) {
-          newUiSchema[name] = {};
+        if (uiWidget) {
+          newUiSchema[name]['ui:widget'] = uiWidget;
         }
-        newUiSchema[name]['ui:options'] = { label: false };
-      }
-      if (showPlaceHolder) {
-        newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
-          messages[`model.${name}`],
-        );
-      }
-      if (isReadOnly) {
-        newUiSchema[name]['ui:readonly'] = true;
-      }
-    });
+        if (!showUiLabels) {
+          newUiSchema[name]['ui:options'] = { label: false };
+        }
+        if (showPlaceHolder) {
+          newUiSchema[name]['ui:placeholder'] = intl.formatMessage(
+            messages[`model.${name}`],
+          );
+        }
+        if (isReadOnly) {
+          newUiSchema[name]['ui:readonly'] = true;
+        }
+      });
+    }
     return newUiSchema;
   };
 
@@ -166,13 +234,15 @@ class SForm extends React.Component {
         noHtml5Validate
         liveValidate={live}
       >
-        <Button type="submit" variant="primary" disabled={loading}>
-          {loading ? (
-            <i key="spin" className="fa fa-spinner fa-spin" />
-          ) : (
-            <FormattedMessage {...messages[submitBtnText]} />
-          )}
-        </Button>
+        <div className="d-flex justify-content-center">
+          <Button type="submit" variant="primary" disabled={loading}>
+            {loading ? (
+              <i key="spin" className="fa fa-spinner fa-spin" />
+            ) : (
+              <FormattedMessage {...messages[submitBtnText]} />
+            )}
+          </Button>
+        </div>
       </Form>
     );
   }
@@ -191,7 +261,9 @@ SForm.propTypes = {
       uiWidget: PropTypes.string,
       isReadOnly: PropTypes.bool,
     }),
-  ).isRequired,
+  ),
+  customSchema: PropTypes.object,
+  definitions: PropTypes.object,
   submitBtnText: PropTypes.string,
   defaultValues: PropTypes.object,
   idPrefix: PropTypes.string,
