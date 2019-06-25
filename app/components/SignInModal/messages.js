@@ -19,5 +19,8 @@ export default defineMessages({
     verifyEmail: {
       id: `${scopeAuth}.verifyEmail`,
     },
+    getMealPlan: {
+      id: `${scopeAuth}.getMealPlan`,
+    },
   },
 });
