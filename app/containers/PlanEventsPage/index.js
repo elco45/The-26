@@ -285,7 +285,7 @@ class PlanEventsPage extends React.Component {
       cancelButtonText: intl.formatMessage(messages.action.close),
     }).then(result => {
       if (result.value) {
-        if (activePlans.length > 0) {
+        if (activePlans && activePlans.data.length > 0) {
           const activePlan = activePlans[0];
           const { _id, startDate, endDate } = activePlan;
           if (
@@ -329,16 +329,10 @@ class PlanEventsPage extends React.Component {
 
   renderActivePlanInfo() {
     const { activePlans } = this.props;
-    if (activePlans && activePlans.length > 0) {
-      const activePlan = activePlans[0];
-      const {
-        planTypeName,
-        clientName,
-        clientEmail,
-        startDate,
-        endDate,
-        _id,
-      } = activePlan;
+    const { clientName, clientEmail } = activePlans.user;
+    if (activePlans && activePlans.data.length > 0) {
+      const activePlan = activePlans.data[0];
+      const { planTypeName, startDate, endDate, _id } = activePlan;
       return (
         <ActivePlanWrapper>
           <div className="d-flex justify-content-center">
@@ -386,6 +380,20 @@ class PlanEventsPage extends React.Component {
     }
     return (
       <NoActivePlanWrapper>
+        <div>
+          <p>
+            <b>
+              <FormattedMessage {...messages.model.client} />:{' '}
+            </b>
+            {clientName}
+          </p>
+          <p>
+            <b>
+              <FormattedMessage {...messages.model.email} />:{' '}
+            </b>
+            {clientEmail}
+          </p>
+        </div>
         <div className="d-flex justify-content-center">
           <FormattedMessage {...messages.error.noActivePlan} />
         </div>
@@ -460,7 +468,7 @@ PlanEventsPage.propTypes = {
   addPlanEventError: PropTypes.object,
 
   getActivePlansByClientId: PropTypes.func.isRequired,
-  activePlans: PropTypes.arrayOf(PropTypes.object),
+  activePlans: PropTypes.object,
 
   intl: intlShape.isRequired,
   match: PropTypes.object,
