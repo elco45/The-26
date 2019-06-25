@@ -3,6 +3,7 @@ import Styled from 'styled-components';
 import FlipMove from 'react-flip-move';
 
 import { Container, Row, Col } from 'react-bootstrap';
+import { Element } from 'react-scroll';
 
 const PageHeader = Styled.h1`
     color: black;
@@ -31,6 +32,7 @@ const UnderlineDiv = Styled.div`
 
 const SubDescription = Styled.p`
   font-size: 24px;
+  text-align: center;
 `;
 
 const MenuTags = Styled.div`
@@ -149,81 +151,85 @@ class Menu extends React.Component {
 
   render() {
     return (
-      <Container
-        style={{
-          marginTop: '25px',
-          marginBottom: '25px',
-        }}
-      >
-        <Row>
-          <Col xs={12} className="d-flex justify-content-center">
-            <UnderlineDiv>
-              <PageHeader>Our Menu</PageHeader>
-              <SubDescription>
-                These fine folks trusted the award winning restaurant.
-              </SubDescription>
-            </UnderlineDiv>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12} xs={11} className="d-flex justify-content-center">
-            <MenuTags>
-              <MenuHeaderSpan
-                onClick={() => this.handleChange('All')}
-                className={
-                  this.state.activeTabClassName === 'All' ? 'active' : ''
-                }
-              >
-                All
-              </MenuHeaderSpan>
-              <MenuHeaderSpan
-                className={
-                  this.state.activeTabClassName === 'Breakfast' ? 'active' : ''
-                }
-                onClick={() => this.handleChange('Breakfast')}
-              >
-                Breakfast
-              </MenuHeaderSpan>
-              <MenuHeaderSpan
-                className={
-                  this.state.activeTabClassName === 'Lunch' ? 'active' : ''
-                }
-                onClick={() => this.handleChange('Lunch')}
-              >
-                Lunch
-              </MenuHeaderSpan>
-              <MenuHeaderSpan
-                className={
-                  this.state.activeTabClassName === 'Dinner' ? 'active' : ''
-                }
-                onClick={() => this.handleChange('Dinner')}
-              >
-                Dinner
-              </MenuHeaderSpan>
-              <MenuHeaderSpan
-                className={
-                  this.state.activeTabClassName === 'Snack' ? 'active' : ''
-                }
-                onClick={() => this.handleChange('Snack')}
-              >
-                Snacks
-              </MenuHeaderSpan>
-            </MenuTags>
-          </Col>
-        </Row>
-        <FlipMove className="row">
-          {this.state.filterMenu.map(item => (
-            <Col md={6} xs={12} key={item.type}>
-              <DishContainer className="clearfix">
-                <DishName>{item.dishName}</DishName>
-                <Price>{item.dishPrice}</Price>
-                <DottedDiv />
-              </DishContainer>
-              <DishDescription>{item.dishDescription}</DishDescription>
+      <Element name="Menu">
+        <Container
+          style={{
+            marginTop: '25px',
+            marginBottom: '25px',
+          }}
+        >
+          <Row>
+            <Col xs={12} className="d-flex justify-content-center">
+              <UnderlineDiv>
+                <PageHeader>Our Menu</PageHeader>
+                <SubDescription>
+                  These fine folks trusted the award winning restaurant.
+                </SubDescription>
+              </UnderlineDiv>
             </Col>
-          ))}
-        </FlipMove>
-      </Container>
+          </Row>
+          <Row>
+            <Col md={12} xs={11} className="d-flex justify-content-center">
+              <MenuTags>
+                <MenuHeaderSpan
+                  onClick={() => this.handleChange('All')}
+                  className={
+                    this.state.activeTabClassName === 'All' ? 'active' : ''
+                  }
+                >
+                  All
+                </MenuHeaderSpan>
+                <MenuHeaderSpan
+                  className={
+                    this.state.activeTabClassName === 'Breakfast'
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() => this.handleChange('Breakfast')}
+                >
+                  Breakfast
+                </MenuHeaderSpan>
+                <MenuHeaderSpan
+                  className={
+                    this.state.activeTabClassName === 'Lunch' ? 'active' : ''
+                  }
+                  onClick={() => this.handleChange('Lunch')}
+                >
+                  Lunch
+                </MenuHeaderSpan>
+                <MenuHeaderSpan
+                  className={
+                    this.state.activeTabClassName === 'Dinner' ? 'active' : ''
+                  }
+                  onClick={() => this.handleChange('Dinner')}
+                >
+                  Dinner
+                </MenuHeaderSpan>
+                <MenuHeaderSpan
+                  className={
+                    this.state.activeTabClassName === 'Snack' ? 'active' : ''
+                  }
+                  onClick={() => this.handleChange('Snack')}
+                >
+                  Snacks
+                </MenuHeaderSpan>
+              </MenuTags>
+            </Col>
+          </Row>
+          <FlipMove className="row">
+            {this.state.filterMenu.map(item => (
+              <Col md={6} xs={12} key={item.type}>
+                <DishContainer className="clearfix">
+                  <DishName>{item.dishName}</DishName>
+                  <Price>{item.dishPrice}</Price>
+                  <DottedDiv />
+                </DishContainer>
+                <DishDescription>{item.dishDescription}</DishDescription>
+              </Col>
+            ))}
+          </FlipMove>
+        </Container>
+      </Element>
     );
   }
 }

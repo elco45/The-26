@@ -1,6 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Element } from 'react-scroll';
 
 const FooterWrapper = Styled.div`
   background: url(http://themesquared.com/tomato/wp-content/uploads/2015/12/bg6.png) no-repeat center center;
@@ -70,6 +71,9 @@ const SocialMediaAnchor = Styled.a`
     left: 13px;
     top: 10px;
   }
+  &.in > i {
+    left: 12px;
+  }
 `;
 
 const SocialMediaIcon = Styled.i`
@@ -78,6 +82,12 @@ const SocialMediaIcon = Styled.i`
   position:absolute;
   left:9px;
   top:10px;
+`;
+
+const FooterCopyRight = Styled.div`
+  text-align: center;
+  background-color: #1c1c1e;
+  color: #999;
 `;
 
 function renderSocialLink(link, socialMedia, icon) {
@@ -89,43 +99,62 @@ function renderSocialLink(link, socialMedia, icon) {
 }
 
 const Footer = () => (
-  <FooterWrapper>
-    <Container className="container d-flex h-100 flex-column">
-      <Row>
-        <Col md={4} xs={12} className="d-flex justify-content-center">
-          <CenterWrapper>
-            <CenterWrapperCell>
-              <Logo src="http://themesquared.com/tomato/wp-content/uploads/2015/12/logo.png" />
-            </CenterWrapperCell>
-          </CenterWrapper>
-        </Col>
-        <Col md={4} xs={12}>
-          <CenterWrapper>
-            <CenterWrapperCell>
-              <InfoText>
-                <Icon className="fa fa-envelope" /> <b>Email:</b> meow@meow.com
-              </InfoText>
-              <InfoText>
-                <Icon className="fa fa-phone" /> <b>Phone:</b> 123-123-1234
-              </InfoText>
-              <InfoText>
-                <Icon className="fa fa-map-marker" /> 777 Boulevard Robert
-                Bourassa Suite #2612
-              </InfoText>
-            </CenterWrapperCell>
-          </CenterWrapper>
-        </Col>
-        <Col md={4} xs={12}>
-          <CenterWrapper>
-            <CenterWrapperCell>
-              <FollowUsText>Follow Us</FollowUsText>
-              {renderSocialLink('https://google.com/', 'fb', 'fa fa-facebook')}
-            </CenterWrapperCell>
-          </CenterWrapper>
-        </Col>
-      </Row>
-    </Container>
-  </FooterWrapper>
+  <Element name="ContactUs">
+    <FooterWrapper>
+      <Container className="container d-flex h-100 flex-column">
+        <Row>
+          <Col md={4} xs={12} className="d-flex justify-content-center">
+            <CenterWrapper>
+              <CenterWrapperCell>
+                <Logo src="http://themesquared.com/tomato/wp-content/uploads/2015/12/logo.png" />
+              </CenterWrapperCell>
+            </CenterWrapper>
+          </Col>
+          <Col md={4} xs={12}>
+            <CenterWrapper>
+              <CenterWrapperCell>
+                <InfoText>
+                  <Icon className="fa fa-envelope" /> <b>Email:</b>{' '}
+                  meow@meow.com
+                </InfoText>
+                <InfoText>
+                  <Icon className="fa fa-phone" /> <b>Phone:</b> 123-123-1234
+                </InfoText>
+                <InfoText>
+                  <Icon className="fa fa-map-marker" /> 777 Boulevard Robert
+                  Bourassa Suite #2612
+                </InfoText>
+              </CenterWrapperCell>
+            </CenterWrapper>
+          </Col>
+          <Col md={4} xs={12}>
+            <CenterWrapper>
+              <CenterWrapperCell>
+                <FollowUsText>Follow Us</FollowUsText>
+                {renderSocialLink(
+                  'https://google.com/',
+                  'fb',
+                  'fa fa-facebook',
+                )}
+              </CenterWrapperCell>
+            </CenterWrapper>
+          </Col>
+        </Row>
+      </Container>
+    </FooterWrapper>
+    <FooterCopyRight>
+      <Container>
+        <Row>
+          <Col>
+            <p>
+              <i className="fa fa-copyright" /> {new Date().getFullYear()} The
+              26th
+            </p>
+          </Col>
+        </Row>
+      </Container>
+    </FooterCopyRight>
+  </Element>
 );
 
 export default Footer;
