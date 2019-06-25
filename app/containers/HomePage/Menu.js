@@ -77,7 +77,6 @@ const Price = Styled.span`
   line-height: 19.8px;
   margin: 5px 0px;
   background: #FFF none repeat scroll 0% 0%;
-  font-family: Lato;
   font-size: 22px;
   font-weight: 400;
 `;

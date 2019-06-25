@@ -41,8 +41,6 @@ const SectionTitle = Styled.p`
 `;
 
 const SocialMediaAnchor = Styled.a`
-  margin-left: 10px;
-  margin-bottom: 10px;
   position:relative;
   text-align:center;
   width:0px;
@@ -52,18 +50,12 @@ const SocialMediaAnchor = Styled.a`
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  -moz-border-radius: 20px 20px 20px 20px;
-  -webkit-border-radius: 20px 20px 20px 20px;
-  -khtml-border-radius: 20px 20px 20px 20px;
   color:#FFFFFF;
   float:left;
   margin:0 5px 0 0;
   cursor:pointer;
   background: #fff;
   transition: 0.5s;
-  -moz-transition: 0.5s;
-  -webkit-transition: 0.5s;
-  -o-transition: 0.5s;
   &:hover {
     background: #f9c56a;
   }

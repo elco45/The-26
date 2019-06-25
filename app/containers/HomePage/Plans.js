@@ -1,5 +1,5 @@
 import React from 'react';
-import Styled, { keyframes } from 'styled-components';
+import Styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Element } from 'react-scroll';
 
