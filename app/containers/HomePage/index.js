@@ -13,6 +13,7 @@ import Hero from './Hero';
 import RestaurantStory from './RestaurantStory';
 import Menu from './Menu';
 import Footer from './Footer';
+import Plans from './Plans';
 
 class HomePage extends React.Component {
   renderHomePage() {
@@ -20,6 +21,7 @@ class HomePage extends React.Component {
       <div>
         <Hero />
         <RestaurantStory />
+        <Plans />
         <Menu />
         <Footer />
       </div>

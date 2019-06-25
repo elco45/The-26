@@ -125,6 +125,11 @@ class HomeNav extends React.Component {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'Plan')}>
+                Plan
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link onClick={() => this.closeNav(null, 'Menu')}>
                 Menu
               </Nav.Link>
