@@ -4,7 +4,7 @@ import Styled from 'styled-components';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { scrollSpy, scroller, animateScroll as scroll } from 'react-scroll';
+import { scroller, animateScroll as scroll } from 'react-scroll';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -58,8 +58,6 @@ class HomeNav extends React.Component {
       scrollY: window.pageYOffset,
     });
     window.addEventListener('scroll', this.handleScroll);
-
-    scrollSpy.update();
   }
 
   componentWillUnmount() {
