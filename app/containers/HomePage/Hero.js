@@ -1,6 +1,6 @@
 import React from 'react';
 import Styled, { keyframes } from 'styled-components';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Col } from 'react-bootstrap';
 
 const HeroWrapper = Styled.div`
   background-image: url(http://themesquared.com/tomato/wp-content/uploads/2015/12/bg2.png);
@@ -26,6 +26,9 @@ const FadeIn = keyframes`
 
 const Logo = Styled.img`
   margin-bottom: 5%;
+  @media (max-width: 768px) {
+    max-width: 300px;
+  }
 `;
 
 const Header = Styled.h1`
@@ -44,7 +47,7 @@ const DivWrapper = Styled.div`
 const Hero = () => (
   <HeroWrapper>
     <Container className="container d-flex h-100 flex-column">
-      <DivWrapper className="row align-self-center my-auto">
+      <DivWrapper className="row my-auto">
         <Col xs={12} className="d-flex justify-content-center">
           <AnimationWrapper>
             <Logo src="http://themesquared.com/tomato/wp-content/uploads/2015/12/logo.png" />

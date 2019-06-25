@@ -103,6 +103,7 @@
     "react-qr-reader": "^2.2.1",
     "react-redux": "7.0.2",
     "react-router-dom": "5.0.0",
+    "react-scroll": "^1.7.12",
     "react-spinners": "^0.5.4",
     "react-table": "^6.8.6",
     "react-toastify": "^5.1.0",

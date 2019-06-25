@@ -104,14 +104,15 @@ class ClientPage extends React.Component {
     const { intl, deletePlan } = this.props;
     const { _id, startDate, endDate, planTypeName } = plan;
     Swal.fire({
-      title: planTypeName,
+      title: `${intl.formatMessage(messages.action.delete)} ${planTypeName}`,
       html:
         `<p><b>${intl.formatMessage(
           messages.model.startDate,
         )}: </b> ${moment.utc(startDate).format('YYYY-MM-DD')}</p>` +
         `<p><b>${intl.formatMessage(messages.model.endDate)}: </b> ${moment
           .utc(endDate)
-          .format('YYYY-MM-DD')}</p>`,
+          .format('YYYY-MM-DD')}</p>` +
+        `<p>${intl.formatMessage(messages.action.cannotUndo)}</p>`,
       showCancelButton: true,
       confirmButtonColor: 'red',
       confirmButtonText: intl.formatMessage(messages.action.delete),
