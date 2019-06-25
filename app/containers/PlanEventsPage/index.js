@@ -69,6 +69,14 @@ const TitleWrapper = Styled.div`
   margin-bottom: 24px;
 `;
 
+const CalendarWrapper = Styled.div`
+  height: 80vh;
+
+  @media (max-width: 480px) {
+    height: 100vh;
+  }
+`;
+
 class PlanEventsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -286,7 +294,7 @@ class PlanEventsPage extends React.Component {
     }).then(result => {
       if (result.value) {
         if (activePlans && activePlans.data.length > 0) {
-          const activePlan = activePlans[0];
+          const activePlan = activePlans.data[0];
           const { _id, startDate, endDate } = activePlan;
           if (
             moment(slot.start).isBetween(moment(startDate), moment(endDate))
@@ -419,31 +427,26 @@ class PlanEventsPage extends React.Component {
             {this.renderActivePlanInfo()}
           </Col>
           <Col>
-            <div>
-              <div
-                className="d-flex justify-content-center"
-                style={{ height: '80vh' }}
-              >
-                <BigCalendar
-                  style={{ width: '100%', marginBottom: '10%' }}
-                  localizer={localizer}
-                  events={planEvents}
-                  defaultDate={currentStartDate}
-                  startAccessor="start"
-                  endAccessor="end"
-                  onRangeChange={this.changeRange}
-                  onNavigate={this.navigate}
-                  onSelectEvent={
-                    user.profile.roles.includes('admin')
-                      ? this.selectEventAdmin
-                      : this.selectEventClient
-                  }
-                  views={['month', 'agenda']}
-                  onSelectSlot={this.addNewEvent}
-                  selectable={user.profile.roles.includes('admin')}
-                />
-              </div>
-            </div>
+            <CalendarWrapper className="d-flex justify-content-center">
+              <BigCalendar
+                style={{ width: '100%', marginBottom: '10%' }}
+                localizer={localizer}
+                events={planEvents}
+                defaultDate={currentStartDate}
+                startAccessor="start"
+                endAccessor="end"
+                onRangeChange={this.changeRange}
+                onNavigate={this.navigate}
+                onSelectEvent={
+                  user.profile.roles.includes('admin')
+                    ? this.selectEventAdmin
+                    : this.selectEventClient
+                }
+                views={['month', 'agenda']}
+                onSelectSlot={this.addNewEvent}
+                selectable={user.profile.roles.includes('admin')}
+              />
+            </CalendarWrapper>
           </Col>
         </Row>
       </Container>
