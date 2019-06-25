@@ -28,6 +28,7 @@
   "app.auth.resetSuccess": "La valeur a été modifiée avec succès. S'il vous plaît reconnecter.",
   "app.auth.emailVerifificationSuccess": "Email vérifié, vous pouvez maintenant vous connecter!",
   "app.auth.invalidToken": "Jeton invalide ou expiré!",
+  "app.auth.getMealPlan": "Si vous n'avez toujours pas votre plan de repas, contactez-nous!",
 
   "app.action.submit": "Soumettre",
   "app.action.add": "Ajouter",

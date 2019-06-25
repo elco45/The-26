@@ -28,6 +28,7 @@
   "app.auth.resetSuccess": "The value has been successfully changed. Please relogin.",
   "app.auth.emailVerifificationSuccess": "Email verified, now you can log in!",
   "app.auth.invalidToken": "Invalid or expired token!",
+  "app.auth.getMealPlan": "If you still do not have your meal plan, contact us!",
 
   "app.action.submit": "Submit",
   "app.action.add": "Add",

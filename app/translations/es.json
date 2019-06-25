@@ -28,6 +28,7 @@
   "app.auth.resetSuccess": "El valor ha sido cambiado con éxito. Por favor, vuelva a iniciar sesión.",
   "app.auth.emailVerifificationSuccess": "Correo electrónico verificado, ahora puedes iniciar sesión!",
   "app.auth.invalidToken": "¡Token inválido o vencido!",
+  "app.auth.getMealPlan": "Si aún no tiene su plan de comidas, contáctanos!",
 
   "app.action.submit": "Enviar",
   "app.action.add": "Agregar",
