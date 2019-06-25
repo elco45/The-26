@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import firebase from 'firebase/app';
 import '@firebase/firestore';
 import { call, fork, put, takeLatest, all } from 'redux-saga/effects';
@@ -29,7 +30,7 @@ const firestore = new firebase.firestore(); // eslint-disable-line
 
 function* addPlanEventSaga(action) {
   try {
-    const { planId, adminId } = action.planEventInfo;
+    const { planId, adminId, start, manuallyAdded } = action.planEventInfo;
     const response = yield call(
       reduxSagaFirebase.firestore.getDocument,
       `plans/${planId}`,
@@ -39,17 +40,36 @@ function* addPlanEventSaga(action) {
     if (activePlan && activePlan.startDate) {
       const planEventsSnap = yield call(
         reduxSagaFirebase.firestore.getCollection,
-        firestore.collection('planEvents').where(
-          'start',
-          '>=',
-          moment()
-            .utc()
-            .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-            .format(),
-        ),
+        firestore
+          .collection('planEvents')
+          .where(
+            'start',
+            '>=',
+            !manuallyAdded
+              ? moment()
+                  .utc()
+                  .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+                  .format()
+              : moment
+                  .utc(start)
+                  .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+                  .format(),
+          )
+          .where(
+            'start',
+            '<=',
+            !manuallyAdded
+              ? moment()
+                  .utc()
+                  .set({ hour: 23, minute: 59, second: 59 })
+                  .format()
+              : moment
+                  .utc(start)
+                  .set({ hour: 23, minute: 59, second: 59 })
+                  .format(),
+          ),
       );
       const todaysPlanEvents = transformer(planEventsSnap);
-
       const planTypeSnap = yield call(
         reduxSagaFirebase.firestore.getDocument,
         `planTypes/${activePlan.planType}`,
@@ -57,21 +77,19 @@ function* addPlanEventSaga(action) {
       const planType = planTypeSnap.data();
 
       if (todaysPlanEvents.length < planType.dailyFoodCount) {
+        const startDate = start && moment.utc(start);
+        const now = moment().utc();
         yield call(reduxSagaFirebase.firestore.addDocument, 'planEvents', {
           planId,
           clientId: activePlan.clientId,
           adminId,
           title: `Meal #${todaysPlanEvents.length + 1}`,
-          start: moment()
-            .utc()
-            .format(),
-          end: moment()
-            .utc()
-            .add(15, 'minutes')
-            .format(),
-          updatedAt: moment()
-            .utc()
-            .format(),
+          start: startDate ? startDate.format() : now.format(),
+          end: startDate
+            ? startDate.add(15, 'minutes').format()
+            : now.add(15, 'minutes').format(),
+          createdAt: now.format(),
+          manuallyAdded,
         });
         yield put(addPlanEventSuccess({ clientId: activePlan.clientId }));
       } else {
@@ -116,25 +134,54 @@ function* getPlanEventsByClientIdSaga(action) {
       .utc()
       .format();
 
-    const response = yield call(
-      reduxSagaFirebase.firestore.getCollection,
-      firestore.collection('planEvents').where('clientId', '==', clientId),
+    const user = yield call(
+      reduxSagaFirebase.firestore.getDocument,
+      `users/${clientId}`,
     );
-    const planEvents = transformerFilter(response, start, end);
-    yield put(getPlanEventSuccess(planEvents));
+    if (user.data()) {
+      const users = yield call(
+        reduxSagaFirebase.firestore.getCollection,
+        firestore
+          .collection('users')
+          .where('profile.roles', 'array-contains', 'admin'),
+      );
+      const admins = usersTransformer(users);
+      const response = yield call(
+        reduxSagaFirebase.firestore.getCollection,
+        firestore.collection('planEvents').where('clientId', '==', clientId),
+      );
+      const planEvents = transformerFilter(response, start, end, admins);
+      yield put(getPlanEventSuccess(planEvents));
 
-    yield fork(
-      reduxSagaFirebase.firestore.syncCollection,
-      firestore.collection('planEvents').where('clientId', '==', clientId),
-      {
-        successActionCreator: getPlanEventsSuccess,
-        transform: snap => transformerFilter(snap, start, end),
-      },
-    );
+      yield fork(
+        reduxSagaFirebase.firestore.syncCollection,
+        firestore.collection('planEvents').where('clientId', '==', clientId),
+        {
+          successActionCreator: getPlanEventsSuccess,
+          transform: snap => transformerFilter(snap, start, end, admins),
+        },
+      );
+    } else {
+      const err = {
+        error: 'Invalid user',
+      };
+      yield put(getPlanEventsFailure(err));
+    }
   } catch (error) {
-    yield put(getPlanEventFailure(error));
+    yield put(getPlanEventsFailure(error));
   }
 }
+
+const usersTransformer = snapshot => {
+  const users = [];
+  snapshot.forEach(user => {
+    users.push({
+      _id: user.id,
+      ...user.data(),
+    });
+  });
+  return users;
+};
 
 function* getPlanEventsSaga() {
   try {
@@ -170,16 +217,27 @@ const transformer = snapshot => {
   return response;
 };
 
-const transformerFilter = (snapshot, start, end) => {
+const transformerFilter = (snapshot, start, end, admins) => {
   const response = [];
   snapshot.forEach(snap => {
     const event = snap.data();
     if (event && moment(event.start).range(start, end)) {
+      // eslint-disable-next-line no-underscore-dangle
+      const admin = admins.find(user => user.id === snap.adminId);
       response.push({
         id: snap.id,
         title: event.title,
-        start: new Date(event.start),
-        end: new Date(event.end),
+        start: moment
+          .utc(event.start)
+          .local()
+          .format(),
+        end: moment
+          .utc(event.end)
+          .local()
+          .format(),
+        manuallyAdded: event.manuallyAdded,
+        createdAt: new Date(event.createdAt),
+        addedBy: admin && admin.displayName,
       });
     }
   });

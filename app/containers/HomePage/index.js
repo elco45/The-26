@@ -5,20 +5,25 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import {
-  makeSelectCurrentUser,
-  makeSelectSync,
-  makeSelectLoading,
-} from '../App/selectors';
+import { makeSelectCurrentUser } from '../App/selectors';
 
 import ClientHomePage from '../ClientHomePage';
 import messages from './messages';
+import Hero from './Hero';
+import RestaurantStory from './RestaurantStory';
+import Menu from './Menu';
+import Footer from './Footer';
+import Plans from './Plans';
 
 class HomePage extends React.Component {
   renderHomePage() {
     return (
       <div>
-        <FormattedMessage {...messages.welcome} />
+        <Hero />
+        <RestaurantStory />
+        <Plans />
+        <Menu />
+        <Footer />
       </div>
     );
   }
@@ -38,9 +43,9 @@ class HomePage extends React.Component {
 
   renderByUserRole() {
     const { user } = this.props;
-    if (user && user.profile.roles.includes('admin')) {
-      return this.renderAdminHomePage();
-    }
+    // if (user && user.profile.roles.includes('admin')) {
+    //   return this.renderAdminHomePage();
+    // }
     if (user && user.profile.roles.includes('client')) {
       return this.renderClientHomePage();
     }
@@ -48,23 +53,18 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { syncing, loading } = this.props;
-    return syncing || loading ? <div>Loading</div> : this.renderByUserRole();
+    return this.renderByUserRole();
   }
 }
 
 HomePage.propTypes = {
   user: PropTypes.object,
-  syncing: PropTypes.bool,
-  loading: PropTypes.bool,
 };
 
 const mapDispatchToProps = {};
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectCurrentUser(),
-  syncing: makeSelectSync(),
-  loading: makeSelectLoading(),
 });
 
 const withConnect = connect(

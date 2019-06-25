@@ -6,14 +6,23 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import Styled from 'styled-components';
+import { Container, Row, Col } from 'react-bootstrap';
 
-import messages from './messages';
-
+const Wrapper = Styled.div`
+  height: 100vh;
+  width: 100vw;
+`;
 export default function NotFound() {
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <Wrapper>
+      <Container className="container d-flex h-100">
+        <Row className="justify-content-center align-self-center w-100">
+          <Col xs={12} className="d-flex justify-content-center">
+            <h1>Error 404! Not found</h1>
+          </Col>
+        </Row>
+      </Container>
+    </Wrapper>
   );
 }

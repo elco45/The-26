@@ -157,8 +157,12 @@ function* getActivePlansByClientIdSaga(action) {
       reduxSagaFirebase.firestore.getDocument,
       firestore.collection('planTypes'),
     );
+    const userInfo = yield call(
+      reduxSagaFirebase.firestore.getDocument,
+      `users/${clientId}`,
+    );
     const planTypes = planTypesTransformer(snapshot);
-    const plans = plansTransformer(activePlan, planTypes);
+    const plans = plansTransformer(activePlan, planTypes, userInfo.data());
     yield put(getPlansSuccess(plans));
   } catch (error) {
     yield put(getPlanFailure(error));
@@ -224,22 +228,32 @@ function* updatePlanSaga(action) {
   }
 }
 
-const plansTransformer = (snapshot, planTypes = null) => {
-  const plans = [];
+const plansTransformer = (snapshot, planTypes = null, userInfo = null) => {
+  const plans = {
+    user: {
+      clientName: userInfo && userInfo.displayName,
+      clientEmail: userInfo && userInfo.email,
+    },
+    data: [],
+  };
   snapshot.forEach(plan => {
-    plans.push({
+    plans.data.push({
       _id: plan.id,
       ...plan.data(),
     });
   });
   if (planTypes) {
-    const newPlans = plans.map(plan => {
+    const newPlansData = plans.data.map(plan => {
       const newPlan = plan;
       newPlan.planTypeName = planTypes[plan.planType].name;
       newPlan.planTypeDuration = planTypes[plan.planType].durationDays;
       newPlan.planTypeFoodCount = planTypes[plan.planType].dailyFoodCount;
       return newPlan;
     });
+    const newPlans = {
+      user: plans.user,
+      data: newPlansData,
+    };
     return newPlans;
   }
   return plans;

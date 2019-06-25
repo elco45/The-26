@@ -47,5 +47,11 @@ export default defineMessages({
     calendar: {
       id: `${scopeModel}.calendar`,
     },
+    roomNumber: {
+      id: `${scopeModel}.roomNumber`,
+    },
+    telephone: {
+      id: `${scopeModel}.telephone`,
+    },
   },
 });

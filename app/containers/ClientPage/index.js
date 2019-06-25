@@ -104,14 +104,15 @@ class ClientPage extends React.Component {
     const { intl, deletePlan } = this.props;
     const { _id, startDate, endDate, planTypeName } = plan;
     Swal.fire({
-      title: planTypeName,
+      title: `${intl.formatMessage(messages.action.delete)} ${planTypeName}`,
       html:
         `<p><b>${intl.formatMessage(
           messages.model.startDate,
         )}: </b> ${moment.utc(startDate).format('YYYY-MM-DD')}</p>` +
         `<p><b>${intl.formatMessage(messages.model.endDate)}: </b> ${moment
           .utc(endDate)
-          .format('YYYY-MM-DD')}</p>`,
+          .format('YYYY-MM-DD')}</p>` +
+        `<p>${intl.formatMessage(messages.action.cannotUndo)}</p>`,
       showCancelButton: true,
       confirmButtonColor: 'red',
       confirmButtonText: intl.formatMessage(messages.action.delete),
@@ -280,7 +281,7 @@ class ClientPage extends React.Component {
   }
 
   renderTable() {
-    const { plans } = this.props;
+    const { plans, match, history } = this.props;
     const columns = [
       {
         headerText: messages.model.startDate,
@@ -307,11 +308,24 @@ class ClientPage extends React.Component {
           </Button>
         ),
       },
+      {
+        headerText: messages.model.calendar,
+        accessor: '_id',
+        filterable: false,
+        sortable: false,
+        cell: () => (
+          <Button
+            onClick={() => history.replace(`/calendar/${match.params.id}`)}
+          >
+            <i className="fa fa-calendar" />
+          </Button>
+        ),
+      },
     ];
     const additionalProps = {
       keyField: '_id',
       showPagination: false,
-      pageSize: plans && plans.length ? plans.length : 1,
+      pageSize: plans && plans.data.length ? plans.length : 1,
       defaultSorted: [
         {
           id: 'endDate',
@@ -330,9 +344,9 @@ class ClientPage extends React.Component {
         };
       },
     };
-    return plans ? (
+    return plans && plans.data ? (
       <STable
-        data={plans}
+        data={plans.data}
         columns={columns}
         additionalProps={additionalProps}
       />
@@ -347,7 +361,7 @@ class ClientPage extends React.Component {
       <div>
         {!selectedUserError && selectedUser ? (
           <Row>
-            <Col md={5} xs={12}>
+            <Col md={4} xs={12}>
               <Row>
                 <Col>
                   <h2>
@@ -359,7 +373,7 @@ class ClientPage extends React.Component {
                 <Col>{this.renderClientEditForm()}</Col>
               </Row>
             </Col>
-            <Col md={7} xs={12}>
+            <Col md={8} xs={12}>
               <Row>
                 <Col>
                   <h2>
@@ -395,7 +409,7 @@ ClientPage.propTypes = {
   planTypes: PropTypes.arrayOf(PropTypes.object),
 
   getPlansByClientId: PropTypes.func,
-  plans: PropTypes.arrayOf(PropTypes.object),
+  plans: PropTypes.object,
   loadingSelectedPlan: PropTypes.bool,
   addPlanSuccess: PropTypes.bool,
   addPlanError: PropTypes.object,

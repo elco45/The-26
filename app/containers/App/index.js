@@ -40,6 +40,7 @@ import { makeSelectSync } from './selectors';
 // const Client = AuthWrapper(['client']);
 const Admin = AuthWrapper(['admin']);
 const LoggedIn = AuthWrapper(['admin', 'client']);
+const Mixed = AuthWrapper(['client', 'home']);
 
 class App extends React.PureComponent {
   render() {
@@ -47,7 +48,7 @@ class App extends React.PureComponent {
       <div>
         <HomeNav />
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={Mixed(HomePage)} />
           <Route exact path="/__/auth/action" component={EmailAuthHandler} />
           <Route
             exact

@@ -28,6 +28,7 @@
   "app.auth.resetSuccess": "The value has been successfully changed. Please relogin.",
   "app.auth.emailVerifificationSuccess": "Email verified, now you can log in!",
   "app.auth.invalidToken": "Invalid or expired token!",
+  "app.auth.getMealPlan": "If you still do not have your meal plan, contact us!",
 
   "app.action.submit": "Submit",
   "app.action.add": "Add",
@@ -46,6 +47,9 @@
   "app.action.close": "Close",
   "app.action.cannotUndo": "This process cannot be undone!",
   "app.action.scannedAt": "Scanned on",
+  "app.action.addedBy": "Added by",
+  "app.action.addedManuallyBy": "Manually Added by",
+  "app.action.createdAt": "Created at",
 
   "app.model.new": "New",
   "app.model.createdAt": "Created At",

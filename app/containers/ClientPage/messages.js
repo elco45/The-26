@@ -77,6 +77,9 @@ export default defineMessages({
     password: {
       id: `${scopeModel}.password`,
     },
+    calendar: {
+      id: `${scopeModel}.calendar`,
+    },
   },
   error: {
     invalid: {

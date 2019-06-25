@@ -28,6 +28,7 @@
   "app.auth.resetSuccess": "El valor ha sido cambiado con éxito. Por favor, vuelva a iniciar sesión.",
   "app.auth.emailVerifificationSuccess": "Correo electrónico verificado, ahora puedes iniciar sesión!",
   "app.auth.invalidToken": "¡Token inválido o vencido!",
+  "app.auth.getMealPlan": "Si aún no tiene su plan de comidas, contáctanos!",
 
   "app.action.submit": "Enviar",
   "app.action.add": "Agregar",
@@ -46,6 +47,9 @@
   "app.action.close": "Cerrar",
   "app.action.cannotUndo": "Este proceso no se puede deshacer!",
   "app.action.scannedAt": "Escaneado en",
+  "app.action.addedBy": "Agregado por",
+  "app.action.addedManuallyBy": "Agregado manualmente por",
+  "app.action.createdAt": "Creado en",
 
   "app.model.new": "Nueva",
   "app.model.createdAt": "Creado en",

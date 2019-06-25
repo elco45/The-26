@@ -4,6 +4,7 @@ import Styled from 'styled-components';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { scroller, animateScroll as scroll } from 'react-scroll';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -24,6 +25,7 @@ import {
 } from '../../containers/App/selectors';
 
 import LocaleToggle from '../../containers/LocaleToggle';
+require('./style.css');
 
 const QrCodeIcon = Styled.i`
   border-radius: 8px;
@@ -34,27 +36,71 @@ const QrCodeIcon = Styled.i`
   margin-left: 5px;
 `;
 
+const specialPages = ['/'];
+
 class HomeNav extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       navExpanded: false,
+      scrollY: 0,
     };
 
     this.setNavExpanded = this.setNavExpanded.bind(this);
     this.closeNav = this.closeNav.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.navBarStyle = this.navBarStyle.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      scrollY: window.pageYOffset,
+    });
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    const { scrollY } = this.state;
+    const { pageYOffset } = window;
+    if (pageYOffset === 0 || scrollY === 0) {
+      this.setState({
+        scrollY: pageYOffset,
+      });
+    }
+  }
+
+  navBarStyle() {
+    const { scrollY } = this.state;
+    const { location } = this.props;
+    return {
+      backgroundColor: '#000',
+      opacity:
+        scrollY === 0 && specialPages.includes(location.pathname) ? 0.6 : 1,
+      transform: scrollY !== 0 ? 'scaleY(0.95)' : '',
+      transformOrigin: 'top',
+    };
   }
 
   setNavExpanded(expanded) {
     this.setState({ navExpanded: expanded });
   }
 
-  closeNav(path) {
-    const { history } = this.props;
+  closeNav(path = null, scrollTo = null) {
+    const { history, location } = this.props;
     this.setState({ navExpanded: false });
     if (path) {
-      history.push(path);
+      if (location.pathname !== path) {
+        history.push(path);
+      } else {
+        scroll.scrollToTop();
+      }
+    } else {
+      scroller.scrollTo(scrollTo, { delay: 100, smooth: true, offset: -50 });
     }
   }
 
@@ -74,7 +120,24 @@ class HomeNav extends React.Component {
         ) : (
           <Nav>
             <Nav.Item>
-              <Nav.Link onClick={() => this.closeNav('/asd')}>asd</Nav.Link>
+              <Nav.Link onClick={() => this.closeNav(null, 'RestaurantStory')}>
+                About Us
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'Plan')}>
+                Plan
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'Menu')}>
+                Menu
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'ContactUs')}>
+                Contact Us
+              </Nav.Link>
             </Nav.Item>
           </Nav>
         )}
@@ -84,27 +147,21 @@ class HomeNav extends React.Component {
 
   renderUserMenu() {
     const { user } = this.props;
-    return user.profile.roles.includes('admin') ? (
-      <Nav>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav('/clients')}>
-            <FormattedMessage {...{ id: 'app.model.clients' }} />
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav('/plan-types')}>
-            <FormattedMessage {...{ id: 'app.model.planTypes' }} />
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-    ) : (
-      <Nav>
-        <Nav.Item>
-          <Nav.Link onClick={() => this.closeNav(`/calendar/${user.uid}`)}>
-            <FormattedMessage {...{ id: 'app.model.record' }} />
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
+    return (
+      user.profile.roles.includes('admin') && (
+        <Nav>
+          <Nav.Item>
+            <Nav.Link onClick={() => this.closeNav('/clients')}>
+              <FormattedMessage {...{ id: 'app.model.clients' }} />
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => this.closeNav('/plan-types')}>
+              <FormattedMessage {...{ id: 'app.model.planTypes' }} />
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      )
     );
   }
 
@@ -175,13 +232,16 @@ class HomeNav extends React.Component {
   }
 
   render() {
+    const { navExpanded } = this.state;
     return (
       <Navbar
-        bg="dark"
+        className="navbarCustomStyle"
+        fixed="top"
         variant="dark"
         expand="lg"
         onToggle={this.setNavExpanded}
-        expanded={this.state.navExpanded}
+        expanded={navExpanded}
+        style={this.navBarStyle()}
       >
         <Navbar.Brand
           style={{ cursor: 'pointer' }}
@@ -207,6 +267,7 @@ HomeNav.propTypes = {
   syncing: PropTypes.bool,
   loading: PropTypes.bool,
   loadingPassReset: PropTypes.bool,
+  location: PropTypes.object,
   history: PropTypes.object,
 };
 
