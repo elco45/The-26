@@ -27,7 +27,10 @@ export const initialState = {
   selectedPlan: null,
   loadingSelectedPlan: false,
   selectedPlanError: null,
-  plans: [],
+  plans: {
+    user: {},
+    data: [],
+  },
   loadingPlans: false,
   plansError: null,
   updatePlanSuccess: false,
@@ -76,7 +79,10 @@ const plansReducer = (state = initialState, action) =>
       case GET_PLANS_REQUEST:
         draft.loadingPlans = true;
         draft.plansError = null;
-        draft.plans = [];
+        draft.plans = {
+          user: {},
+          data: [],
+        };
         break;
 
       case GET_PLANS_SUCCESS:
