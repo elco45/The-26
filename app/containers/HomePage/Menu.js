@@ -1,5 +1,7 @@
 import React from 'react';
 import Styled from 'styled-components';
+import FlipMove from 'react-flip-move';
+
 import { Container, Row, Col } from 'react-bootstrap';
 
 const PageHeader = Styled.h1`
@@ -34,6 +36,7 @@ const SubDescription = Styled.p`
 const MenuTags = Styled.div`
   text-align: center;
   margin-bottom: 20px;
+  overflow: hidden;
 `;
 
 const MenuHeaderSpan = Styled.span`
@@ -49,6 +52,7 @@ const MenuHeaderSpan = Styled.span`
   transition: all 0.5s ease;
   border-bottom: 3px solid transparent;
   letter-spacing: 1px;
+  word-wrap: break-word;
   &.active{
     border-bottom: 3px solid #f9c56a;
   }
@@ -102,6 +106,7 @@ const DishDescription = Styled.p`
   color: #666;
   line-height: 28px;
 `;
+
 const restaurantMenu = [
   {
     dishName: 'ENGLISH BREAKFAST',
@@ -206,9 +211,9 @@ class Menu extends React.Component {
             </MenuTags>
           </Col>
         </Row>
-        <Row>
+        <FlipMove className="row">
           {this.state.filterMenu.map(item => (
-            <Col md={6} xs={11} key={item.type}>
+            <Col md={6} xs={12} key={item.type}>
               <DishContainer className="clearfix">
                 <DishName>{item.dishName}</DishName>
                 <Price>{item.dishPrice}</Price>
@@ -217,7 +222,7 @@ class Menu extends React.Component {
               <DishDescription>{item.dishDescription}</DishDescription>
             </Col>
           ))}
-        </Row>
+        </FlipMove>
       </Container>
     );
   }
