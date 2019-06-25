@@ -124,6 +124,14 @@ class ClientsPage extends React.Component {
         accessor: 'email',
       },
       {
+        headerText: messages.model.telephone,
+        accessor: 'profile.telephone',
+      },
+      {
+        headerText: messages.model.roomNumber,
+        accessor: 'profile.roomNumber',
+      },
+      {
         headerText: messages.action.edit,
         accessor: '_id',
         filterable: false,
