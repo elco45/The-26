@@ -4,6 +4,7 @@ import Styled from 'styled-components';
 import { Navbar, Nav } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { scrollSpy, scroller, animateScroll as scroll } from 'react-scroll';
 
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -57,6 +58,8 @@ class HomeNav extends React.Component {
       scrollY: window.pageYOffset,
     });
     window.addEventListener('scroll', this.handleScroll);
+
+    scrollSpy.update();
   }
 
   componentWillUnmount() {
@@ -89,11 +92,17 @@ class HomeNav extends React.Component {
     this.setState({ navExpanded: expanded });
   }
 
-  closeNav(path) {
-    const { history } = this.props;
+  closeNav(path = null, scrollTo = null) {
+    const { history, location } = this.props;
     this.setState({ navExpanded: false });
     if (path) {
-      history.push(path);
+      if (location.pathname !== path) {
+        history.push(path);
+      } else {
+        scroll.scrollToTop();
+      }
+    } else {
+      scroller.scrollTo(scrollTo, { delay: 100, smooth: true, offset: -50 });
     }
   }
 
@@ -113,7 +122,19 @@ class HomeNav extends React.Component {
         ) : (
           <Nav>
             <Nav.Item>
-              <Nav.Link onClick={() => this.closeNav('/asd')}>asd</Nav.Link>
+              <Nav.Link onClick={() => this.closeNav(null, 'RestaurantStory')}>
+                About Us
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'Menu')}>
+                Menu
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => this.closeNav(null, 'ContactUs')}>
+                Contact Us
+              </Nav.Link>
             </Nav.Item>
           </Nav>
         )}
