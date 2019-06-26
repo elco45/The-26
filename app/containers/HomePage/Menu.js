@@ -36,12 +36,11 @@ const SubDescription = Styled.p`
 `;
 
 const MenuTags = Styled.div`
-  text-align: center;
   margin-bottom: 20px;
-  overflow: hidden;
 `;
 
 const MenuHeaderSpan = Styled.span`
+  display: inline-block;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
   color: #999;
@@ -54,7 +53,7 @@ const MenuHeaderSpan = Styled.span`
   transition: all 0.5s ease;
   border-bottom: 3px solid transparent;
   letter-spacing: 1px;
-  word-wrap: break-word;
+  white-space: nowrap;
   &.active{
     border-bottom: 3px solid #f9c56a;
     color: black;
@@ -170,7 +169,7 @@ class Menu extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col md={12} xs={11} className="d-flex justify-content-center">
+            <Col md={12} className="d-flex justify-content-center">
               <MenuTags>
                 <MenuHeaderSpan
                   onClick={() => this.handleChange('All')}
