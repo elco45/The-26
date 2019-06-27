@@ -293,17 +293,28 @@ class PlanEventsPage extends React.Component {
       cancelButtonText: intl.formatMessage(messages.action.close),
     }).then(result => {
       if (result.value) {
-        if (activePlans && activePlans.data.length > 0) {
+        if (
+          moment(slot.start)
+            .startOf('day')
+            .diff(moment().startOf('day'), 'days') > 0
+        ) {
+          Swal.fire({
+            text: intl.formatMessage(messages.error.greaterThanToday),
+            type: 'error',
+            confirmButtonText: intl.formatMessage(messages.action.accept),
+          });
+        } else if (activePlans && activePlans.data.length > 0) {
           const activePlan = activePlans.data[0];
           const { _id, startDate, endDate } = activePlan;
           if (
             moment(slot.start).isBetween(moment(startDate), moment(endDate))
           ) {
+            const isToday = moment(slot.start).diff(moment(), 'days') === 0;
             addPlanEvent({
               planId: _id,
               adminId: user.uid,
-              start: slot.start,
-              manuallyAdded: true,
+              start: !isToday && slot.start,
+              manuallyAdded: !isToday,
             });
           } else {
             Swal.fire({

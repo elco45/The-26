@@ -41,7 +41,6 @@ function* addPlanEventSaga(action) {
       `plans/${planId}`,
     );
     const activePlan = response.data();
-
     if (activePlan && activePlan.startDate) {
       const planEventsSnap = yield call(
         reduxSagaFirebase.firestore.getCollection,
@@ -52,12 +51,12 @@ function* addPlanEventSaga(action) {
             '>=',
             !manuallyAdded
               ? moment()
+                  .startOf('day')
                   .utc()
-                  .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
                   .format()
               : moment
                   .utc(start)
-                  .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+                  .startOf('day')
                   .format(),
           )
           .where(
@@ -65,12 +64,12 @@ function* addPlanEventSaga(action) {
             '<=',
             !manuallyAdded
               ? moment()
+                  .endOf('day')
                   .utc()
-                  .set({ hour: 23, minute: 59, second: 59 })
                   .format()
               : moment
                   .utc(start)
-                  .set({ hour: 23, minute: 59, second: 59 })
+                  .endOf('day')
                   .format(),
           ),
       );
@@ -112,7 +111,6 @@ function* addPlanEventSaga(action) {
       );
     }
   } catch (error) {
-    console.log(error);
     yield put(addPlanEventFailure(error));
   }
 }

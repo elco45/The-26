@@ -83,5 +83,8 @@ export default defineMessages({
     happened: {
       id: `${scopeError}.happened`,
     },
+    greaterThanToday: {
+      id: `${scopeError}.greaterThanToday`,
+    },
   },
 });
