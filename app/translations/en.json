@@ -87,5 +87,6 @@
   "app.error.exceedDailyLimit": "Daily limit exceeded!",
   "app.error.invalidQr": "Invalid QR Code!",
   "app.error.enableCamera": "Camera authorization is required!",
-  "app.error.noActivePlan": "You currently have no active meal plan!"
+  "app.error.noActivePlan": "You currently have no active meal plan!",
+  "app.error.greaterThanToday": "Cannot be greater than today!"
 }
