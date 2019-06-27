@@ -91,7 +91,7 @@
     "qrcode.react": "^0.9.3",
     "query-string": "^6.6.0",
     "react": "16.8.6",
-    "react-big-calendar": "^0.20.4",
+    "react-big-calendar": "^0.22.0",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-breakpoints": "^3.0.3",
     "react-dom": "16.8.6",
