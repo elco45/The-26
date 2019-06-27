@@ -48,9 +48,9 @@ const UnderlineDiv = Styled.div`
 const PlanTypeWrapper = Styled.div`
   background-color: white;
   @media (max-width: 768px) {
-    max-width: 100%;
+    max-width: 90%;
   }
-  max-width: 80%;
+  max-width: 70%;
   margin-bottom: 24px;
 `;
 

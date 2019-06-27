@@ -11,7 +11,7 @@ const FooterWrapper = Styled.div`
 
 const Logo = Styled.img`
   margin-bottom: 5%;
-  max-width: 300px;
+  max-width: 200px;
 `;
 
 const InfoText = Styled.p`
@@ -69,7 +69,7 @@ const SocialMediaAnchor = Styled.a`
 `;
 
 const SocialMediaIcon = Styled.i`
-  color: #00588a;
+  color: #ff7149;
   font-size:20px;
   position:absolute;
   left:9px;
@@ -127,6 +127,11 @@ const Footer = () => (
                   'https://google.com/',
                   'fb',
                   'fa fa-facebook',
+                )}
+                {renderSocialLink(
+                  'https://google.com/',
+                  'in',
+                  'fa fa-instagram',
                 )}
               </CenterWrapperCell>
             </CenterWrapper>

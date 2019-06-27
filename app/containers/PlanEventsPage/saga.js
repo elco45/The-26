@@ -30,7 +30,12 @@ const firestore = new firebase.firestore(); // eslint-disable-line
 
 function* addPlanEventSaga(action) {
   try {
-    const { planId, adminId, start, manuallyAdded } = action.planEventInfo;
+    const {
+      planId,
+      adminId,
+      start,
+      manuallyAdded = false,
+    } = action.planEventInfo;
     const response = yield call(
       reduxSagaFirebase.firestore.getDocument,
       `plans/${planId}`,
@@ -107,6 +112,7 @@ function* addPlanEventSaga(action) {
       );
     }
   } catch (error) {
+    console.log(error);
     yield put(addPlanEventFailure(error));
   }
 }

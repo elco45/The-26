@@ -7,7 +7,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 import Styled from 'styled-components';
-import BigCalendar from 'react-big-calendar';
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import QRCode from 'qrcode.react';
@@ -48,7 +48,7 @@ import planSaga from '../PlansPage/saga';
 import messages from './messages';
 
 import LoadingSpinner from '../../components/LoadingSpinner';
-const localizer = BigCalendar.momentLocalizer(moment);
+const localizer = momentLocalizer(moment);
 
 const ActivePlanWrapper = Styled.div`
   background: lightgray;
@@ -433,8 +433,6 @@ class PlanEventsPage extends React.Component {
                 localizer={localizer}
                 events={planEvents}
                 defaultDate={currentStartDate}
-                startAccessor="start"
-                endAccessor="end"
                 onRangeChange={this.changeRange}
                 onNavigate={this.navigate}
                 onSelectEvent={
