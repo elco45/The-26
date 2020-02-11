@@ -198,7 +198,7 @@ class PlanEventsPage extends React.Component {
   }
 
   changeRange(range) {
-    const { getPlanEventsByClientId, match } = this.props;
+    const { getPlanEventsByClientId, match, clientId } = this.props;
     const { currentStartDate } = this.state;
     let sameRange = true;
     let startDate;
@@ -216,7 +216,7 @@ class PlanEventsPage extends React.Component {
     }
     if (!sameRange) {
       getPlanEventsByClientId({
-        clientId: match.params.clientId,
+        clientId: clientId || match.params.clientId,
         startDate,
         endDate,
       });
@@ -423,9 +423,7 @@ class PlanEventsPage extends React.Component {
   render() {
     const { planEvents, loadingPlanEvents, user, planEventsError } = this.props;
     const { currentStartDate } = this.state;
-    if (loadingPlanEvents) {
-      return <LoadingSpinner />;
-    }
+
     return !planEventsError ? (
       <Container>
         <TitleWrapper className="d-flex justify-content-center">
@@ -433,31 +431,35 @@ class PlanEventsPage extends React.Component {
             <FormattedMessage {...messages.model.mealPlan} />
           </h2>
         </TitleWrapper>
-        <Row>
-          <Col md={3} xs={12}>
-            {this.renderActivePlanInfo()}
-          </Col>
-          <Col>
-            <CalendarWrapper className="d-flex justify-content-center">
-              <BigCalendar
-                style={{ width: '100%', marginBottom: '10%' }}
-                localizer={localizer}
-                events={planEvents}
-                defaultDate={currentStartDate}
-                onRangeChange={this.changeRange}
-                onNavigate={this.navigate}
-                onSelectEvent={
-                  user.profile.roles.includes('admin')
-                    ? this.selectEventAdmin
-                    : this.selectEventClient
-                }
-                views={['month', 'agenda']}
-                onSelectSlot={this.addNewEvent}
-                selectable={user.profile.roles.includes('admin')}
-              />
-            </CalendarWrapper>
-          </Col>
-        </Row>
+        {loadingPlanEvents ? (
+          <LoadingSpinner />
+        ) : (
+          <Row>
+            <Col md={3} xs={12}>
+              {this.renderActivePlanInfo()}
+            </Col>
+            <Col>
+              <CalendarWrapper className="d-flex justify-content-center">
+                <BigCalendar
+                  style={{ width: '100%', marginBottom: '10%' }}
+                  localizer={localizer}
+                  events={planEvents}
+                  defaultDate={currentStartDate}
+                  onRangeChange={this.changeRange}
+                  onNavigate={this.navigate}
+                  onSelectEvent={
+                    user.profile.roles.includes('admin')
+                      ? this.selectEventAdmin
+                      : this.selectEventClient
+                  }
+                  views={['month', 'agenda']}
+                  onSelectSlot={this.addNewEvent}
+                  selectable={user.profile.roles.includes('admin')}
+                />
+              </CalendarWrapper>
+            </Col>
+          </Row>
+        )}
       </Container>
     ) : (
       <h1>Error 404! Not found</h1>
